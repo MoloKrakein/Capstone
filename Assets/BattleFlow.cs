@@ -36,6 +36,7 @@ public class BattleFlow : MonoBehaviour
         EnemyUnit = EnemyGO.GetComponent<Unit>();
 
         encounterText.text = EnemyUnit.unitName;
+        
 
         
     }
