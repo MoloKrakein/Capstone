@@ -33,12 +33,16 @@ public class BattleFlow : MonoBehaviour
 
     void SetupBattle()
     {
+        // create list of string that contains encounter text
         GameObject PlayerGO = Instantiate(playerPrefab, playerLocation);
         PlayerUnit = PlayerGO.GetComponent<Unit>();
         GameObject EnemyGO = Instantiate(enemyPrefab, enemyLocation);
         EnemyUnit = EnemyGO.GetComponent<Unit>();
-
-        encounterText.text = EnemyUnit.unitName;
+        string[] encounterTexts = new string[3];
+        encounterTexts[0] = "A wild "+ EnemyUnit.unitName +" appeared!";
+        encounterTexts[1] = "You encountered an "+ EnemyUnit.unitName +"!";
+        encounterTexts[2] = "You are being attacked!";
+        encounterText.text = encounterTexts[Random.Range(0,3)];
 
         playerHUD.setupHUD(PlayerUnit);
         enemyHUD.setupHUD(EnemyUnit);
