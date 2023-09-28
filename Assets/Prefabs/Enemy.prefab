@@ -101,4 +101,4 @@ MonoBehaviour:
   unitLevel: 900
   damage: 5
   maxHP: 100
-  currentHP: 100
+  currentHP: 20
