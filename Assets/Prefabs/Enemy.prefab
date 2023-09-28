@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: Triangle
-  unitLevel: 9
+  unitLevel: 900
   damage: 5
   maxHP: 100
   currentHP: 100

@@ -17,6 +17,9 @@ public class BattleFlow : MonoBehaviour
 
     public TextMeshProUGUI encounterText;
 
+    public HUD playerHUD;
+    public HUD enemyHUD;
+
     Unit PlayerUnit;
     Unit EnemyUnit;
     
@@ -37,6 +40,8 @@ public class BattleFlow : MonoBehaviour
 
         encounterText.text = EnemyUnit.unitName;
 
+        playerHUD.setupHUD(PlayerUnit);
+        enemyHUD.setupHUD(EnemyUnit);
 
         
     }
