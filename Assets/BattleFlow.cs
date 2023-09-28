@@ -28,10 +28,10 @@ public class BattleFlow : MonoBehaviour
     void Start()
     {
         state = BattleState.START;
-        SetupBattle();
+        StartCoroutine(SetupBattle());
     }
 
-    void SetupBattle()
+    IEnumerator SetupBattle()
     {
         // create list of string that contains encounter text
         GameObject PlayerGO = Instantiate(playerPrefab, playerLocation);
@@ -47,6 +47,29 @@ public class BattleFlow : MonoBehaviour
         playerHUD.setupHUD(PlayerUnit);
         enemyHUD.setupHUD(EnemyUnit);
 
-        
+        yield return new WaitForSeconds(2f);
+
+        state = BattleState.PLAYERTURN;
+        PlayerTurn();
+    }
+
+    IEnumerator PlayerAttack()
+    {
+        //print attack text
+        encounterText.text = PlayerUnit.unitName + " attacks!";
+
+        yield return new WaitForSeconds(1f);
+    }
+
+    void PlayerTurn()
+    {
+        encounterText.text = "Choose your Move!";
+    }
+
+    public void OnAttackButton(){
+        if(state != BattleState.PLAYERTURN)
+            return;
+        StartCoroutine(PlayerAttack());
+
     }
 }

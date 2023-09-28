@@ -158,8 +158,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -57.7, y: 25}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -301.11676, y: 38}
+  m_SizeDelta: {x: 539.9346, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &219924740
 MonoBehaviour:
@@ -208,14 +208,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 28
+  m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_fontStyle: 1
+  m_HorizontalAlignment: 4
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -244,7 +244,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 24.96492, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -347,9 +347,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 090ca8884aa141949ae50b0f060475ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameText: {fileID: 0}
-  lvlText: {fileID: 0}
-  hpSlider: {fileID: 0}
+  nameText: {fileID: 827463785}
+  lvlText: {fileID: 1788775227}
+  hpSlider: {fileID: 549416866}
 --- !u!1 &423911655
 GameObject:
   m_ObjectHideFlags: 0
@@ -733,7 +733,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 100
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1711,6 +1711,8 @@ MonoBehaviour:
   playerLocation: {fileID: 483701706}
   enemyLocation: {fileID: 2123809645}
   encounterText: {fileID: 219924740}
+  playerHUD: {fileID: 1948120552}
+  enemyHUD: {fileID: 317908577}
   state: 0
 --- !u!4 &1731749183
 Transform:
@@ -2186,9 +2188,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 090ca8884aa141949ae50b0f060475ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameText: {fileID: 0}
-  lvlText: {fileID: 0}
-  hpSlider: {fileID: 0}
+  nameText: {fileID: 1731819836}
+  lvlText: {fileID: 2116087509}
+  hpSlider: {fileID: 423911657}
 --- !u!1 &2017512698
 GameObject:
   m_ObjectHideFlags: 0
@@ -2394,7 +2396,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2039191504}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1731749182}
+        m_TargetAssemblyTypeName: BattleFlow, Assembly-CSharp
+        m_MethodName: OnAttackButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2039191504
 MonoBehaviour:
   m_ObjectHideFlags: 0
