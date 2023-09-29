@@ -55,10 +55,58 @@ public class BattleFlow : MonoBehaviour
 
     IEnumerator PlayerAttack()
     {
+        bool isDead = EnemyUnit.TakeDamage(PlayerUnit.damage);
+        
         //print attack text
         encounterText.text = PlayerUnit.unitName + " attacks!";
+        enemyHUD.updateHP(EnemyUnit.currentHP);
 
         yield return new WaitForSeconds(1f);
+
+        if(isDead)
+        {
+            state = BattleState.WON;
+            EndBattle();
+        }
+        else
+        {
+            state = BattleState.ENEMYTURN;
+            StartCoroutine(EnemyTurn());
+        }
+    }
+
+    IEnumerator EnemyTurn()
+    {
+        bool isDead = PlayerUnit.TakeDamage(EnemyUnit.damage);
+        
+        //print attack text
+        encounterText.text = EnemyUnit.unitName + " attacks!";
+        playerHUD.updateHP(PlayerUnit.currentHP);
+
+        yield return new WaitForSeconds(1f);
+
+        if(isDead)
+        {
+            state = BattleState.LOST;
+            EndBattle();
+        }
+        else
+        {
+            state = BattleState.PLAYERTURN;
+            PlayerTurn();
+        }
+    }
+
+    void EndBattle()
+    {
+        if(state == BattleState.WON)
+        {
+            encounterText.text = "You won the battle!";
+        }
+        else if(state == BattleState.LOST)
+        {
+            encounterText.text = "You were defeated.";
+        }
     }
 
     void PlayerTurn()
