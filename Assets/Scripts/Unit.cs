@@ -14,6 +14,10 @@ public class Unit : MonoBehaviour
 
     public bool TakeDamage(int damage)
     {
+        // calculate damage with random range with max is int damage
+        // damage = Random.Range(1, damage);
+        // // print damage
+        // print(unitName + " takes " + damage + " damage!");
         currentHP -= damage;
         if (currentHP <= 0)
         {

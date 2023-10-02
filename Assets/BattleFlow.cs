@@ -5,6 +5,7 @@ using UnityEngine.UI;
 // using textmeshpro;
 using TMPro;
 
+
 public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST }
 public class BattleFlow : MonoBehaviour
 {
@@ -17,8 +18,12 @@ public class BattleFlow : MonoBehaviour
 
     public TextMeshProUGUI encounterText;
 
+    public GameObject dmgPopup;
+
     public HUD playerHUD;
     public HUD enemyHUD;
+
+    public 
 
     Unit PlayerUnit;
     Unit EnemyUnit;
@@ -30,7 +35,7 @@ public class BattleFlow : MonoBehaviour
         state = BattleState.START;
         StartCoroutine(SetupBattle());
     }
-
+    
     IEnumerator SetupBattle()
     {
         // create list of string that contains encounter text
@@ -55,10 +60,11 @@ public class BattleFlow : MonoBehaviour
 
     IEnumerator PlayerAttack()
     {
-        bool isDead = EnemyUnit.TakeDamage(PlayerUnit.damage);
+        bool isDead = giveDamage(PlayerUnit.damage, EnemyUnit);
         
         //print attack text
         encounterText.text = PlayerUnit.unitName + " attacks!";
+        // enemyHUD.updateDamage(PlayerUnit.damage);
         enemyHUD.updateHP(EnemyUnit.currentHP);
 
         yield return new WaitForSeconds(1f);
@@ -74,13 +80,33 @@ public class BattleFlow : MonoBehaviour
             StartCoroutine(EnemyTurn());
         }
     }
+    private bool giveDamage(int damage, Unit unitType){
+        // calculate damage with random range with max is int damage
+        damage = Random.Range(1, damage);
+        // get location of this object
+        // then show damage popup
+        // Instantiate(dmgPopup, transform.position, Quaternion.identity);
+        if(unitType == PlayerUnit)
+            Instantiate(dmgPopup, enemyLocation.position, Quaternion.identity);
+        else
+            Instantiate(dmgPopup, playerLocation.position, Quaternion.identity);
+            
+        dmgPopup.GetComponent<TextMeshPro>().text = damage + "!";
+        // then call TakeDamage
+        // print to console location
+        // Debug.Log(location);
+        return unitType.TakeDamage(damage);
+        
 
+    }
     IEnumerator EnemyTurn()
     {
-        bool isDead = PlayerUnit.TakeDamage(EnemyUnit.damage);
+        bool isDead = giveDamage(EnemyUnit.damage,  PlayerUnit);
         
         //print attack text
         encounterText.text = EnemyUnit.unitName + " attacks!";
+        // playerHUD.updateDamage(EnemyUnit.damage);
+    
         playerHUD.updateHP(PlayerUnit.currentHP);
 
         yield return new WaitForSeconds(1f);
