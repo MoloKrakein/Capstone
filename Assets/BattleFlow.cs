@@ -23,7 +23,7 @@ public class BattleFlow : MonoBehaviour
     public HUD playerHUD;
     public HUD enemyHUD;
 
-    public 
+    // public 
 
     Unit PlayerUnit;
     Unit EnemyUnit;
@@ -80,25 +80,7 @@ public class BattleFlow : MonoBehaviour
             StartCoroutine(EnemyTurn());
         }
     }
-    private bool giveDamage(int damage, Unit unitType){
-        // calculate damage with random range with max is int damage
-        damage = Random.Range(1, damage);
-        // get location of this object
-        // then show damage popup
-        // Instantiate(dmgPopup, transform.position, Quaternion.identity);
-        if(unitType == PlayerUnit)
-            Instantiate(dmgPopup, enemyLocation.position, Quaternion.identity);
-        else
-            Instantiate(dmgPopup, playerLocation.position, Quaternion.identity);
-            
-        dmgPopup.GetComponent<TextMeshPro>().text = damage + "!";
-        // then call TakeDamage
-        // print to console location
-        // Debug.Log(location);
-        return unitType.TakeDamage(damage);
-        
 
-    }
     IEnumerator EnemyTurn()
     {
         bool isDead = giveDamage(EnemyUnit.damage,  PlayerUnit);
@@ -122,7 +104,28 @@ public class BattleFlow : MonoBehaviour
             PlayerTurn();
         }
     }
+        private bool giveDamage(int damage, Unit unitType){
+        // calculate damage with random range with max is int damage
+        damage = Random.Range(1, damage);
+        Debug.Log(damage);
+        if(unitType == PlayerUnit){
+            Instantiate(dmgPopup, enemyLocation.position, Quaternion.identity);
+            dmgPopup.GetComponent<TextMeshPro>().text = damage + "!";
+        }
+        else{
+            Instantiate(dmgPopup, playerLocation.position, Quaternion.identity);
+            dmgPopup.GetComponent<TextMeshPro>().text = damage + "!";
+        }
+        
+            
+        // then call TakeDamage
+        // print to console location
+        // Debug.Log(location);
+        return unitType.TakeDamage(damage);
 
+        
+
+    }
     void EndBattle()
     {
         if(state == BattleState.WON)
