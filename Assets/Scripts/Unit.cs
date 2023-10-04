@@ -11,14 +11,19 @@ public class Unit : MonoBehaviour
 
     public int maxHP;
     public int currentHP;
+    public DmgType.Type weakness;
 
-    public bool TakeDamage(int damage)
-    {
-        // calculate damage with random range with max is int damage
-        // damage = Random.Range(1, damage);
-        // // print damage
-        // print(unitName + " takes " + damage + " damage!");
+    public bool TakeDamage(int damage, DmgType.Type AttackType)
+    {   
+        if(AttackType == weakness)
+        {
+            damage *= 2;
+            Debug.Log("Weakness!");
+        }
+
         currentHP -= damage;
+
+
         if (currentHP <= 0)
         {
             return true;

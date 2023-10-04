@@ -102,3 +102,4 @@ MonoBehaviour:
   damage: 100
   maxHP: 100
   currentHP: 100
+  weakness: 1

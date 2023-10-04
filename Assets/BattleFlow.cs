@@ -27,12 +27,19 @@ public class BattleFlow : MonoBehaviour
 
     Unit PlayerUnit;
     Unit EnemyUnit;
+
+    DmgType.Type playerDmgType;
     
 
     public BattleState state;
     void Start()
     {
         state = BattleState.START;
+        // Debug log print all DmgType enum
+        // foreach (DmgType.Type dmgType in System.Enum.GetValues(typeof(DmgType.Type)))
+        // {
+        //     Debug.Log(dmgType);
+        // }
         StartCoroutine(SetupBattle());
     }
     
@@ -58,12 +65,12 @@ public class BattleFlow : MonoBehaviour
         PlayerTurn();
     }
 
-    IEnumerator PlayerAttack()
+    IEnumerator PlayerAttack(DmgType.Type dmgType)
     {
         bool isDead = giveDamage(PlayerUnit.damage, EnemyUnit);
         
         //print attack text
-        encounterText.text = PlayerUnit.unitName + " attacks!";
+        encounterText.text = PlayerUnit.unitName + " attacks With " + playerDmgType +" !";
         // enemyHUD.updateDamage(PlayerUnit.damage);
         enemyHUD.updateHP(EnemyUnit.currentHP);
 
@@ -121,7 +128,7 @@ public class BattleFlow : MonoBehaviour
         // then call TakeDamage
         // print to console location
         // Debug.Log(location);
-        return unitType.TakeDamage(damage);
+        return unitType.TakeDamage(damage, playerDmgType);
 
         
 
@@ -146,7 +153,11 @@ public class BattleFlow : MonoBehaviour
     public void OnAttackButton(){
         if(state != BattleState.PLAYERTURN)
             return;
-        StartCoroutine(PlayerAttack());
+        // randomize player damage type
+        // playerDmgType = (DmgType.Type)Random.Range(0,5);
+        playerDmgType = DmgType.Type.Fire;
+        
+        StartCoroutine(PlayerAttack(playerDmgType));
 
     }
 }
