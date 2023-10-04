@@ -13,12 +13,14 @@ public class Unit : MonoBehaviour
     public int currentHP;
     public DmgType.Type weakness;
 
+    public UnitStatus.Status status;
+
     public bool TakeDamage(int damage, DmgType.Type AttackType)
     {   
         if(AttackType == weakness)
         {
             damage *= 2;
-            Debug.Log("Weakness!");
+            status = UnitStatus.Status.Down;
         }
 
         currentHP -= damage;

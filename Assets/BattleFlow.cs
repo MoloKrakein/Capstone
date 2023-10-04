@@ -73,6 +73,8 @@ public class BattleFlow : MonoBehaviour
         encounterText.text = PlayerUnit.unitName + " attacks With " + playerDmgType +" !";
         // enemyHUD.updateDamage(PlayerUnit.damage);
         enemyHUD.updateHP(EnemyUnit.currentHP);
+        Debug.Log(EnemyUnit.currentHP);
+        Debug.Log(EnemyUnit.status);
 
         yield return new WaitForSeconds(1f);
 
@@ -81,8 +83,15 @@ public class BattleFlow : MonoBehaviour
             state = BattleState.WON;
             EndBattle();
         }
+        else if(EnemyUnit.status == UnitStatus.Status.Down)
+        {
+            encounterText.text = EnemyUnit.unitName + " is Down! One More";
+            state = BattleState.PLAYERTURN;
+            // StartCoroutine(PlayerTurn());
+        }
         else
         {
+            
             state = BattleState.ENEMYTURN;
             StartCoroutine(EnemyTurn());
         }
