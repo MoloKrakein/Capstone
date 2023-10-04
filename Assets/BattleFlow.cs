@@ -86,6 +86,7 @@ public class BattleFlow : MonoBehaviour
         else if(EnemyUnit.status == UnitStatus.Status.Down)
         {
             encounterText.text = EnemyUnit.unitName + " is Down! One More";
+            PlayerUnit.status = UnitStatus.Status.Buff;
             state = BattleState.PLAYERTURN;
             // StartCoroutine(PlayerTurn());
         }
