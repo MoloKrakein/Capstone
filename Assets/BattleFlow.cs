@@ -164,8 +164,8 @@ public class BattleFlow : MonoBehaviour
         if(state != BattleState.PLAYERTURN)
             return;
         // randomize player damage type
-        // playerDmgType = (DmgType.Type)Random.Range(0,5);
-        playerDmgType = DmgType.Type.Fire;
+        playerDmgType = (DmgType.Type)Random.Range(0,5);
+        // playerDmgType = DmgType.Type.Fire;
         
         StartCoroutine(PlayerAttack(playerDmgType));
 
