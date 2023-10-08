@@ -73,13 +73,13 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 99
-  m_Sprite: {fileID: 7482667652216324306, guid: 67ecee154ab73fd4181aaea7b4fb9c64, type: 3}
-  m_Color: {r: 0.6415094, g: 0, b: 0, a: 1}
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 2077204778, guid: b5bc165a658ecf346b8af175ef667d7d, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.83, y: 1.78}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -99,7 +99,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Triangle
   unitLevel: 900
-  damage: 100
+  damage: 12
   maxHP: 100
   currentHP: 100
+  maxMP: 100
+  currentMP: 100
   weakness: 1
+  status: 0

@@ -2,9 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-// using textmeshpro;
 using TMPro;
-
 
 public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST }
 public class BattleFlow : MonoBehaviour
@@ -23,29 +21,25 @@ public class BattleFlow : MonoBehaviour
     public HUD playerHUD;
     public HUD enemyHUD;
 
-    // public 
+    public DmgType dmgTypeInstance; // Reference to the DmgType scriptable object
 
     Unit PlayerUnit;
     Unit EnemyUnit;
 
     DmgType.Type playerDmgType;
-    
-
+    DmgType.Type enemyDmgType;
     public BattleState state;
+
+    private bool extraTurn = false;
+
     void Start()
     {
         state = BattleState.START;
-        // Debug log print all DmgType enum
-        // foreach (DmgType.Type dmgType in System.Enum.GetValues(typeof(DmgType.Type)))
-        // {
-        //     Debug.Log(dmgType);
-        // }
         StartCoroutine(SetupBattle());
     }
     
     IEnumerator SetupBattle()
     {
-        // create list of string that contains encounter text
         GameObject PlayerGO = Instantiate(playerPrefab, playerLocation);
         PlayerUnit = PlayerGO.GetComponent<Unit>();
         GameObject EnemyGO = Instantiate(enemyPrefab, enemyLocation);
@@ -67,12 +61,12 @@ public class BattleFlow : MonoBehaviour
 
     IEnumerator PlayerAttack(DmgType.Type dmgType)
     {
-        bool isDead = giveDamage(PlayerUnit.damage, EnemyUnit);
+        bool isDead = giveDamage(PlayerUnit.damage, EnemyUnit, dmgType);
         
         //print attack text
         encounterText.text = PlayerUnit.unitName + " attacks With " + playerDmgType +" !";
-        // enemyHUD.updateDamage(PlayerUnit.damage);
         enemyHUD.updateHP(EnemyUnit.currentHP);
+        playerHUD.updateMP(PlayerUnit.currentMP);
         Debug.Log(EnemyUnit.currentHP);
         Debug.Log(EnemyUnit.status);
 
@@ -83,16 +77,15 @@ public class BattleFlow : MonoBehaviour
             state = BattleState.WON;
             EndBattle();
         }
-        else if(EnemyUnit.status == UnitStatus.Status.Down)
+        else if(!extraTurn)
         {
+            extraTurn = true; // Activate the extra turn
             encounterText.text = EnemyUnit.unitName + " is Down! One More";
             PlayerUnit.status = UnitStatus.Status.Buff;
             state = BattleState.PLAYERTURN;
-            // StartCoroutine(PlayerTurn());
         }
         else
-        {
-            
+        {    
             state = BattleState.ENEMYTURN;
             StartCoroutine(EnemyTurn());
         }
@@ -100,20 +93,28 @@ public class BattleFlow : MonoBehaviour
 
     IEnumerator EnemyTurn()
     {
-        bool isDead = giveDamage(EnemyUnit.damage,  PlayerUnit);
+        enemyDmgType = (DmgType.Type)Random.Range(0,5);
+        bool isDead = giveDamage(EnemyUnit.damage,  PlayerUnit, enemyDmgType);
         
         //print attack text
-        encounterText.text = EnemyUnit.unitName + " attacks!";
-        // playerHUD.updateDamage(EnemyUnit.damage);
-    
+        // encounterText.text = EnemyUnit.unitName + " attacks!";
+        encounterText.text = EnemyUnit.unitName + " attacks With " + enemyDmgType +" !";
+
         playerHUD.updateHP(PlayerUnit.currentHP);
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
 
         if(isDead)
         {
             state = BattleState.LOST;
             EndBattle();
+        }
+        else if(PlayerUnit.status == UnitStatus.Status.Down)
+        {
+            encounterText.text = PlayerUnit.unitName + " is Down! Watch Out!";
+            PlayerUnit.status = UnitStatus.Status.Idle;
+            state = BattleState.ENEMYTURN;
+            StartCoroutine(EnemyTurn());
         }
         else
         {
@@ -121,28 +122,25 @@ public class BattleFlow : MonoBehaviour
             PlayerTurn();
         }
     }
-        private bool giveDamage(int damage, Unit unitType){
-        // calculate damage with random range with max is int damage
-        damage = Random.Range(1, damage);
-        Debug.Log(damage);
-        if(unitType == PlayerUnit){
-            Instantiate(dmgPopup, enemyLocation.position, Quaternion.identity);
-            dmgPopup.GetComponent<TextMeshPro>().text = damage + "!";
-        }
-        else{
-            Instantiate(dmgPopup, playerLocation.position, Quaternion.identity);
-            dmgPopup.GetComponent<TextMeshPro>().text = damage + "!";
-        }
-        
-            
-        // then call TakeDamage
-        // print to console location
-        // Debug.Log(location);
-        return unitType.TakeDamage(damage, playerDmgType);
 
-        
+private bool giveDamage(int damage, Unit unitType, DmgType.Type dmgType)
+{
+    int actualDamage = Random.Range(1, damage + 1);
+    Debug.Log(actualDamage);
 
-    }
+    GameObject popup = Instantiate(dmgPopup, 
+                                   (unitType == PlayerUnit) ? enemyLocation.position : playerLocation.position, 
+                                   Quaternion.identity);
+    popup.GetComponent<TextMeshPro>().text = actualDamage + "!";
+    popup.GetComponent<TextMeshPro>().color = (unitType == PlayerUnit) ? Color.red : Color.blue;
+
+    Debug.Log("Enemy HP: " + EnemyUnit.currentHP);
+    Debug.Log("Player HP: " + PlayerUnit.currentHP);
+
+    return unitType.TakeDamage(actualDamage, dmgType);
+}
+
+
     void EndBattle()
     {
         if(state == BattleState.WON)
@@ -160,14 +158,55 @@ public class BattleFlow : MonoBehaviour
         encounterText.text = "Choose your Move!";
     }
 
-    public void OnAttackButton(){
+    public void OnRestoreButton(){
         if(state != BattleState.PLAYERTURN)
             return;
-        // randomize player damage type
-        playerDmgType = (DmgType.Type)Random.Range(0,5);
-        // playerDmgType = DmgType.Type.Fire;
-        
-        StartCoroutine(PlayerAttack(playerDmgType));
+        PlayerUnit.currentMP = 100;
+        playerHUD.updateMP(PlayerUnit.currentMP);
+        PlayerUnit.currentHP = 100;
+        playerHUD.updateHP(PlayerUnit.currentHP);
+        encounterText.text = "You Restored All your Stats!";
+        state = BattleState.ENEMYTURN;
+        StartCoroutine(EnemyTurn());
+    }
+    public void OnAttackButton()
+    {
+        if(state != BattleState.PLAYERTURN)
+            return;
 
+        playerDmgType = (DmgType.Type)Random.Range(0,5);
+        // playerDmgType = DmgType.Type.Physical;
+        bool usesHP = dmgTypeInstance.damageInfos[(int)playerDmgType].UsesHP;
+
+        if(extraTurn)
+        {   
+            extraTurn = false;
+            PlayerUnit.status = UnitStatus.Status.Idle;
+            StartCoroutine(PlayerAttack(playerDmgType));
+        }
+        
+        if (usesHP)
+        {   
+            int hpCost = dmgTypeInstance.damageInfos[(int)playerDmgType].ManaCost;
+            if(PlayerUnit.currentHP < hpCost)
+            {
+                encounterText.text = "Not Enough HP!";
+                return;
+            }
+            PlayerUnit.currentHP -= hpCost;
+            playerHUD.updateHP(PlayerUnit.currentHP);
+            StartCoroutine(PlayerAttack(playerDmgType));
+        }
+        else
+        {   
+        int manaCost = dmgTypeInstance.damageInfos[(int)playerDmgType].ManaCost;
+            if(PlayerUnit.currentMP < manaCost)
+            {
+                encounterText.text = "Not Enough Mana!";
+                return;
+            }
+            PlayerUnit.currentMP -= manaCost;
+            StartCoroutine(PlayerAttack(playerDmgType));
+        }
     }
 }
