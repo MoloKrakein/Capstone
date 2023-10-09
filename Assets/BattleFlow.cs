@@ -67,12 +67,11 @@ public class BattleFlow : MonoBehaviour
         //print attack text
         encounterText.text = PlayerUnit.unitName + " attacks With " + playerDmgType +" !";
         enemyHUD.updateHP(EnemyUnit.currentHP);
-        playerHUD.updateMP(PlayerUnit.currentMP);
+        // playerHUD.updateMP(PlayerUnit.currentMP);
 
         bool isWeakness = EnemyUnit.isWeakness(dmgType);
         if(isWeakness){
             extraTurn = true;
-
         }
         yield return new WaitForSeconds(1f);
 
@@ -89,7 +88,6 @@ public class BattleFlow : MonoBehaviour
             PlayerUnit.status = UnitStatus.Status.Buff;
             state = BattleState.PLAYERTURN;
             extraTurn = false;
-
         }
         else
         {    
@@ -227,7 +225,7 @@ private bool giveDamage(int damage, Unit unitType, DmgType.Type dmgType)
         // playerDmgType = DmgType.Type.Physical;
         bool usesHP = dmgTypeInstance.damageInfos[(int)playerDmgType].UsesHP;
         int skillCost = dmgTypeInstance.damageInfos[(int)playerDmgType].ManaCost;
-        if(!Skillusage(skillCost, usesHP))
+        if(!extraTurn && !Skillusage(skillCost, usesHP))
             return;
         else
             StartCoroutine(PlayerAttack(playerDmgType));
