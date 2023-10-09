@@ -20,7 +20,7 @@ public class Unit : MonoBehaviour
 
     public bool TakeDamage(int damage, DmgType.Type AttackType)
     {   
-        if(AttackType == weakness)
+        if(UnitStatus.Status.Down == status)
         {
             damage *= 2;
             status = UnitStatus.Status.Down;
@@ -28,8 +28,19 @@ public class Unit : MonoBehaviour
 
         currentHP -= damage;
 
-
         if (currentHP <= 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool isWeakness(DmgType.Type AttackType)
+    {
+        if(weakness == AttackType)
         {
             return true;
         }

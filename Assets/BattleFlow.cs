@@ -31,7 +31,7 @@ public class BattleFlow : MonoBehaviour
     public BattleState state;
 
     private bool extraTurn = false;
-
+    private bool enemyExtraTurn = false;
     void Start()
     {
         state = BattleState.START;
@@ -61,15 +61,19 @@ public class BattleFlow : MonoBehaviour
 
     IEnumerator PlayerAttack(DmgType.Type dmgType)
     {
+        PlayerUnit.status = UnitStatus.Status.Idle;
         bool isDead = giveDamage(PlayerUnit.damage, EnemyUnit, dmgType);
         
         //print attack text
         encounterText.text = PlayerUnit.unitName + " attacks With " + playerDmgType +" !";
         enemyHUD.updateHP(EnemyUnit.currentHP);
         playerHUD.updateMP(PlayerUnit.currentMP);
-        Debug.Log(EnemyUnit.currentHP);
-        Debug.Log(EnemyUnit.status);
 
+        bool isWeakness = EnemyUnit.isWeakness(dmgType);
+        if(isWeakness){
+            extraTurn = true;
+
+        }
         yield return new WaitForSeconds(1f);
 
         if(isDead)
@@ -77,12 +81,15 @@ public class BattleFlow : MonoBehaviour
             state = BattleState.WON;
             EndBattle();
         }
-        else if(!extraTurn)
+        else if(extraTurn)
         {
-            extraTurn = true; // Activate the extra turn
+            // extraTurn = true; // Activate the extra turn
             encounterText.text = EnemyUnit.unitName + " is Down! One More";
+            yield return new WaitForSeconds(1f);
             PlayerUnit.status = UnitStatus.Status.Buff;
             state = BattleState.PLAYERTURN;
+            extraTurn = false;
+
         }
         else
         {    
@@ -93,9 +100,13 @@ public class BattleFlow : MonoBehaviour
 
     IEnumerator EnemyTurn()
     {
+        EnemyUnit.status = UnitStatus.Status.Idle;
         enemyDmgType = (DmgType.Type)Random.Range(0,5);
         bool isDead = giveDamage(EnemyUnit.damage,  PlayerUnit, enemyDmgType);
-        
+        bool isWeakness = PlayerUnit.isWeakness(enemyDmgType);
+        if(isWeakness){
+            enemyExtraTurn = true;
+        }
         //print attack text
         // encounterText.text = EnemyUnit.unitName + " attacks!";
         encounterText.text = EnemyUnit.unitName + " attacks With " + enemyDmgType +" !";
@@ -109,11 +120,12 @@ public class BattleFlow : MonoBehaviour
             state = BattleState.LOST;
             EndBattle();
         }
-        else if(PlayerUnit.status == UnitStatus.Status.Down)
+        else if(enemyExtraTurn)
         {
             encounterText.text = PlayerUnit.unitName + " is Down! Watch Out!";
-            PlayerUnit.status = UnitStatus.Status.Idle;
+            yield return new WaitForSeconds(1f);
             state = BattleState.ENEMYTURN;
+            enemyExtraTurn = false;
             StartCoroutine(EnemyTurn());
         }
         else
@@ -126,7 +138,7 @@ public class BattleFlow : MonoBehaviour
 private bool giveDamage(int damage, Unit unitType, DmgType.Type dmgType)
 {
     int actualDamage = Random.Range(1, damage + 1);
-    Debug.Log(actualDamage);
+    // Debug.Log(actualDamage);
 
     GameObject popup = Instantiate(dmgPopup, 
                                    (unitType == PlayerUnit) ? enemyLocation.position : playerLocation.position, 
@@ -158,17 +170,54 @@ private bool giveDamage(int damage, Unit unitType, DmgType.Type dmgType)
         encounterText.text = "Choose your Move!";
     }
 
-    public void OnRestoreButton(){
-        if(state != BattleState.PLAYERTURN)
-            return;
+    IEnumerator PlayerHeal()
+    {
+        PlayerUnit.status = UnitStatus.Status.Idle;
+        int healAmount = Random.Range(1, 100);
+        
+        PlayerUnit.currentHP += healAmount;
+        playerHUD.updateHP(PlayerUnit.currentHP);
+        encounterText.text = "You Healed for " + healAmount + " HP!";
+        yield return new WaitForSeconds(2f);
         PlayerUnit.currentMP = 100;
         playerHUD.updateMP(PlayerUnit.currentMP);
-        PlayerUnit.currentHP = 100;
-        playerHUD.updateHP(PlayerUnit.currentHP);
-        encounterText.text = "You Restored All your Stats!";
+        encounterText.text = "You Restored your Mana!";
+        yield return new WaitForSeconds(2f);
         state = BattleState.ENEMYTURN;
         StartCoroutine(EnemyTurn());
     }
+    public void OnRestoreButton(){
+        if(state != BattleState.PLAYERTURN)
+            return;
+
+        StartCoroutine(PlayerHeal());
+        Debug.Log("Heal");
+    }
+
+    public bool Skillusage(int skillCost, bool usesHP){
+        if(usesHP){
+            if(PlayerUnit.currentHP < skillCost)
+            {
+                encounterText.text = "Not Enough HP!";
+                return false;
+            }
+            PlayerUnit.currentHP -= skillCost;
+            playerHUD.updateHP(PlayerUnit.currentHP);
+            return true;
+        }
+        else{
+            if(PlayerUnit.currentMP < skillCost)
+            {
+                encounterText.text = "Not Enough Mana!";
+                return false;
+            }
+            PlayerUnit.currentMP -= skillCost;
+            playerHUD.updateMP(PlayerUnit.currentMP);
+            return true;
+        }
+
+    }
+    
     public void OnAttackButton()
     {
         if(state != BattleState.PLAYERTURN)
@@ -177,36 +226,10 @@ private bool giveDamage(int damage, Unit unitType, DmgType.Type dmgType)
         playerDmgType = (DmgType.Type)Random.Range(0,5);
         // playerDmgType = DmgType.Type.Physical;
         bool usesHP = dmgTypeInstance.damageInfos[(int)playerDmgType].UsesHP;
-
-        if(extraTurn)
-        {   
-            extraTurn = false;
-            PlayerUnit.status = UnitStatus.Status.Idle;
-            StartCoroutine(PlayerAttack(playerDmgType));
-        }
-        
-        if (usesHP)
-        {   
-            int hpCost = dmgTypeInstance.damageInfos[(int)playerDmgType].ManaCost;
-            if(PlayerUnit.currentHP < hpCost)
-            {
-                encounterText.text = "Not Enough HP!";
-                return;
-            }
-            PlayerUnit.currentHP -= hpCost;
-            playerHUD.updateHP(PlayerUnit.currentHP);
-            StartCoroutine(PlayerAttack(playerDmgType));
-        }
+        int skillCost = dmgTypeInstance.damageInfos[(int)playerDmgType].ManaCost;
+        if(!Skillusage(skillCost, usesHP))
+            return;
         else
-        {   
-        int manaCost = dmgTypeInstance.damageInfos[(int)playerDmgType].ManaCost;
-            if(PlayerUnit.currentMP < manaCost)
-            {
-                encounterText.text = "Not Enough Mana!";
-                return;
-            }
-            PlayerUnit.currentMP -= manaCost;
             StartCoroutine(PlayerAttack(playerDmgType));
-        }
     }
 }
