@@ -5,9 +5,9 @@ using UnityEngine.UI;
 using TMPro;
 
 public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST }
+
 public class BattleFlow : MonoBehaviour
 {
-    // Start is called before the first frame update
     public GameObject playerPrefab;
     public GameObject enemyPrefab;
 
@@ -21,34 +21,51 @@ public class BattleFlow : MonoBehaviour
     public HUD playerHUD;
     public HUD enemyHUD;
 
-    public DmgType dmgTypeInstance; // Reference to the DmgType scriptable object
-
     Unit PlayerUnit;
     Unit EnemyUnit;
 
-    DmgType.Type playerDmgType;
-    DmgType.Type enemyDmgType;
     public BattleState state;
 
     private bool extraTurn = false;
     private bool enemyExtraTurn = false;
+
+    public List<Unit> playerParty = new List<Unit>();
+    public List<Unit> enemyParty = new List<Unit>();
+
     void Start()
     {
         state = BattleState.START;
         StartCoroutine(SetupBattle());
     }
-    
+
     IEnumerator SetupBattle()
-    {
-        GameObject PlayerGO = Instantiate(playerPrefab, playerLocation);
-        PlayerUnit = PlayerGO.GetComponent<Unit>();
-        GameObject EnemyGO = Instantiate(enemyPrefab, enemyLocation);
-        EnemyUnit = EnemyGO.GetComponent<Unit>();
+    {   
+        // GameObject PlayerGO = Instantiate(playerPrefab, playerLocation);
+        // PlayerUnit = PlayerGO.GetComponent<Unit>();
+        // GameObject EnemyGO = Instantiate(enemyPrefab, enemyLocation);
+        // EnemyUnit = EnemyGO.GetComponent<Unit>();
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject PlayerGO = Instantiate(playerPrefab, playerLocation);
+            Unit playerUnit = PlayerGO.GetComponent<Unit>();
+            playerParty.Add(playerUnit);
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject EnemyGO = Instantiate(enemyPrefab, enemyLocation);
+            Unit enemyUnit = EnemyGO.GetComponent<Unit>();
+            enemyParty.Add(enemyUnit);
+        }
+        turnOrder.AddRange(playerParty);
+        turnOrder.AddRange(enemyParty);
+        turnOrder.Sort((unit1, unit2) => unit2.speed.CompareTo(unit1.speed));
         string[] encounterTexts = new string[3];
-        encounterTexts[0] = "A wild "+ EnemyUnit.unitName +" appeared!";
-        encounterTexts[1] = "You encountered an "+ EnemyUnit.unitName +"!";
+        encounterTexts[0] = "A wild " + EnemyUnit.unitName + " appeared!";
+        encounterTexts[1] = "You encountered an " + EnemyUnit.unitName + "!";
         encounterTexts[2] = "You are being attacked";
-        encounterText.text = encounterTexts[Random.Range(0,3)];
+        encounterText.text = encounterTexts[Random.Range(0, 3)];
+
+       
 
         playerHUD.setupHUD(PlayerUnit);
         enemyHUD.setupHUD(EnemyUnit);
@@ -59,30 +76,31 @@ public class BattleFlow : MonoBehaviour
         PlayerTurn();
     }
 
-    IEnumerator PlayerAttack(DmgType.Type dmgType)
+    IEnumerator PlayerAttack(Skill selectedSkill)
     {
         PlayerUnit.status = UnitStatus.Status.Idle;
-        bool isDead = giveDamage(PlayerUnit.damage, EnemyUnit, dmgType);
-        
-        //print attack text
-        encounterText.text = PlayerUnit.unitName + " attacks With " + playerDmgType +" !";
-        enemyHUD.updateHP(EnemyUnit.currentHP);
-        // playerHUD.updateMP(PlayerUnit.currentMP);
+        giveDamage(selectedSkill.AttackPower, EnemyUnit, selectedSkill.AttackType);
+        CheckCombatStatus();
+        bool isDead = EnemyUnit.isDead();
 
-        bool isWeakness = EnemyUnit.isWeakness(dmgType);
-        if(isWeakness){
+        //print attack text
+        encounterText.text = PlayerUnit.unitName + " attacks With " + selectedSkill.Name + "!";
+        enemyHUD.updateHP(EnemyUnit.currentHP);
+
+        bool isWeakness = EnemyUnit.isWeakness(selectedSkill.AttackType);
+        if (isWeakness)
+        {
             extraTurn = true;
         }
         yield return new WaitForSeconds(1f);
 
-        if(isDead)
+        if (isDead)
         {
             state = BattleState.WON;
             EndBattle();
         }
-        else if(extraTurn)
+        else if (extraTurn)
         {
-            // extraTurn = true; // Activate the extra turn
             encounterText.text = EnemyUnit.unitName + " is Down! One More";
             yield return new WaitForSeconds(1f);
             PlayerUnit.status = UnitStatus.Status.Buff;
@@ -90,7 +108,7 @@ public class BattleFlow : MonoBehaviour
             extraTurn = false;
         }
         else
-        {    
+        {
             state = BattleState.ENEMYTURN;
             StartCoroutine(EnemyTurn());
         }
@@ -99,26 +117,31 @@ public class BattleFlow : MonoBehaviour
     IEnumerator EnemyTurn()
     {
         EnemyUnit.status = UnitStatus.Status.Idle;
-        enemyDmgType = (DmgType.Type)Random.Range(0,5);
-        bool isDead = giveDamage(EnemyUnit.damage,  PlayerUnit, enemyDmgType);
-        bool isWeakness = PlayerUnit.isWeakness(enemyDmgType);
-        if(isWeakness){
+
+        int randIndex = Random.Range(0, EnemyUnit.skills.Count);
+        Skill selectedSkill = EnemyUnit.skills[randIndex];
+
+        giveDamage(selectedSkill.AttackPower, PlayerUnit, selectedSkill.AttackType);
+        bool isDead = PlayerUnit.isDead();
+        bool isWeakness = PlayerUnit.isWeakness(selectedSkill.AttackType);
+
+        if (isWeakness)
+        {
             enemyExtraTurn = true;
         }
-        //print attack text
-        // encounterText.text = EnemyUnit.unitName + " attacks!";
-        encounterText.text = EnemyUnit.unitName + " attacks With " + enemyDmgType +" !";
 
+        //print attack text
+        encounterText.text = EnemyUnit.unitName + " attacks With " + selectedSkill.Name + "!";
         playerHUD.updateHP(PlayerUnit.currentHP);
 
         yield return new WaitForSeconds(2f);
 
-        if(isDead)
+        if (isDead)
         {
             state = BattleState.LOST;
             EndBattle();
         }
-        else if(enemyExtraTurn)
+        else if (enemyExtraTurn)
         {
             encounterText.text = PlayerUnit.unitName + " is Down! Watch Out!";
             yield return new WaitForSeconds(1f);
@@ -133,31 +156,40 @@ public class BattleFlow : MonoBehaviour
         }
     }
 
-private bool giveDamage(int damage, Unit unitType, DmgType.Type dmgType)
-{
-    int actualDamage = Random.Range(1, damage + 1);
-    // Debug.Log(actualDamage);
+    private void giveDamage(int damage, Unit unitType, DmgType dmgType)
+    {
+        int actualDamage = Random.Range(1, damage + 1);
 
-    GameObject popup = Instantiate(dmgPopup, 
-                                   (unitType == PlayerUnit) ? enemyLocation.position : playerLocation.position, 
-                                   Quaternion.identity);
-    popup.GetComponent<TextMeshPro>().text = actualDamage + "!";
-    popup.GetComponent<TextMeshPro>().color = (unitType == PlayerUnit) ? Color.red : Color.blue;
+        GameObject popup = Instantiate(dmgPopup,
+                                       (unitType == PlayerUnit) ? enemyLocation.position : playerLocation.position,
+                                       Quaternion.identity);
+        popup.GetComponent<TextMeshPro>().text = actualDamage + "!";
+        popup.GetComponent<TextMeshPro>().color = (unitType == PlayerUnit) ? Color.red : Color.blue;
 
-    Debug.Log("Enemy HP: " + EnemyUnit.currentHP);
-    Debug.Log("Player HP: " + PlayerUnit.currentHP);
+        unitType.TakeDamage(actualDamage, dmgType);
+    }
 
-    return unitType.TakeDamage(actualDamage, dmgType);
-}
-
+    public void CheckCombatStatus()
+    {
+        if (PlayerUnit.status == UnitStatus.Status.Dead)
+        {
+            state = BattleState.LOST;
+            EndBattle();
+        }
+        else if (EnemyUnit.status == UnitStatus.Status.Dead)
+        {
+            state = BattleState.WON;
+            EndBattle();
+        }
+    }
 
     void EndBattle()
     {
-        if(state == BattleState.WON)
+        if (state == BattleState.WON)
         {
             encounterText.text = "You won the battle!";
         }
-        else if(state == BattleState.LOST)
+        else if (state == BattleState.LOST)
         {
             encounterText.text = "You were defeated.";
         }
@@ -165,6 +197,7 @@ private bool giveDamage(int damage, Unit unitType, DmgType.Type dmgType)
 
     void PlayerTurn()
     {
+       
         encounterText.text = "Choose your Move!";
     }
 
@@ -172,7 +205,7 @@ private bool giveDamage(int damage, Unit unitType, DmgType.Type dmgType)
     {
         PlayerUnit.status = UnitStatus.Status.Idle;
         int healAmount = Random.Range(1, 100);
-        
+
         PlayerUnit.currentHP += healAmount;
         playerHUD.updateHP(PlayerUnit.currentHP);
         encounterText.text = "You Healed for " + healAmount + " HP!";
@@ -184,17 +217,20 @@ private bool giveDamage(int damage, Unit unitType, DmgType.Type dmgType)
         state = BattleState.ENEMYTURN;
         StartCoroutine(EnemyTurn());
     }
-    public void OnRestoreButton(){
-        if(state != BattleState.PLAYERTURN)
+    public void OnRestoreButton()
+    {
+        if (state != BattleState.PLAYERTURN)
             return;
 
         StartCoroutine(PlayerHeal());
         Debug.Log("Heal");
     }
 
-    public bool Skillusage(int skillCost, bool usesHP){
-        if(usesHP){
-            if(PlayerUnit.currentHP < skillCost)
+    public bool Skillusage(int skillCost, bool usesHP)
+    {
+        if (usesHP)
+        {
+            if (PlayerUnit.currentHP < skillCost)
             {
                 encounterText.text = "Not Enough HP!";
                 return false;
@@ -203,8 +239,9 @@ private bool giveDamage(int damage, Unit unitType, DmgType.Type dmgType)
             playerHUD.updateHP(PlayerUnit.currentHP);
             return true;
         }
-        else{
-            if(PlayerUnit.currentMP < skillCost)
+        else
+        {
+            if (PlayerUnit.currentMP < skillCost)
             {
                 encounterText.text = "Not Enough Mana!";
                 return false;
@@ -213,21 +250,21 @@ private bool giveDamage(int damage, Unit unitType, DmgType.Type dmgType)
             playerHUD.updateMP(PlayerUnit.currentMP);
             return true;
         }
-
     }
-    
+
     public void OnAttackButton()
     {
-        if(state != BattleState.PLAYERTURN)
+        if (state != BattleState.PLAYERTURN)
             return;
 
-        playerDmgType = (DmgType.Type)Random.Range(0,5);
-        // playerDmgType = DmgType.Type.Physical;
-        bool usesHP = dmgTypeInstance.damageInfos[(int)playerDmgType].UsesHP;
-        int skillCost = dmgTypeInstance.damageInfos[(int)playerDmgType].ManaCost;
-        if(!extraTurn && !Skillusage(skillCost, usesHP))
+        int randIndex = Random.Range(0, PlayerUnit.skills.Count);
+        Skill selectedSkill = PlayerUnit.skills[randIndex];
+
+        bool usesHP = selectedSkill.UsesHP;
+        int skillCost = selectedSkill.ManaCost;
+        if (!extraTurn && !Skillusage(skillCost, usesHP))
             return;
         else
-            StartCoroutine(PlayerAttack(playerDmgType));
+            StartCoroutine(PlayerAttack(selectedSkill));
     }
 }

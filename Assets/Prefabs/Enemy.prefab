@@ -97,12 +97,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c72d447d7ae6334448c3bc8022d4fac4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: Triangle
+  unitName: Snake
   unitLevel: 900
   damage: 12
   maxHP: 100
   currentHP: 100
   maxMP: 100
   currentMP: 100
+  skills:
+  - {fileID: 11400000, guid: d66fb2a3aedc2134f9d07879859a1554, type: 2}
+  unitSide: 1
   weakness: 1
   status: 0

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum UnitSide { Player, Enemy };
 public class Unit : MonoBehaviour
 {
     public string unitName;
@@ -11,15 +12,24 @@ public class Unit : MonoBehaviour
 
     public int maxHP;
     public int currentHP;
-
     public int maxMP;
     public int currentMP;
-    public DmgType.Type weakness;
+
+    public int speed;
+    public bool isDown = false;
+
+    // Use a list of skills instead of a skill set
+    public List<Skill> skills = new List<Skill>();
+
+    // unit side player or enemy
+    public UnitSide unitSide;
+
+    public DmgType weakness; // changed type to enum DmgType
 
     public UnitStatus.Status status;
 
-    public bool TakeDamage(int damage, DmgType.Type AttackType)
-    {   
+    public void TakeDamage(int damage, DmgType attackType)
+    {
         if(UnitStatus.Status.Down == status)
         {
             damage *= 2;
@@ -27,9 +37,14 @@ public class Unit : MonoBehaviour
         }
 
         currentHP -= damage;
+        Debug.Log(unitName + " took " + damage + " damage!");
+    }
 
-        if (currentHP <= 0)
+    public bool isDead()
+    {
+        if(currentHP <= 0)
         {
+            status = UnitStatus.Status.Dead;
             return true;
         }
         else
@@ -37,11 +52,13 @@ public class Unit : MonoBehaviour
             return false;
         }
     }
-
-    public bool isWeakness(DmgType.Type AttackType)
+    
+    public bool isWeakness(DmgType attackType)
     {
-        if(weakness == AttackType)
+        if(weakness == attackType)
         {
+            status = UnitStatus.Status.Down;
+            isDown = true;
             return true;
         }
         else

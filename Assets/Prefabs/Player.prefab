@@ -104,5 +104,9 @@ MonoBehaviour:
   currentHP: 100
   maxMP: 100
   currentMP: 100
+  skills:
+  - {fileID: 11400000, guid: 86e1089856e7e3840aea44d8a1a01177, type: 2}
+  - {fileID: 11400000, guid: 48540034127d3744ba068354c89f0f6d, type: 2}
+  unitSide: 0
   weakness: 0
   status: 0
