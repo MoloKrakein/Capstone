@@ -114,7 +114,7 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: 497, y: 115}
-    spritePosition: {x: 204, y: 443}
+    spritePosition: {x: 206, y: 445}
   - name: Rectangle 12
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -136,7 +136,7 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: 2, y: 753}
-    spritePosition: {x: 0, y: 661}
+    spritePosition: {x: 2, y: 662}
   - name: image_processing20210615-6422-1xh112b
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -224,7 +224,7 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: 879, y: 496}
-    spritePosition: {x: 756, y: 532}
+    spritePosition: {x: 759, y: 535}
   - name: Defend
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -334,7 +334,7 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: 497, y: 314}
-    spritePosition: {x: 502, y: 534}
+    spritePosition: {x: 504, y: 535}
   - name: Attack Btn
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -356,7 +356,7 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: 498, y: 403}
-    spritePosition: {x: 603, y: 412}
+    spritePosition: {x: 604, y: 413}
   - name: Item Btn
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -378,7 +378,7 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: 2, y: 1109}
-    spritePosition: {x: 589, y: 274}
+    spritePosition: {x: 591, y: 276}
   - name: Defend Btn
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -400,7 +400,7 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: 2, y: 932}
-    spritePosition: {x: 499, y: 124}
+    spritePosition: {x: 501, y: 125}
   - name: Rectangle 14 copy 4
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -422,7 +422,7 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: 392, y: 931}
-    spritePosition: {x: 511, y: 519}
+    spritePosition: {x: 513, y: 521}
   - name: Rectangle 14 copy 3
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -444,7 +444,7 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: 334, y: 1109}
-    spritePosition: {x: 598, y: 260}
+    spritePosition: {x: 600, y: 262}
   - name: Rectangle 14 copy 2
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -466,7 +466,7 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: 2, y: 1021}
-    spritePosition: {x: 508, y: 110}
+    spritePosition: {x: 510, y: 111}
   - name: Rectangle 14 copy
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -488,7 +488,7 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: 393, y: 1020}
-    spritePosition: {x: 612, y: 397}
+    spritePosition: {x: 613, y: 399}
   - name: Rectangle 13
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -510,7 +510,7 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: 498, y: 2}
-    spritePosition: {x: 204, y: 87}
+    spritePosition: {x: 205, y: 89}
   - name: Ellipse 2
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -532,7 +532,7 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: 2, y: 2}
-    spritePosition: {x: 183, y: 169}
+    spritePosition: {x: 185, y: 171}
   - name: Rectangle 10
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -554,7 +554,7 @@ ScriptedImporter:
     tessellationDetail: 0
     parentGroupIndex: -1
     uvTransform: {x: 2, y: 498}
-    spritePosition: {x: 27, y: 631}
+    spritePosition: {x: 29, y: 632}
   characterData:
     bones: []
     parts: []
