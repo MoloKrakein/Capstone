@@ -244,7 +244,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 99053663}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 13.25, y: -4.28, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -480,6 +480,7 @@ MonoBehaviour:
   lvlText: {fileID: 1788775227}
   dmgText: {fileID: 437258995}
   hpSlider: {fileID: 549416866}
+  mpSlider: {fileID: 0}
 --- !u!1 &423911655
 GameObject:
   m_ObjectHideFlags: 0
@@ -2114,6 +2115,7 @@ MonoBehaviour:
   dmgPopup: {fileID: 8411416461428232811, guid: a3f308a377c0c61448817abcb679a8f1, type: 3}
   playerHUD: {fileID: 1948120552}
   enemyHUD: {fileID: 317908577}
+  dmgTypeInstance: {fileID: 0}
   state: 0
 --- !u!4 &1731749183
 Transform:
@@ -2595,6 +2597,7 @@ MonoBehaviour:
   lvlText: {fileID: 2116087509}
   dmgText: {fileID: 1097540216}
   hpSlider: {fileID: 423911657}
+  mpSlider: {fileID: 0}
 --- !u!1 &2017512698
 GameObject:
   m_ObjectHideFlags: 0
