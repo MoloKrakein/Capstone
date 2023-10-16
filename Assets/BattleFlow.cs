@@ -56,9 +56,9 @@ public class BattleFlow : MonoBehaviour
             Unit enemyUnit = EnemyGO.GetComponent<Unit>();
             enemyParty.Add(enemyUnit);
         }
-        turnOrder.AddRange(playerParty);
-        turnOrder.AddRange(enemyParty);
-        turnOrder.Sort((unit1, unit2) => unit2.speed.CompareTo(unit1.speed));
+        // turnOrder.AddRange(playerParty);
+        // turnOrder.AddRange(enemyParty);
+        // turnOrder.Sort((unit1, unit2) => unit2.speed.CompareTo(unit1.speed));
         string[] encounterTexts = new string[3];
         encounterTexts[0] = "A wild " + EnemyUnit.unitName + " appeared!";
         encounterTexts[1] = "You encountered an " + EnemyUnit.unitName + "!";
