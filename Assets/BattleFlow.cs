@@ -19,9 +19,7 @@ public class BattleFlow : MonoBehaviour
     public GameObject dmgPopup;
 
     public HUD playerHUD;
-    public List<HUD> playerHUDs = new List<HUD>();
     public HUD enemyHUD;
-    public List<HUD> enemyHUDs = new List<HUD>();
 
     Unit PlayerUnit;
     Unit EnemyUnit;
@@ -33,10 +31,6 @@ public class BattleFlow : MonoBehaviour
 
     public List<Unit> playerParty = new List<Unit>();
     public List<Unit> enemyParty = new List<Unit>();
-    public List<Unit> turnOrder = new List<Unit>();
-
-    Unit currentPlayerUnit;
-    Unit currentEnemyUnit;
 
     void Start()
     {
@@ -44,14 +38,17 @@ public class BattleFlow : MonoBehaviour
         StartCoroutine(SetupBattle());
     }
 
-     IEnumerator SetupBattle()
+    IEnumerator SetupBattle()
     {   
+        // GameObject PlayerGO = Instantiate(playerPrefab, playerLocation);
+        // PlayerUnit = PlayerGO.GetComponent<Unit>();
+        // GameObject EnemyGO = Instantiate(enemyPrefab, enemyLocation);
+        // EnemyUnit = EnemyGO.GetComponent<Unit>();
         for (int i = 0; i < 3; i++)
         {
             GameObject PlayerGO = Instantiate(playerPrefab, playerLocation);
             Unit playerUnit = PlayerGO.GetComponent<Unit>();
             playerParty.Add(playerUnit);
-            
         }
         for (int i = 0; i < 3; i++)
         {
@@ -62,47 +59,28 @@ public class BattleFlow : MonoBehaviour
         turnOrder.AddRange(playerParty);
         turnOrder.AddRange(enemyParty);
         turnOrder.Sort((unit1, unit2) => unit2.speed.CompareTo(unit1.speed));
+        string[] encounterTexts = new string[3];
+        encounterTexts[0] = "A wild " + EnemyUnit.unitName + " appeared!";
+        encounterTexts[1] = "You encountered an " + EnemyUnit.unitName + "!";
+        encounterTexts[2] = "You are being attacked";
+        encounterText.text = encounterTexts[Random.Range(0, 3)];
 
-        playerHUD.setupHUD(currentPlayerUnit);
-        enemyHUD.setupHUD(currentEnemyUnit);
+       
+
+        playerHUD.setupHUD(PlayerUnit);
+        enemyHUD.setupHUD(EnemyUnit);
 
         yield return new WaitForSeconds(2f);
 
-        StartNextTurn();
-    }
-     void StartNextTurn()
-    {
-        if (CheckBattleState())
-        {
-            return;
-        }
-        
-        if (turnOrder[0].status == UnitStatus.Status.Dead)
-        {
-            turnOrder.RemoveAt(0);
-            StartNextTurn();
-            return;
-        }
-
-        if (turnOrder[0].unitSide == UnitSide.Player)
-        {
-            currentPlayerUnit = turnOrder[0];
-            state = BattleState.PLAYERTURN;
-            PlayerTurn();
-        }
-        else
-        {
-            currentEnemyUnit = turnOrder[0];
-            state = BattleState.ENEMYTURN;
-            StartCoroutine(EnemyTurn());
-        }
+        state = BattleState.PLAYERTURN;
+        PlayerTurn();
     }
 
     IEnumerator PlayerAttack(Skill selectedSkill)
     {
         PlayerUnit.status = UnitStatus.Status.Idle;
         giveDamage(selectedSkill.AttackPower, EnemyUnit, selectedSkill.AttackType);
-
+        CheckCombatStatus();
         bool isDead = EnemyUnit.isDead();
 
         //print attack text
@@ -191,21 +169,18 @@ public class BattleFlow : MonoBehaviour
         unitType.TakeDamage(actualDamage, dmgType);
     }
 
-bool CheckBattleState()
+    public void CheckCombatStatus()
     {
-        if (playerParty.Find(unit => unit.status != UnitStatus.Status.Dead) == null)
+        if (PlayerUnit.status == UnitStatus.Status.Dead)
         {
             state = BattleState.LOST;
             EndBattle();
-            return true;
         }
-        else if (enemyParty.Find(unit => unit.status != UnitStatus.Status.Dead) == null)
+        else if (EnemyUnit.status == UnitStatus.Status.Dead)
         {
             state = BattleState.WON;
             EndBattle();
-            return true;
         }
-        return false;
     }
 
     void EndBattle()
