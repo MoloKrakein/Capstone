@@ -9,4 +9,6 @@ public enum DmgType
     Earth,
     Darkness,
     Light,
+    None
+    
 }

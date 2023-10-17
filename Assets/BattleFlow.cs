@@ -21,6 +21,8 @@ public class BattleFlow : MonoBehaviour
     public HUD playerHUD;
     public HUD enemyHUD;
 
+    public 
+
     Unit PlayerUnit;
     Unit EnemyUnit;
 
@@ -72,8 +74,12 @@ public class BattleFlow : MonoBehaviour
         giveDamage(selectedSkill.AttackPower, EnemyUnit, selectedSkill.AttackType);
         CheckCombatStatus();
         bool isDead = EnemyUnit.isDead();
+        void ZoomCameraToPlayer()
+        {
+            Camera.main.orthographicSize = 3f; // set the size to a smaller value to zoom in
+            Camera.main.transform.position = new Vector3(PlayerUnit.transform.position.x, PlayerUnit.transform.position.y, Camera.main.transform.position.z); // move the camera to the player's position
+        }
 
-        //print attack text
         encounterText.text = PlayerUnit.unitName + " attacks With " + selectedSkill.Name + "!";
         enemyHUD.updateHP(EnemyUnit.currentHP);
 

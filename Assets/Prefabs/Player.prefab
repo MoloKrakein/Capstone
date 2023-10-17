@@ -104,9 +104,19 @@ MonoBehaviour:
   currentHP: 100
   maxMP: 100
   currentMP: 100
+  speed: 0
+  isDown: 0
   skills:
   - {fileID: 11400000, guid: 86e1089856e7e3840aea44d8a1a01177, type: 2}
   - {fileID: 11400000, guid: 48540034127d3744ba068354c89f0f6d, type: 2}
+  - {fileID: 11400000, guid: 32a7486b42d3a63409a72413e0150140, type: 2}
+  - {fileID: 11400000, guid: 64f2422eea11d4449826358b7b4baf2e, type: 2}
+  - {fileID: 11400000, guid: 3fe79d4532b46894aaa7426e2990b7ba, type: 2}
+  - {fileID: 11400000, guid: 7b71f566b19a35549a57f4333f09fa1c, type: 2}
+  - {fileID: 11400000, guid: 5a4b9818658c9c441a41f7616c05cb7a, type: 2}
+  - {fileID: 11400000, guid: 5a4b9818658c9c441a41f7616c05cb7a, type: 2}
+  - {fileID: 11400000, guid: 5e5725c1c645a414c919433a2f8135d0, type: 2}
+  - {fileID: 11400000, guid: d66fb2a3aedc2134f9d07879859a1554, type: 2}
   unitSide: 0
   weakness: 0
   status: 0
