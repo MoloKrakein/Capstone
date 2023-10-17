@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd7785dd5890b2b408b1761086d5a8de, type: 3}
   m_Name: Hama
   m_EditorClassIdentifier: 
-  Name: 
-  AttackPower: 0
-  AttackType: 0
+  Name: Hama
+  AttackPower: 4
+  AttackType: 4
   targetsAllEnemies: 0
-  ManaCost: 0
+  ManaCost: 4
   UsesHP: 0
-  info: 
+  info: Light Holy Attack

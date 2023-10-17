@@ -18,4 +18,4 @@ MonoBehaviour:
   targetsAllEnemies: 0
   ManaCost: 4
   UsesHP: 0
-  info: Light Fire Attack to One Enemy
+  info: Light Fire Attack

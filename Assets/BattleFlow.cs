@@ -21,8 +21,8 @@ public class BattleFlow : MonoBehaviour
     public HUD playerHUD;
     public HUD enemyHUD;
 
-    public 
-
+    // camera
+    public Camera mainCamera;
     Unit PlayerUnit;
     Unit EnemyUnit;
 
@@ -33,7 +33,7 @@ public class BattleFlow : MonoBehaviour
 
     public List<Unit> playerParty = new List<Unit>();
     public List<Unit> enemyParty = new List<Unit>();
-
+    private Vector3 cameraPosition;
     void Start()
     {
         state = BattleState.START;
@@ -49,6 +49,7 @@ public class BattleFlow : MonoBehaviour
     GameObject EnemyGO = Instantiate(enemyPrefab, enemyLocation);
     EnemyUnit = EnemyGO.GetComponent<Unit>();
     enemyParty.Add(EnemyUnit);
+                Vector3 cameraPosition = mainCamera.transform.position;
 
     // turnOrder.Add(PlayerUnit);
     // turnOrder.Add(EnemyUnit);
@@ -69,47 +70,42 @@ public class BattleFlow : MonoBehaviour
     PlayerTurn();
 }
     IEnumerator PlayerAttack(Skill selectedSkill)
+{
+    PlayerUnit.status = UnitStatus.Status.Idle;
+    giveDamage(selectedSkill.AttackPower, EnemyUnit, selectedSkill.AttackType);
+    CheckCombatStatus();
+    bool isDead = EnemyUnit.isDead();
+
+    encounterText.text = PlayerUnit.unitName + " attacks With " + selectedSkill.Name + "!";
+    enemyHUD.updateHP(EnemyUnit.currentHP);
+
+    bool isWeakness = EnemyUnit.isWeakness(selectedSkill.AttackType);
+    if (isWeakness && !PlayerUnit.hasExtraTurn)
     {
-        PlayerUnit.status = UnitStatus.Status.Idle;
-        giveDamage(selectedSkill.AttackPower, EnemyUnit, selectedSkill.AttackType);
-        CheckCombatStatus();
-        bool isDead = EnemyUnit.isDead();
-        void ZoomCameraToPlayer()
-        {
-            Camera.main.orthographicSize = 3f; // set the size to a smaller value to zoom in
-            Camera.main.transform.position = new Vector3(PlayerUnit.transform.position.x, PlayerUnit.transform.position.y, Camera.main.transform.position.z); // move the camera to the player's position
-        }
-
-        encounterText.text = PlayerUnit.unitName + " attacks With " + selectedSkill.Name + "!";
-        enemyHUD.updateHP(EnemyUnit.currentHP);
-
-        bool isWeakness = EnemyUnit.isWeakness(selectedSkill.AttackType);
-        if (isWeakness)
-        {
-            extraTurn = true;
-        }
-        yield return new WaitForSeconds(1f);
-
-        if (isDead)
-        {
-            state = BattleState.WON;
-            EndBattle();
-        }
-        else if (extraTurn)
-        {
-            encounterText.text = EnemyUnit.unitName + " is Down! One More";
-            yield return new WaitForSeconds(1f);
-            PlayerUnit.status = UnitStatus.Status.Buff;
-            state = BattleState.PLAYERTURN;
-            extraTurn = false;
-        }
-        else
-        {
-            state = BattleState.ENEMYTURN;
-            StartCoroutine(EnemyTurn());
-        }
+        extraTurn = true;
+        PlayerUnit.hasExtraTurn = true;
     }
+    yield return new WaitForSeconds(1f);
 
+    if (isDead)
+    {
+        state = BattleState.WON;
+        EndBattle();
+    }
+    else if (extraTurn)
+    {
+        encounterText.text = EnemyUnit.unitName + " is Down! One More";
+        yield return new WaitForSeconds(1f);
+        PlayerUnit.status = UnitStatus.Status.Buff;
+        state = BattleState.PLAYERTURN;
+        extraTurn = false;
+    }
+    else
+    {
+        state = BattleState.ENEMYTURN;
+        StartCoroutine(EnemyTurn());
+    }
+}
     IEnumerator EnemyTurn()
     {
         EnemyUnit.status = UnitStatus.Status.Idle;

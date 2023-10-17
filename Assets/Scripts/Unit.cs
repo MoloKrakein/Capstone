@@ -17,6 +17,7 @@ public class Unit : MonoBehaviour
 
     public int speed;
     public bool isDown = false;
+    public bool hasExtraTurn;
 
     // Use a list of skills instead of a skill set
     public List<Skill> skills = new List<Skill>();
