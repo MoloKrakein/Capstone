@@ -39,43 +39,33 @@ public class BattleFlow : MonoBehaviour
     }
 
     IEnumerator SetupBattle()
-    {   
-        // GameObject PlayerGO = Instantiate(playerPrefab, playerLocation);
-        // PlayerUnit = PlayerGO.GetComponent<Unit>();
-        // GameObject EnemyGO = Instantiate(enemyPrefab, enemyLocation);
-        // EnemyUnit = EnemyGO.GetComponent<Unit>();
-        for (int i = 0; i < 3; i++)
-        {
-            GameObject PlayerGO = Instantiate(playerPrefab, playerLocation);
-            Unit playerUnit = PlayerGO.GetComponent<Unit>();
-            playerParty.Add(playerUnit);
-        }
-        for (int i = 0; i < 3; i++)
-        {
-            GameObject EnemyGO = Instantiate(enemyPrefab, enemyLocation);
-            Unit enemyUnit = EnemyGO.GetComponent<Unit>();
-            enemyParty.Add(enemyUnit);
-        }
-        // turnOrder.AddRange(playerParty);
-        // turnOrder.AddRange(enemyParty);
-        // turnOrder.Sort((unit1, unit2) => unit2.speed.CompareTo(unit1.speed));
-        string[] encounterTexts = new string[3];
-        encounterTexts[0] = "A wild " + EnemyUnit.unitName + " appeared!";
-        encounterTexts[1] = "You encountered an " + EnemyUnit.unitName + "!";
-        encounterTexts[2] = "You are being attacked";
-        encounterText.text = encounterTexts[Random.Range(0, 3)];
+{   
+    GameObject PlayerGO = Instantiate(playerPrefab, playerLocation);
+    PlayerUnit = PlayerGO.GetComponent<Unit>();
+    playerParty.Add(PlayerUnit);
 
-       
+    GameObject EnemyGO = Instantiate(enemyPrefab, enemyLocation);
+    EnemyUnit = EnemyGO.GetComponent<Unit>();
+    enemyParty.Add(EnemyUnit);
 
-        playerHUD.setupHUD(PlayerUnit);
-        enemyHUD.setupHUD(EnemyUnit);
+    // turnOrder.Add(PlayerUnit);
+    // turnOrder.Add(EnemyUnit);
+    // turnOrder.Sort((unit1, unit2) => unit2.speed.CompareTo(unit1.speed));
 
-        yield return new WaitForSeconds(2f);
+    string[] encounterTexts = new string[3];
+    encounterTexts[0] = "A wild " + EnemyUnit.unitName + " appeared!";
+    encounterTexts[1] = "You encountered an " + EnemyUnit.unitName + "!";
+    encounterTexts[2] = "You are being attacked";
+    encounterText.text = encounterTexts[Random.Range(0, 3)];
 
-        state = BattleState.PLAYERTURN;
-        PlayerTurn();
-    }
+    playerHUD.setupHUD(PlayerUnit);
+    enemyHUD.setupHUD(EnemyUnit);
 
+    yield return new WaitForSeconds(2f);
+
+    state = BattleState.PLAYERTURN;
+    PlayerTurn();
+}
     IEnumerator PlayerAttack(Skill selectedSkill)
     {
         PlayerUnit.status = UnitStatus.Status.Idle;

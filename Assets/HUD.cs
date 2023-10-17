@@ -12,6 +12,7 @@ public class HUD : MonoBehaviour
     public TextMeshProUGUI dmgText;
     public Slider hpSlider;
     public Slider mpSlider;
+    
 
     public void setupHUD(Unit unit)
     {
