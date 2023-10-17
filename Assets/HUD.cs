@@ -25,6 +25,16 @@ public class HUD : MonoBehaviour
         mpSlider.value = unit.currentMP;
     }
     // update damage text
+    public void setupEnemyHPHUD(Unit unit)
+    {
+        nameText.text = unit.unitName;
+        lvlText.text = "Lvl " + unit.unitLevel;
+        dmgText.text = "Damage: " + unit.damage;
+        hpSlider.maxValue = unit.maxHP;
+        hpSlider.value = unit.currentHP;
+        mpSlider.maxValue = unit.maxMP;
+        mpSlider.value = unit.currentMP;
+    }
     public void updateHP(int hp)
     {
         hpSlider.value = hp;
