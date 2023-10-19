@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd7785dd5890b2b408b1761086d5a8de, type: 3}
   m_Name: Hamoon
   m_EditorClassIdentifier: 
-  Name: Hamaoon
+  Name: Sinar
   AttackPower: 27
   AttackType: 0
   targetsAllEnemies: 0
   ManaCost: 12
   UsesHP: 0
   info: Heavy Holy Attack
+  turnsSinceUsed: 4

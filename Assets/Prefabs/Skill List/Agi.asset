@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd7785dd5890b2b408b1761086d5a8de, type: 3}
   m_Name: Agi
   m_EditorClassIdentifier: 
-  Name: Agi
+  Name: Api
   AttackPower: 5
   AttackType: 1
   targetsAllEnemies: 0
   ManaCost: 4
   UsesHP: 0
   info: Light Fire Attack
+  turnsSinceUsed: 4

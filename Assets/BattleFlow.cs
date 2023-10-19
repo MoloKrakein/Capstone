@@ -56,11 +56,6 @@ public class BattleFlow : MonoBehaviour
         PlayerUnit.SetupSkills();
         EnemyUnit.SetupSkills();
 
-
-        // turnOrder.Add(PlayerUnit);
-        // turnOrder.Add(EnemyUnit);
-        // turnOrder.Sort((unit1, unit2) => unit2.speed.CompareTo(unit1.speed));
-
         string[] encounterTexts = new string[3];
         encounterTexts[0] = "A wild " + EnemyUnit.unitName + " appeared!";
         encounterTexts[1] = "You encountered an " + EnemyUnit.unitName + "!";
@@ -276,6 +271,57 @@ public void OnAttackButton()
 
     int randIndex = Random.Range(0, PlayerUnit.ReadySkills.Count);
     Skill selectedSkill = PlayerUnit.ReadySkills[randIndex];
+
+    bool usesHP = selectedSkill.UsesHP;
+    int skillCost = selectedSkill.ManaCost;
+    if (!extraTurn && !Skillusage(skillCost, usesHP))
+        return;
+    else
+        StartCoroutine(PlayerAttack(selectedSkill));
+}
+
+public void Skill1(){
+    Skill selectedSkill = PlayerUnit.ReadySkills[0];
+
+    bool usesHP = selectedSkill.UsesHP;
+    int skillCost = selectedSkill.ManaCost;
+    if (!extraTurn && !Skillusage(skillCost, usesHP))
+        return;
+    else
+        StartCoroutine(PlayerAttack(selectedSkill));
+}
+public void Skill2(){
+    Skill selectedSkill = PlayerUnit.ReadySkills[1];
+
+    bool usesHP = selectedSkill.UsesHP;
+    int skillCost = selectedSkill.ManaCost;
+    if (!extraTurn && !Skillusage(skillCost, usesHP))
+        return;
+    else
+        StartCoroutine(PlayerAttack(selectedSkill));
+}
+public void Skill3(){
+    Skill selectedSkill = PlayerUnit.ReadySkills[2];
+
+    bool usesHP = selectedSkill.UsesHP;
+    int skillCost = selectedSkill.ManaCost;
+    if (!extraTurn && !Skillusage(skillCost, usesHP))
+        return;
+    else
+        StartCoroutine(PlayerAttack(selectedSkill));
+}
+public void Skill4(){
+    Skill selectedSkill = PlayerUnit.ReadySkills[3];
+
+    bool usesHP = selectedSkill.UsesHP;
+    int skillCost = selectedSkill.ManaCost;
+    if (!extraTurn && !Skillusage(skillCost, usesHP))
+        return;
+    else
+        StartCoroutine(PlayerAttack(selectedSkill));
+}
+public void Skill5(){
+    Skill selectedSkill = PlayerUnit.ReadySkills[4];
 
     bool usesHP = selectedSkill.UsesHP;
     int skillCost = selectedSkill.ManaCost;

@@ -104,8 +104,14 @@ MonoBehaviour:
   currentHP: 100
   maxMP: 100
   currentMP: 100
+  speed: 0
+  isDown: 0
+  hasExtraTurn: 0
   skills:
   - {fileID: 11400000, guid: d66fb2a3aedc2134f9d07879859a1554, type: 2}
+  ReadySkills: []
+  InitialSkills: []
+  AlreadyUsedSkills: []
   unitSide: 1
   weakness: 1
   status: 0
