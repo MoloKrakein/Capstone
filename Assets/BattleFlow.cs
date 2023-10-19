@@ -41,34 +41,40 @@ public class BattleFlow : MonoBehaviour
     }
 
     IEnumerator SetupBattle()
-{   
-    GameObject PlayerGO = Instantiate(playerPrefab, playerLocation);
-    PlayerUnit = PlayerGO.GetComponent<Unit>();
-    playerParty.Add(PlayerUnit);
+    {
+        GameObject PlayerGO = Instantiate(playerPrefab, playerLocation);
+        PlayerUnit = PlayerGO.GetComponent<Unit>();
+        playerParty.Add(PlayerUnit);
 
-    GameObject EnemyGO = Instantiate(enemyPrefab, enemyLocation);
-    EnemyUnit = EnemyGO.GetComponent<Unit>();
-    enemyParty.Add(EnemyUnit);
-                Vector3 cameraPosition = mainCamera.transform.position;
+        GameObject EnemyGO = Instantiate(enemyPrefab, enemyLocation);
+        EnemyUnit = EnemyGO.GetComponent<Unit>();
+        enemyParty.Add(EnemyUnit);
+        Vector3 cameraPosition = mainCamera.transform.position;
 
-    // turnOrder.Add(PlayerUnit);
-    // turnOrder.Add(EnemyUnit);
-    // turnOrder.Sort((unit1, unit2) => unit2.speed.CompareTo(unit1.speed));
+        PlayerUnit.setInitialSkills();
+        EnemyUnit.setInitialSkills();
+        PlayerUnit.SetupSkills();
+        EnemyUnit.SetupSkills();
 
-    string[] encounterTexts = new string[3];
-    encounterTexts[0] = "A wild " + EnemyUnit.unitName + " appeared!";
-    encounterTexts[1] = "You encountered an " + EnemyUnit.unitName + "!";
-    encounterTexts[2] = "You are being attacked";
-    encounterText.text = encounterTexts[Random.Range(0, 3)];
 
-    playerHUD.setupHUD(PlayerUnit);
-    enemyHUD.setupHUD(EnemyUnit);
+        // turnOrder.Add(PlayerUnit);
+        // turnOrder.Add(EnemyUnit);
+        // turnOrder.Sort((unit1, unit2) => unit2.speed.CompareTo(unit1.speed));
 
-    yield return new WaitForSeconds(2f);
+        string[] encounterTexts = new string[3];
+        encounterTexts[0] = "A wild " + EnemyUnit.unitName + " appeared!";
+        encounterTexts[1] = "You encountered an " + EnemyUnit.unitName + "!";
+        encounterTexts[2] = "You are being attacked";
+        encounterText.text = encounterTexts[Random.Range(0, 3)];
 
-    state = BattleState.PLAYERTURN;
-    PlayerTurn();
-}
+        playerHUD.setupHUD(PlayerUnit);
+        enemyHUD.setupHUD(EnemyUnit);
+
+        yield return new WaitForSeconds(2f);
+
+        state = BattleState.PLAYERTURN;
+        PlayerTurn();
+    }
     IEnumerator PlayerAttack(Skill selectedSkill)
 {
     PlayerUnit.status = UnitStatus.Status.Idle;
@@ -78,9 +84,11 @@ public class BattleFlow : MonoBehaviour
 
     encounterText.text = PlayerUnit.unitName + " attacks With " + selectedSkill.Name + "!";
     enemyHUD.updateHP(EnemyUnit.currentHP);
+    PlayerUnit.HandleUsedSkill(selectedSkill);
 
     bool isWeakness = EnemyUnit.isWeakness(selectedSkill.AttackType);
-    if (isWeakness && !PlayerUnit.hasExtraTurn)
+    // Pastikan enemy tidak dalam status 'Down' sebelum memberi extra turn
+    if (isWeakness && !PlayerUnit.hasExtraTurn && EnemyUnit.status != UnitStatus.Status.Down)
     {
         extraTurn = true;
         PlayerUnit.hasExtraTurn = true;
@@ -106,47 +114,47 @@ public class BattleFlow : MonoBehaviour
         StartCoroutine(EnemyTurn());
     }
 }
-    IEnumerator EnemyTurn()
+   IEnumerator EnemyTurn()
+{
+    EnemyUnit.status = UnitStatus.Status.Idle;
+
+    int randIndex = Random.Range(0, EnemyUnit.skills.Count);
+    Skill selectedSkill = EnemyUnit.skills[randIndex];
+
+    giveDamage(selectedSkill.AttackPower, PlayerUnit, selectedSkill.AttackType);
+    bool isDead = PlayerUnit.isDead();
+    bool isWeakness = PlayerUnit.isWeakness(selectedSkill.AttackType);
+
+    if (isWeakness)
     {
-        EnemyUnit.status = UnitStatus.Status.Idle;
-
-        int randIndex = Random.Range(0, EnemyUnit.skills.Count);
-        Skill selectedSkill = EnemyUnit.skills[randIndex];
-
-        giveDamage(selectedSkill.AttackPower, PlayerUnit, selectedSkill.AttackType);
-        bool isDead = PlayerUnit.isDead();
-        bool isWeakness = PlayerUnit.isWeakness(selectedSkill.AttackType);
-
-        if (isWeakness)
-        {
-            enemyExtraTurn = true;
-        }
-
-        //print attack text
-        encounterText.text = EnemyUnit.unitName + " attacks With " + selectedSkill.Name + "!";
-        playerHUD.updateHP(PlayerUnit.currentHP);
-
-        yield return new WaitForSeconds(2f);
-
-        if (isDead)
-        {
-            state = BattleState.LOST;
-            EndBattle();
-        }
-        else if (enemyExtraTurn)
-        {
-            encounterText.text = PlayerUnit.unitName + " is Down! Watch Out!";
-            yield return new WaitForSeconds(1f);
-            state = BattleState.ENEMYTURN;
-            enemyExtraTurn = false;
-            StartCoroutine(EnemyTurn());
-        }
-        else
-        {
-            state = BattleState.PLAYERTURN;
-            PlayerTurn();
-        }
+        enemyExtraTurn = true;
     }
+
+    //print attack text
+    encounterText.text = EnemyUnit.unitName + " attacks With " + selectedSkill.Name + "!";
+    playerHUD.updateHP(PlayerUnit.currentHP);
+
+    yield return new WaitForSeconds(2f);
+
+    if (isDead)
+    {
+        state = BattleState.LOST;
+        EndBattle();
+    }
+    else if (enemyExtraTurn && PlayerUnit.status != UnitStatus.Status.Down)
+    {
+        encounterText.text = PlayerUnit.unitName + " is Down! Watch Out!";
+        yield return new WaitForSeconds(1f);
+        state = BattleState.ENEMYTURN;
+        enemyExtraTurn = false;
+        StartCoroutine(EnemyTurn());
+    }
+    else
+    {
+        state = BattleState.PLAYERTURN;
+        PlayerTurn();
+    }
+}
 
     private void giveDamage(int damage, Unit unitType, DmgType dmgType)
     {
@@ -189,7 +197,13 @@ public class BattleFlow : MonoBehaviour
 
     void PlayerTurn()
     {
-       
+
+        PlayerUnit.RefreshReadySkills();
+
+        // Randomly select a skill dari ReadySkills
+        int randIndex = Random.Range(0, PlayerUnit.ReadySkills.Count);
+        Skill selectedSkill = PlayerUnit.ReadySkills[randIndex];
+
         encounterText.text = "Choose your Move!";
     }
 

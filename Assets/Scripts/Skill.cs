@@ -10,4 +10,5 @@ public class Skill : ScriptableObject
     public int ManaCost;
     public bool UsesHP;
     public string info;
+    public int turnsSinceUsed = 0;
 }
