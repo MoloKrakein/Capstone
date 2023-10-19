@@ -81,17 +81,18 @@ public class BattleFlow : MonoBehaviour
     giveDamage(selectedSkill.AttackPower, EnemyUnit, selectedSkill.AttackType);
     CheckCombatStatus();
     bool isDead = EnemyUnit.isDead();
-
+    PlayerUnit.ReadySkills.Remove(selectedSkill);
+    PlayerUnit.AlreadyUsedSkills.Add(selectedSkill);
     encounterText.text = PlayerUnit.unitName + " attacks With " + selectedSkill.Name + "!";
     enemyHUD.updateHP(EnemyUnit.currentHP);
     PlayerUnit.HandleUsedSkill(selectedSkill);
 
     bool isWeakness = EnemyUnit.isWeakness(selectedSkill.AttackType);
-    // Pastikan enemy tidak dalam status 'Down' sebelum memberi extra turn
-    if (isWeakness && !PlayerUnit.hasExtraTurn && EnemyUnit.status != UnitStatus.Status.Down)
+    if (isWeakness && !PlayerUnit.hasExtraTurn)
     {
         extraTurn = true;
         PlayerUnit.hasExtraTurn = true;
+        EnemyUnit.status = UnitStatus.Status.Down;
     }
     yield return new WaitForSeconds(1f);
 
@@ -107,6 +108,8 @@ public class BattleFlow : MonoBehaviour
         PlayerUnit.status = UnitStatus.Status.Buff;
         state = BattleState.PLAYERTURN;
         extraTurn = false;
+        PlayerUnit.hasExtraTurn = false;
+        EnemyUnit.status = UnitStatus.Status.Idle; // Ganti status EnemyUnit menjadi Idle setelah extra turn digunakan
     }
     else
     {
@@ -114,7 +117,8 @@ public class BattleFlow : MonoBehaviour
         StartCoroutine(EnemyTurn());
     }
 }
-   IEnumerator EnemyTurn()
+
+IEnumerator EnemyTurn()
 {
     EnemyUnit.status = UnitStatus.Status.Idle;
 
@@ -128,6 +132,7 @@ public class BattleFlow : MonoBehaviour
     if (isWeakness)
     {
         enemyExtraTurn = true;
+        PlayerUnit.status = UnitStatus.Status.Down;
     }
 
     //print attack text
@@ -147,6 +152,7 @@ public class BattleFlow : MonoBehaviour
         yield return new WaitForSeconds(1f);
         state = BattleState.ENEMYTURN;
         enemyExtraTurn = false;
+        PlayerUnit.status = UnitStatus.Status.Idle; // Ganti status PlayerUnit menjadi Idle setelah extra turn digunakan
         StartCoroutine(EnemyTurn());
     }
     else
@@ -175,6 +181,11 @@ public class BattleFlow : MonoBehaviour
         {
             state = BattleState.LOST;
             EndBattle();
+        }
+        if (PlayerUnit.status == UnitStatus.Status.Down)
+        {
+            state = BattleState.ENEMYTURN;
+            EnemyUnit.hasExtraTurn = true;
         }
         else if (EnemyUnit.status == UnitStatus.Status.Dead)
         {
@@ -258,19 +269,19 @@ public class BattleFlow : MonoBehaviour
         }
     }
 
-    public void OnAttackButton()
-    {
-        if (state != BattleState.PLAYERTURN)
-            return;
+public void OnAttackButton()
+{
+    if (state != BattleState.PLAYERTURN)
+        return;
 
-        int randIndex = Random.Range(0, PlayerUnit.skills.Count);
-        Skill selectedSkill = PlayerUnit.skills[randIndex];
+    int randIndex = Random.Range(0, PlayerUnit.ReadySkills.Count);
+    Skill selectedSkill = PlayerUnit.ReadySkills[randIndex];
 
-        bool usesHP = selectedSkill.UsesHP;
-        int skillCost = selectedSkill.ManaCost;
-        if (!extraTurn && !Skillusage(skillCost, usesHP))
-            return;
-        else
-            StartCoroutine(PlayerAttack(selectedSkill));
-    }
+    bool usesHP = selectedSkill.UsesHP;
+    int skillCost = selectedSkill.ManaCost;
+    if (!extraTurn && !Skillusage(skillCost, usesHP))
+        return;
+    else
+        StartCoroutine(PlayerAttack(selectedSkill));
+}
 }

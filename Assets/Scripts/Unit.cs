@@ -78,50 +78,56 @@ public class Unit : MonoBehaviour
         }
     }
 
-    public void SetupSkills()
+public void SetupSkills()
+{
+    HashSet<Skill> uniqueSkills = new HashSet<Skill>(skills);
+
+    // Jika ada kurang dari 5 skill unik, masukkan semuanya ke ReadySkills
+    if (uniqueSkills.Count <= 5)
     {
-        for (int i = 0; i < 5; i++) // Ambil 5 skill acak dari list skills
+        ReadySkills.AddRange(uniqueSkills);
+    }
+    else
+    {
+        // Jika ada lebih dari 5 skill unik, pilih 5 secara acak
+        while (ReadySkills.Count < 5)
         {
             int randIndex = Random.Range(0, skills.Count);
-            ReadySkills.Add(skills[randIndex]);
-        }
-    }
+            Skill skill = skills[randIndex];
 
-    public void HandleUsedSkill(Skill usedSkill)
-    {
-        // Tambahkan skill ke AlreadyUsedSkills
-        usedSkill.turnsSinceUsed = 0; // Reset turnsSinceUsed
-        AlreadyUsedSkills.Add(usedSkill);
-
-        // Hapus skill dari ReadySkills
-        ReadySkills.Remove(usedSkill);
-
-        // Ambil skill acak baru dari InitialSkills
-        int randIndex;
-        Skill newSkill;
-        do // Pastikan skill baru tidak sama dengan skill sebelumnya
-        {
-            randIndex = Random.Range(0, InitialSkills.Count);
-            newSkill = InitialSkills[randIndex];
-        } while (newSkill == usedSkill);
-
-        ReadySkills.Add(newSkill); // Tambahkan skill baru ke ReadySkills
-    }
-
-     public void RefreshReadySkills()
-    {
-        // Pindahkan skill dari AlreadyUsedSkills ke ReadySkills jika sudah 3 turns
-        for (int i = 0; i < AlreadyUsedSkills.Count; i++)
-        {
-            Skill skill = AlreadyUsedSkills[i];
-            skill.turnsSinceUsed++;
-
-            if (skill.turnsSinceUsed >= 3)
+            if (!ReadySkills.Contains(skill)) // Memastikan skill unik
             {
-                AlreadyUsedSkills.RemoveAt(i);
-                i--; // Mengurangi i karena kita menghapus item dari list
                 ReadySkills.Add(skill);
             }
         }
     }
+}
+
+public void HandleUsedSkill(Skill usedSkill)
+{
+    // Hapus skill dari ReadySkills
+    ReadySkills.Remove(usedSkill);
+    Debug.Log("Removed skill from ReadySkills: " + usedSkill.Name);
+
+    // Ambil skill acak baru dari InitialSkills
+    Skill newSkill;
+    do // Pastikan skill baru tidak ada di ReadySkills
+    {
+        int randIndex = Random.Range(0, InitialSkills.Count);
+        newSkill = InitialSkills[randIndex];
+    } while (ReadySkills.Contains(newSkill));
+
+    ReadySkills.Add(newSkill); // Tambahkan skill baru ke ReadySkills
+    Debug.Log("Added new skill to ReadySkills: " + newSkill.Name);
+}
+public void RefreshReadySkills()
+{
+    // Pastikan ReadySkills hanya memiliki 5 skill
+    while (ReadySkills.Count > 5)
+    {
+        Skill skillToRemove = ReadySkills[0];
+        ReadySkills.RemoveAt(0);
+        InitialSkills.Remove(skillToRemove); // Hapus dari InitialSkills juga
+    }
+}
 }
