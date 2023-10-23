@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd7785dd5890b2b408b1761086d5a8de, type: 3}
-  m_Name: Api
+  m_Name: Api Kuat
   m_EditorClassIdentifier: 
-  Name: Api
-  AttackPower: 12
+  Name: Api Kuat
+  AttackPower: 24
   AttackType: 1
   targetsAllEnemies: 0
-  ManaCost: 4
+  ManaCost: 14
   UsesHP: 1
-  info: Serangan Api Kecil
+  info: Serangan Api Besar
   turnsSinceUsed: 0

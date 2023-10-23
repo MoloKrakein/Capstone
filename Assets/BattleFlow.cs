@@ -21,6 +21,11 @@ public class BattleFlow : MonoBehaviour
     public HUD playerHUD;
     public HUD enemyHUD;
 
+    public Button skillButton1;
+    public Button skillButton2;
+    public Button skillButton3;
+    public Button skillButton4;
+    public Button skillButton5;
     // camera
     public Camera mainCamera;
     Unit PlayerUnit;
@@ -28,8 +33,7 @@ public class BattleFlow : MonoBehaviour
 
     public BattleState state;
 
-    private bool extraTurn = false;
-    private bool enemyExtraTurn = false;
+    // public GameObject SkillButtons;
 
     public List<Unit> playerParty = new List<Unit>();
     public List<Unit> enemyParty = new List<Unit>();
@@ -65,109 +69,89 @@ public class BattleFlow : MonoBehaviour
         playerHUD.setupHUD(PlayerUnit);
         enemyHUD.setupHUD(EnemyUnit);
 
+        UpdateSkillButtons();
+
         yield return new WaitForSeconds(2f);
 
         state = BattleState.PLAYERTURN;
         PlayerTurn();
     }
     IEnumerator PlayerAttack(Skill selectedSkill)
-{
-    PlayerUnit.status = UnitStatus.Status.Idle;
-    giveDamage(selectedSkill.AttackPower, EnemyUnit, selectedSkill.AttackType);
-    CheckCombatStatus();
-    bool isDead = EnemyUnit.isDead();
-    PlayerUnit.ReadySkills.Remove(selectedSkill);
-    PlayerUnit.AlreadyUsedSkills.Add(selectedSkill);
-    encounterText.text = PlayerUnit.unitName + " attacks With " + selectedSkill.Name + "!";
-    enemyHUD.updateHP(EnemyUnit.currentHP);
-    PlayerUnit.HandleUsedSkill(selectedSkill);
-
-    bool isWeakness = EnemyUnit.isWeakness(selectedSkill.AttackType);
-    if (isWeakness && !PlayerUnit.hasExtraTurn)
     {
-        extraTurn = true;
-        PlayerUnit.hasExtraTurn = true;
-        EnemyUnit.status = UnitStatus.Status.Down;
-    }
-    yield return new WaitForSeconds(1f);
-
-    if (isDead)
-    {
-        state = BattleState.WON;
-        EndBattle();
-    }
-    else if (extraTurn)
-    {
-        encounterText.text = EnemyUnit.unitName + " is Down! One More";
-        yield return new WaitForSeconds(1f);
-        PlayerUnit.status = UnitStatus.Status.Buff;
-        state = BattleState.PLAYERTURN;
-        extraTurn = false;
-        PlayerUnit.hasExtraTurn = false;
-        EnemyUnit.status = UnitStatus.Status.Idle; // Ganti status EnemyUnit menjadi Idle setelah extra turn digunakan
-    }
-    else
-    {
-        state = BattleState.ENEMYTURN;
-        StartCoroutine(EnemyTurn());
-    }
-}
-
-IEnumerator EnemyTurn()
-{
-    EnemyUnit.status = UnitStatus.Status.Idle;
-
-    int randIndex = Random.Range(0, EnemyUnit.skills.Count);
-    Skill selectedSkill = EnemyUnit.skills[randIndex];
-
-    giveDamage(selectedSkill.AttackPower, PlayerUnit, selectedSkill.AttackType);
-    bool isDead = PlayerUnit.isDead();
-    bool isWeakness = PlayerUnit.isWeakness(selectedSkill.AttackType);
-
-    if (isWeakness)
-    {
-        enemyExtraTurn = true;
-        PlayerUnit.status = UnitStatus.Status.Down;
+        HideSkillButtons();
+        PlayerUnit.status = UnitStatus.Status.Idle;
+        giveDamage(selectedSkill.AttackPower, EnemyUnit, selectedSkill.AttackType);
+        CheckCombatStatus();
+        bool isDead = EnemyUnit.isDead();
+        PlayerUnit.ReadySkills.Remove(selectedSkill);
+        PlayerUnit.AlreadyUsedSkills.Add(selectedSkill);
+        encounterText.text = PlayerUnit.unitName + " attacks With " + selectedSkill.Name + "!";
+        enemyHUD.updateHP(EnemyUnit.currentHP);
+        PlayerUnit.HandleUsedSkill(selectedSkill);
+        yield return new WaitForSeconds(2f);
+        if (isDead)
+        {
+            state = BattleState.WON;
+            EndBattle();
+        }
+        else
+        {
+            UpdateSkillButtons();
+            state = BattleState.ENEMYTURN;
+            StartCoroutine(EnemyTurn());
+        }
     }
 
-    //print attack text
-    encounterText.text = EnemyUnit.unitName + " attacks With " + selectedSkill.Name + "!";
-    playerHUD.updateHP(PlayerUnit.currentHP);
-
-    yield return new WaitForSeconds(2f);
-
-    if (isDead)
+    IEnumerator EnemyTurn()
     {
-        state = BattleState.LOST;
-        EndBattle();
-    }
-    else if (enemyExtraTurn && PlayerUnit.status != UnitStatus.Status.Down)
-    {
-        encounterText.text = PlayerUnit.unitName + " is Down! Watch Out!";
-        yield return new WaitForSeconds(1f);
-        state = BattleState.ENEMYTURN;
-        enemyExtraTurn = false;
-        PlayerUnit.status = UnitStatus.Status.Idle; // Ganti status PlayerUnit menjadi Idle setelah extra turn digunakan
-        StartCoroutine(EnemyTurn());
-    }
-    else
-    {
-        state = BattleState.PLAYERTURN;
-        PlayerTurn();
-    }
-}
+        EnemyUnit.status = UnitStatus.Status.Idle;
 
+        int randIndex = Random.Range(0, EnemyUnit.skills.Count);
+        Skill selectedSkill = EnemyUnit.skills[randIndex];
+
+        giveDamage(selectedSkill.AttackPower, PlayerUnit, selectedSkill.AttackType);
+        bool isDead = PlayerUnit.isDead();
+        bool isWeakness = PlayerUnit.isWeakness(selectedSkill.AttackType);
+
+        //print attack text
+        encounterText.text = EnemyUnit.unitName + " attacks With " + selectedSkill.Name + "!";
+        playerHUD.updateHP(PlayerUnit.currentHP);
+
+        yield return new WaitForSeconds(2f);
+
+        if (isDead)
+        {
+            state = BattleState.LOST;
+            EndBattle();
+        }
+        else
+        {
+            state = BattleState.PLAYERTURN;
+            PlayerTurn();
+        }
+    }
+
+    public bool ExtraTurn(Unit unit, bool isUnitDown)
+    {
+        if (isUnitDown){
+            encounterText.text = unit.unitName + " is Down!";
+            return false;
+        }
+        else
+        {
+            encounterText.text = unit.unitName + " is Ready!";
+            return true;
+        }
+    }
     private void giveDamage(int damage, Unit unitType, DmgType dmgType)
     {
         int actualDamage = Random.Range(1, damage + 1);
 
-        GameObject popup = Instantiate(dmgPopup,
-                                       (unitType == PlayerUnit) ? enemyLocation.position : playerLocation.position,
-                                       Quaternion.identity);
+        unitType.TakeDamage(actualDamage, dmgType);
+        GameObject popup = Instantiate(dmgPopup,(unitType == PlayerUnit) ? enemyLocation.position : playerLocation.position,Quaternion.identity);
         popup.GetComponent<TextMeshPro>().text = actualDamage + "!";
         popup.GetComponent<TextMeshPro>().color = (unitType == PlayerUnit) ? Color.red : Color.blue;
 
-        unitType.TakeDamage(actualDamage, dmgType);
     }
 
     public void CheckCombatStatus()
@@ -176,11 +160,6 @@ IEnumerator EnemyTurn()
         {
             state = BattleState.LOST;
             EndBattle();
-        }
-        if (PlayerUnit.status == UnitStatus.Status.Down)
-        {
-            state = BattleState.ENEMYTURN;
-            EnemyUnit.hasExtraTurn = true;
         }
         else if (EnemyUnit.status == UnitStatus.Status.Dead)
         {
@@ -203,6 +182,9 @@ IEnumerator EnemyTurn()
 
     void PlayerTurn()
     {
+        UpdateSkillButtons();
+        PlayerUnit.status = UnitStatus.Status.Idle;
+        ShowSkillButtons();
 
         PlayerUnit.RefreshReadySkills();
 
@@ -264,70 +246,52 @@ IEnumerator EnemyTurn()
         }
     }
 
-public void OnAttackButton()
-{
-    if (state != BattleState.PLAYERTURN)
-        return;
+    public void OnAttackButton()
+    {
+        if (state != BattleState.PLAYERTURN)
+            return;
 
-    int randIndex = Random.Range(0, PlayerUnit.ReadySkills.Count);
-    Skill selectedSkill = PlayerUnit.ReadySkills[randIndex];
+        int randIndex = Random.Range(0, PlayerUnit.ReadySkills.Count);
+        Skill selectedSkill = PlayerUnit.ReadySkills[randIndex];
 
-    bool usesHP = selectedSkill.UsesHP;
-    int skillCost = selectedSkill.ManaCost;
-    if (!extraTurn && !Skillusage(skillCost, usesHP))
-        return;
-    else
+        bool usesHP = selectedSkill.UsesHP;
+        int skillCost = selectedSkill.ManaCost;
         StartCoroutine(PlayerAttack(selectedSkill));
-}
+    }
 
-public void Skill1(){
-    Skill selectedSkill = PlayerUnit.ReadySkills[0];
+    public void UseSkill(int skillIndex)
+    {
+        Skill selectedSkill = PlayerUnit.ReadySkills[skillIndex];
 
-    bool usesHP = selectedSkill.UsesHP;
-    int skillCost = selectedSkill.ManaCost;
-    if (!extraTurn && !Skillusage(skillCost, usesHP))
-        return;
-    else
+        bool usesHP = selectedSkill.UsesHP;
+        int skillCost = selectedSkill.ManaCost;
         StartCoroutine(PlayerAttack(selectedSkill));
-}
-public void Skill2(){
-    Skill selectedSkill = PlayerUnit.ReadySkills[1];
+    }
 
-    bool usesHP = selectedSkill.UsesHP;
-    int skillCost = selectedSkill.ManaCost;
-    if (!extraTurn && !Skillusage(skillCost, usesHP))
-        return;
-    else
-        StartCoroutine(PlayerAttack(selectedSkill));
-}
-public void Skill3(){
-    Skill selectedSkill = PlayerUnit.ReadySkills[2];
+    public void UpdateSkillButtons()
+    {
+        skillButton1.GetComponentInChildren<TextMeshProUGUI>().text = PlayerUnit.ReadySkills[0].Name;
+        skillButton2.GetComponentInChildren<TextMeshProUGUI>().text = PlayerUnit.ReadySkills[1].Name;
+        skillButton3.GetComponentInChildren<TextMeshProUGUI>().text = PlayerUnit.ReadySkills[2].Name;
+        skillButton4.GetComponentInChildren<TextMeshProUGUI>().text = PlayerUnit.ReadySkills[3].Name;
+        skillButton5.GetComponentInChildren<TextMeshProUGUI>().text = PlayerUnit.ReadySkills[4].Name;
+    }
 
-    bool usesHP = selectedSkill.UsesHP;
-    int skillCost = selectedSkill.ManaCost;
-    if (!extraTurn && !Skillusage(skillCost, usesHP))
-        return;
-    else
-        StartCoroutine(PlayerAttack(selectedSkill));
-}
-public void Skill4(){
-    Skill selectedSkill = PlayerUnit.ReadySkills[3];
+    private void HideSkillButtons()
+    {
+        skillButton1.gameObject.SetActive(false);
+        skillButton2.gameObject.SetActive(false);
+        skillButton3.gameObject.SetActive(false);
+        skillButton4.gameObject.SetActive(false);
+        skillButton5.gameObject.SetActive(false);
+    }
 
-    bool usesHP = selectedSkill.UsesHP;
-    int skillCost = selectedSkill.ManaCost;
-    if (!extraTurn && !Skillusage(skillCost, usesHP))
-        return;
-    else
-        StartCoroutine(PlayerAttack(selectedSkill));
-}
-public void Skill5(){
-    Skill selectedSkill = PlayerUnit.ReadySkills[4];
-
-    bool usesHP = selectedSkill.UsesHP;
-    int skillCost = selectedSkill.ManaCost;
-    if (!extraTurn && !Skillusage(skillCost, usesHP))
-        return;
-    else
-        StartCoroutine(PlayerAttack(selectedSkill));
-}
+    private void ShowSkillButtons()
+    {
+        skillButton1.gameObject.SetActive(true);
+        skillButton2.gameObject.SetActive(true);
+        skillButton3.gameObject.SetActive(true);
+        skillButton4.gameObject.SetActive(true);
+        skillButton5.gameObject.SetActive(true);
+    }
 }

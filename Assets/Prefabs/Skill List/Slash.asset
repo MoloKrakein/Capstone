@@ -19,4 +19,4 @@ MonoBehaviour:
   ManaCost: 12
   UsesHP: 1
   info: Light Slash Attack to Single Enemy
-  turnsSinceUsed: 5
+  turnsSinceUsed: 0

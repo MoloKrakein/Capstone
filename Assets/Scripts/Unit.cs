@@ -17,7 +17,7 @@ public class Unit : MonoBehaviour
 
     public int speed;
     public bool isDown = false;
-    public bool hasExtraTurn;
+    // public bool hasExtraTurn;
 
     // Use a list of skills instead of a skill set
     public List<Skill> skills = new List<Skill>();
@@ -48,7 +48,7 @@ public class Unit : MonoBehaviour
         }
 
         currentHP -= damage;
-        Debug.Log(unitName + " took " + damage + " damage!");
+        Debug.Log(unitName + " took " + damage + " ");
     }
 
     public bool isDead()
@@ -109,17 +109,16 @@ public void HandleUsedSkill(Skill usedSkill)
     ReadySkills.Remove(usedSkill);
     Debug.Log("Removed skill from ReadySkills: " + usedSkill.Name);
 
-    // Ambil skill acak baru dari InitialSkills yang belum ada di ReadySkills
-    List<Skill> availableSkills = new List<Skill>(InitialSkills);
-    availableSkills.RemoveAll(skill => ReadySkills.Contains(skill));
-
-    if (availableSkills.Count > 0)
+    // Ambil skill acak baru dari InitialSkills
+    Skill newSkill;
+    do // Pastikan skill baru tidak ada di ReadySkills
     {
-        int randIndex = Random.Range(0, availableSkills.Count);
-        Skill newSkill = availableSkills[randIndex];
-        ReadySkills.Add(newSkill); // Tambahkan skill baru ke ReadySkills
-        Debug.Log("Added new skill to ReadySkills: " + newSkill.Name);
-    }
+        int randIndex = Random.Range(0, InitialSkills.Count);
+        newSkill = InitialSkills[randIndex];
+    } while (ReadySkills.Contains(newSkill));
+
+    ReadySkills.Add(newSkill); // Tambahkan skill baru ke ReadySkills
+    Debug.Log("Added new skill to ReadySkills: " + newSkill.Name);
 }
 public void RefreshReadySkills()
 {
@@ -128,6 +127,7 @@ public void RefreshReadySkills()
     {
         Skill skillToRemove = ReadySkills[0];
         ReadySkills.RemoveAt(0);
+        InitialSkills.Remove(skillToRemove); // Hapus dari InitialSkills juga
     }
 }
 }
