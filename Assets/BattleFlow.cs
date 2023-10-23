@@ -39,6 +39,7 @@ public class BattleFlow : MonoBehaviour
     public List<Unit> enemyParty = new List<Unit>();
 
     private bool isPlayerExtraMove;
+    private bool isEnemyExtraMove;
     void Start()
     {
         state = BattleState.START;
@@ -128,7 +129,7 @@ IEnumerator PlayerAttack(Skill selectedSkill)
         giveDamage(selectedSkill.AttackPower, PlayerUnit, selectedSkill.AttackType);
         bool isDead = PlayerUnit.isDead();
         bool isWeakness = PlayerUnit.isWeakness(selectedSkill.AttackType);
-
+        bool extra = ExtraTurn(isWeakness);
         //print attack text
         encounterText.text = EnemyUnit.unitName + " attacks With " + selectedSkill.Name + "!";
         playerHUD.updateHP(PlayerUnit.currentHP);
@@ -139,11 +140,21 @@ IEnumerator PlayerAttack(Skill selectedSkill)
             state = BattleState.LOST;
             EndBattle();
         }
+        else if(extra)
+        {
+            encounterText.text = EnemyUnit.unitName + " has an Extra Turn!";
+            yield return new WaitForSeconds(1f);
+            EnemyUnit.status = UnitStatus.Status.Buff;
+            state = BattleState.ENEMYTURN;
+            StartCoroutine(EnemyTurn());
+            PlayerUnit.status = UnitStatus.Status.Idle; // Ganti status PlayerUnit menjadi Idle setelah extra turn digunakan
+        }
         else
         {
             state = BattleState.PLAYERTURN;
             PlayerTurn();
         }
+
     }
 
 public bool ExtraTurn(bool IsWeakness)
@@ -173,13 +184,25 @@ public bool ExtraTurn(bool IsWeakness)
     }
     else
     {
-        if (PlayerUnit.isDown())
+        if (PlayerUnit.isDown() && IsWeakness)
         {
-            return false;
+            if(isEnemyExtraMove)
+            {
+                // Enemy already has an extra turn, don't give another one
+                return false;
+            }
+            else
+            {
+                // Player is down and Enemy hits a weakness, give an extra turn
+                isEnemyExtraMove = true;
+                return true;
+            }
         }
         else
         {
-            return IsWeakness;
+            // Reset extra turn flag
+            isEnemyExtraMove = false;
+            return false;
         }
     }
 }
