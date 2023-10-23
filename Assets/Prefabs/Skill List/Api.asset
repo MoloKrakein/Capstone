@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Api
   m_EditorClassIdentifier: 
   Name: Api
-  AttackPower: 12
+  AttackPower: 4
   AttackType: 1
   targetsAllEnemies: 0
   ManaCost: 4

@@ -16,7 +16,7 @@ public class Unit : MonoBehaviour
     public int currentMP;
 
     public int speed;
-    public bool isDown = false;
+    // public bool isDown = false;
     // public bool hasExtraTurn;
 
     // Use a list of skills instead of a skill set
@@ -44,7 +44,6 @@ public class Unit : MonoBehaviour
         if(UnitStatus.Status.Down == status)
         {
             damage *= 2;
-            status = UnitStatus.Status.Down;
         }
 
         currentHP -= damage;
@@ -63,13 +62,20 @@ public class Unit : MonoBehaviour
             return false;
         }
     }
+
+    public bool isDown(){
+        if(UnitStatus.Status.Down == status){
+            return true;
+        }else{
+            return false;
+        }
+    }
     
     public bool isWeakness(DmgType attackType)
     {
         if(weakness == attackType)
         {
             status = UnitStatus.Status.Down;
-            isDown = true;
             return true;
         }
         else
@@ -107,7 +113,7 @@ public void HandleUsedSkill(Skill usedSkill)
 {
     // Hapus skill dari ReadySkills
     ReadySkills.Remove(usedSkill);
-    Debug.Log("Removed skill from ReadySkills: " + usedSkill.Name);
+    // Debug.Log("Removed skill from ReadySkills: " + usedSkill.Name);
 
     // Ambil skill acak baru dari InitialSkills
     Skill newSkill;
@@ -118,7 +124,7 @@ public void HandleUsedSkill(Skill usedSkill)
     } while (ReadySkills.Contains(newSkill));
 
     ReadySkills.Add(newSkill); // Tambahkan skill baru ke ReadySkills
-    Debug.Log("Added new skill to ReadySkills: " + newSkill.Name);
+    // Debug.Log("Added new skill to ReadySkills: " + newSkill.Name);
 }
 public void RefreshReadySkills()
 {
