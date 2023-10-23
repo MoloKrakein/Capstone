@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 04603cb4e5125d844af3b0131883fa7e
+guid: f296fb8bea03cba42bfdc2916660168c
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 128
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -105,7 +105,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: noesa sprite sheet_0
+      name: noesaGetHit_0
       rect:
         serializedVersion: 2
         x: 0
@@ -119,14 +119,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1e105254832e2b346960a48418851224
-      internalID: 135585562
+      spriteID: ade0fb6e4392a1b439d7f6536368ae18
+      internalID: -2054187537
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: noesa sprite sheet_1
+      name: noesaGetHit_1
       rect:
         serializedVersion: 2
         x: 1536
@@ -140,14 +140,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c19e8a452a07dd64d977e53e67b666e4
-      internalID: 800050969
+      spriteID: 94847f434363040488ef188397496dd6
+      internalID: 325111224
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: noesa sprite sheet_2
+      name: noesaGetHit_2
       rect:
         serializedVersion: 2
         x: 3072
@@ -161,14 +161,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e4bd11be08c5b6b46b1ef84441b9b458
-      internalID: 696359100
+      spriteID: 96557b31437cbce4dba01a989a3d3329
+      internalID: 2129440185
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: noesa sprite sheet_3
+      name: noesaGetHit_3
       rect:
         serializedVersion: 2
         x: 4608
@@ -182,8 +182,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3b0160ab5fd77194f94277698f49eab1
-      internalID: 1488658265
+      spriteID: 863357a48b4f8544180b9bd02197a3e3
+      internalID: -1581249681
       vertices: []
       indices: 
       edges: []
@@ -192,17 +192,17 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 1537655665
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      noesa sprite sheet_0: 135585562
-      noesa sprite sheet_1: 800050969
-      noesa sprite sheet_2: 696359100
-      noesa sprite sheet_3: 1488658265
+      noesaGetHit_0: -2054187537
+      noesaGetHit_1: 325111224
+      noesaGetHit_2: 2129440185
+      noesaGetHit_3: -1581249681
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

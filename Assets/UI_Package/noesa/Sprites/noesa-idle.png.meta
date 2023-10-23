@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 04603cb4e5125d844af3b0131883fa7e
+guid: 207a6e77be00170409be6788048c88ff
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 128
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -105,7 +105,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: noesa sprite sheet_0
+      name: noesa-idle_0
       rect:
         serializedVersion: 2
         x: 0
@@ -119,14 +119,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1e105254832e2b346960a48418851224
-      internalID: 135585562
+      spriteID: 5e7fe8d0259f24f41a5aa79d63533d35
+      internalID: 1972150344
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: noesa sprite sheet_1
+      name: noesa-idle_1
       rect:
         serializedVersion: 2
         x: 1536
@@ -140,14 +140,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c19e8a452a07dd64d977e53e67b666e4
-      internalID: 800050969
+      spriteID: ad03d02e15accc0408d295b971abc8b1
+      internalID: -596335700
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: noesa sprite sheet_2
+      name: noesa-idle_2
       rect:
         serializedVersion: 2
         x: 3072
@@ -161,14 +161,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e4bd11be08c5b6b46b1ef84441b9b458
-      internalID: 696359100
+      spriteID: b7d9c112a45fe3049a39f3a7471ac531
+      internalID: 375273228
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: noesa sprite sheet_3
+      name: noesa-idle_3
       rect:
         serializedVersion: 2
         x: 4608
@@ -182,8 +182,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3b0160ab5fd77194f94277698f49eab1
-      internalID: 1488658265
+      spriteID: de725b46ac16efa4086a700a06a1db40
+      internalID: 924956123
       vertices: []
       indices: 
       edges: []
@@ -199,10 +199,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      noesa sprite sheet_0: 135585562
-      noesa sprite sheet_1: 800050969
-      noesa sprite sheet_2: 696359100
-      noesa sprite sheet_3: 1488658265
+      noesa-idle_0: 1972150344
+      noesa-idle_1: -596335700
+      noesa-idle_2: 375273228
+      noesa-idle_3: 924956123
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
