@@ -7,9 +7,7 @@ public class Unit : MonoBehaviour
 {
     public string unitName;
     public int unitLevel;
-
     public int damage;
-
     public int maxHP;
     public int currentHP;
     public int maxMP;
@@ -24,6 +22,7 @@ public class Unit : MonoBehaviour
     public List<Skill> ReadySkills = new List<Skill>();
     public List<Skill> InitialSkills = new List<Skill>();
     public List<Skill> AlreadyUsedSkills = new List<Skill>();
+
 
     // unit side player or enemy
     public UnitSide unitSide;
