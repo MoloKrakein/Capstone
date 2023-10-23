@@ -12,3 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 755de82152ca9f54d85e54cadd7ddb33, type: 3}
   m_Name: Jamu
   m_EditorClassIdentifier: 
+  ItemName: Jamu
+  ItemPower: 50
+  itemType: 0
+  ItemPrice: 300
+  ItemQuantity: 1
+  ItemDescription: Traditional Drink That Heal Player 50 poin
+  ItemSprite: {fileID: 0}
