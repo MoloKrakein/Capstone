@@ -79,42 +79,42 @@ public class BattleFlow : MonoBehaviour
         PlayerTurn();
     }
 
-IEnumerator PlayerAttack(Skill selectedSkill)
-{
-    HideSkillButtons();
-    PlayerUnit.status = UnitStatus.Status.Idle;
-    giveDamage(selectedSkill.AttackPower, EnemyUnit, selectedSkill.AttackType);
-    CheckCombatStatus();
-    bool isDead = EnemyUnit.isDead();
-    bool isWeakness = EnemyUnit.isWeakness(selectedSkill.AttackType);
-    PlayerUnit.ReadySkills.Remove(selectedSkill);
-    PlayerUnit.AlreadyUsedSkills.Add(selectedSkill);
-    encounterText.text = PlayerUnit.unitName + " attacks With " + selectedSkill.Name + "!";
-    enemyHUD.updateHP(EnemyUnit.currentHP);
-    PlayerUnit.HandleUsedSkill(selectedSkill);
-    bool extra = ExtraTurn(isWeakness);
-    yield return new WaitForSeconds(2f);
-    if (isDead)
+    IEnumerator PlayerAttack(Skill selectedSkill)
     {
-        state = BattleState.WON;
-        EndBattle();
+        HideSkillButtons();
+        PlayerUnit.status = UnitStatus.Status.Idle;
+        giveDamage(selectedSkill.AttackPower, EnemyUnit, selectedSkill.AttackType);
+        CheckCombatStatus();
+        bool isDead = EnemyUnit.isDead();
+        bool isWeakness = EnemyUnit.isWeakness(selectedSkill.AttackType);
+        PlayerUnit.ReadySkills.Remove(selectedSkill);
+        PlayerUnit.AlreadyUsedSkills.Add(selectedSkill);
+        encounterText.text = PlayerUnit.unitName + " attacks With " + selectedSkill.Name + "!";
+        enemyHUD.updateHP(EnemyUnit.currentHP);
+        PlayerUnit.HandleUsedSkill(selectedSkill);
+        bool extra = ExtraTurn(isWeakness);
+        yield return new WaitForSeconds(2f);
+        if (isDead)
+        {
+            state = BattleState.WON;
+            EndBattle();
+        }
+        else if (extra)
+        {
+            encounterText.text = PlayerUnit.unitName + " has an Extra Turn!";
+            yield return new WaitForSeconds(1f);
+            PlayerUnit.status = UnitStatus.Status.Buff;
+            state = BattleState.PLAYERTURN;
+            PlayerTurn();
+            EnemyUnit.status = UnitStatus.Status.Idle; // Ganti status EnemyUnit menjadi Idle setelah extra turn digunakan
+        }
+        else
+        {
+            UpdateSkillButtons();
+            state = BattleState.ENEMYTURN;
+            StartCoroutine(EnemyTurn());
+        }
     }
-    else if (extra)
-    {
-        encounterText.text = PlayerUnit.unitName + " has an Extra Turn!";
-        yield return new WaitForSeconds(1f);
-        PlayerUnit.status = UnitStatus.Status.Buff;
-        state = BattleState.PLAYERTURN;
-        PlayerTurn();
-        EnemyUnit.status = UnitStatus.Status.Idle; // Ganti status EnemyUnit menjadi Idle setelah extra turn digunakan
-    }
-    else
-    {
-        UpdateSkillButtons();
-        state = BattleState.ENEMYTURN;
-        StartCoroutine(EnemyTurn());
-    }
-}
 
     IEnumerator EnemyTurn()
     {
@@ -140,7 +140,7 @@ IEnumerator PlayerAttack(Skill selectedSkill)
             state = BattleState.LOST;
             EndBattle();
         }
-        else if(extra)
+        else if (extra)
         {
             encounterText.text = EnemyUnit.unitName + " has an Extra Turn!";
             yield return new WaitForSeconds(1f);
@@ -157,63 +157,86 @@ IEnumerator PlayerAttack(Skill selectedSkill)
 
     }
 
-public bool ExtraTurn(bool IsWeakness)
-{
-    if (state == BattleState.PLAYERTURN)
+    public bool ExtraTurn(bool IsWeakness)
     {
-        if (EnemyUnit.isDown() && IsWeakness)
+        if (state == BattleState.PLAYERTURN)
         {
-            if(isPlayerExtraMove)
+            if (EnemyUnit.isDown() && IsWeakness)
             {
-                // Player already has an extra turn, don't give another one
-                return false;
+                if (isPlayerExtraMove)
+                {
+                    // Player already has an extra turn, don't give another one
+                    return false;
+                }
+                else
+                {
+                    // Enemy is down and Player hits a weakness, give an extra turn
+                    isPlayerExtraMove = true;
+                    return true;
+                }
             }
             else
             {
-                // Enemy is down and Player hits a weakness, give an extra turn
-                isPlayerExtraMove = true;
-                return true;
+                // Reset extra turn flag
+                isPlayerExtraMove = false;
+                return false;
             }
         }
         else
         {
-            // Reset extra turn flag
-            isPlayerExtraMove = false;
-            return false;
-        }
-    }
-    else
-    {
-        if (PlayerUnit.isDown() && IsWeakness)
-        {
-            if(isEnemyExtraMove)
+            if (PlayerUnit.isDown() && IsWeakness)
             {
-                // Enemy already has an extra turn, don't give another one
-                return false;
+                if (isEnemyExtraMove)
+                {
+                    // Enemy already has an extra turn, don't give another one
+                    return false;
+                }
+                else
+                {
+                    // Player is down and Enemy hits a weakness, give an extra turn
+                    isEnemyExtraMove = true;
+                    return true;
+                }
             }
             else
             {
-                // Player is down and Enemy hits a weakness, give an extra turn
-                isEnemyExtraMove = true;
-                return true;
+                // Reset extra turn flag
+                isEnemyExtraMove = false;
+                return false;
             }
         }
-        else
-        {
-            // Reset extra turn flag
-            isEnemyExtraMove = false;
-            return false;
-        }
     }
-}
     private void giveDamage(int damage, Unit unitType, DmgType dmgType)
     {
         int actualDamage = Random.Range(1, damage + 1);
-
+        float criticalChance = 0.1f;
+        float randomValue = Random.value;
+        if (unitType.status == UnitStatus.Status.Down)
+        {
+            criticalChance = 0.6f;
+        }
+        if (randomValue < criticalChance)
+        {
+            actualDamage *= 3;
+            encounterText.text = "Critical Hit!";
+            unitType.status = UnitStatus.Status.Down;
+            if (BattleState.PLAYERTURN == state)
+            {
+                isPlayerExtraMove = true;
+            }
+            else
+            {
+                isEnemyExtraMove = true;
+            }
+        }
         unitType.TakeDamage(actualDamage, dmgType);
         GameObject popup = Instantiate(dmgPopup, (unitType == PlayerUnit) ? enemyLocation.position : playerLocation.position, Quaternion.identity);
         popup.GetComponent<TextMeshPro>().text = actualDamage + "!";
         popup.GetComponent<TextMeshPro>().color = (unitType == PlayerUnit) ? Color.red : Color.blue;
+        if(randomValue < criticalChance)
+        {
+            popup.GetComponent<TextMeshPro>().color = Color.yellow; // Misalnya, warna kuning untuk critical hit
+        }
 
     }
 
@@ -279,7 +302,8 @@ public bool ExtraTurn(bool IsWeakness)
 
     public bool Skillusage(int skillCost, bool usesHP)
     {
-        if (isPlayerExtraMove){
+        if (isPlayerExtraMove)
+        {
             skillCost = 0;
         }
 
