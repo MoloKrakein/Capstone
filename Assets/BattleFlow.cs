@@ -74,7 +74,7 @@ public class BattleFlow : MonoBehaviour
         UpdateSkillButtons();
 
         yield return new WaitForSeconds(2f);
-
+        HideSkillButtons();
         state = BattleState.PLAYERTURN;
         PlayerTurn();
     }
@@ -249,8 +249,14 @@ public class BattleFlow : MonoBehaviour
         }
         else if (EnemyUnit.status == UnitStatus.Status.Dead)
         {
+            bool enemyAmbush = 0.3f<Random.value;
+            if(enemyAmbush){
+                encounterText.text = "New Enemy Has Arrived";
+                SpawnNewEnemy();
+            }else{
             state = BattleState.WON;
             EndBattle();
+            }
         }
     }
 
@@ -266,11 +272,22 @@ public class BattleFlow : MonoBehaviour
         }
     }
 
+    void SpawnNewEnemy(){
+    GameObject EnemyGO = Instantiate(enemyPrefab, enemyLocation);
+    EnemyUnit = EnemyGO.GetComponent<Unit>();
+    enemyParty.Add(EnemyUnit);
+    EnemyUnit.setInitialSkills();
+    EnemyUnit.SetupSkills();
+    enemyHUD.setupHUD(EnemyUnit);
+    
+    state = BattleState.ENEMYTURN;
+    StartCoroutine(EnemyTurn());
+    }
     void PlayerTurn()
     {
+        ShowSkillButtons();
         UpdateSkillButtons();
         PlayerUnit.status = UnitStatus.Status.Idle;
-        ShowSkillButtons();
 
         PlayerUnit.RefreshReadySkills();
         encounterText.text = "Choose your Move!";
