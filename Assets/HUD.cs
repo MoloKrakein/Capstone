@@ -10,6 +10,10 @@ public class HUD : MonoBehaviour
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI lvlText;
     public TextMeshProUGUI dmgText;
+
+    public GameObject hpBar;
+    public GameObject mpBar;
+
     public Slider hpSlider;
     public Slider mpSlider;
     

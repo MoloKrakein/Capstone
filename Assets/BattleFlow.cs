@@ -27,7 +27,7 @@ public class BattleFlow : MonoBehaviour
     public Button skillButton4;
     public Button skillButton5;
     // camera
-    public Camera mainCamera;
+    // public Camera mainCamera;
     Unit PlayerUnit;
     Unit EnemyUnit;
 
@@ -55,7 +55,7 @@ public class BattleFlow : MonoBehaviour
         GameObject EnemyGO = Instantiate(enemyPrefab, enemyLocation);
         EnemyUnit = EnemyGO.GetComponent<Unit>();
         enemyParty.Add(EnemyUnit);
-        Vector3 cameraPosition = mainCamera.transform.position;
+        // Vector3 cameraPosition = mainCamera.transform.position;
 
         PlayerUnit.setInitialSkills();
         EnemyUnit.setInitialSkills();
