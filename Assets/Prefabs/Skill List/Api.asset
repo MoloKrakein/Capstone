@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Api
   m_EditorClassIdentifier: 
   Name: Api
-  AttackPower: 4
+  AttackPower: 30
   AttackType: 1
   targetsAllEnemies: 0
-  ManaCost: 4
-  UsesHP: 1
+  ManaCost: 20
+  UsesHP: 0
   info: Serangan Api Kecil
-  turnsSinceUsed: 0
+  SkillSprite: {fileID: 0}

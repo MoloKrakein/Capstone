@@ -12,11 +12,14 @@ public class BattleFlow : MonoBehaviour
     public GameObject enemyPrefab;
 
     public Transform playerLocation;
+    // public Transform playerPopupsLocation;
     public Transform enemyLocation;
+    // public Transform enemyPopupsLocation;
 
     public TextMeshProUGUI encounterText;
 
     public GameObject dmgPopup;
+    public Canvas canvas;
 
     public HUD playerHUD;
     public HUD enemyHUD;
@@ -211,6 +214,7 @@ public class BattleFlow : MonoBehaviour
         int actualDamage = Random.Range(1, damage + 1);
         float criticalChance = 0.1f;
         float randomValue = Random.value;
+        bool isDown = false;
         if (unitType.status == UnitStatus.Status.Down)
         {
             criticalChance = 0.6f;
@@ -229,13 +233,21 @@ public class BattleFlow : MonoBehaviour
                 isEnemyExtraMove = true;
             }
         }
-        unitType.TakeDamage(actualDamage, dmgType);
-        GameObject popup = Instantiate(dmgPopup, (unitType == PlayerUnit) ? enemyLocation.position : playerLocation.position, Quaternion.identity);
-        popup.GetComponent<TextMeshPro>().text = actualDamage + "!";
-        popup.GetComponent<TextMeshPro>().color = (unitType == PlayerUnit) ? Color.red : Color.blue;
-        if(randomValue < criticalChance)
+        // isDown = true only when attackType is weakness And unitStatus is Down
+        if (unitType.isWeakness(dmgType))
         {
-            popup.GetComponent<TextMeshPro>().color = Color.yellow; // Misalnya, warna kuning untuk critical hit
+            isDown = true;
+        }
+
+        // dmg popups
+        GameObject dmgPopUp = Instantiate(dmgPopup, canvas.transform);
+        if (unitType == PlayerUnit)
+        {
+            dmgPopUp.GetComponent<DamagePopUps>().spawnPopups(actualDamage, false, isDown, unitType.currentHP);
+        }
+        else
+        {
+            dmgPopUp.GetComponent<DamagePopUps>().spawnPopups(actualDamage, true, isDown, unitType.currentHP);
         }
 
     }
