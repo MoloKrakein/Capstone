@@ -36,6 +36,10 @@ public class BattleFlow : MonoBehaviour
 
     public BattleState state;
 
+    public Camera cam;
+    public float shakeDuration = 1f;
+    public float shakeMagnitude = 1f;
+
     // public GameObject SkillButtons;
 
     public List<Unit> playerParty = new List<Unit>();
@@ -249,6 +253,8 @@ public class BattleFlow : MonoBehaviour
         {
             dmgPopUp.GetComponent<DamagePopUps>().spawnPopups(actualDamage, true, isDown, unitType.currentHP);
         }
+        // cam shake
+        StartCoroutine(CamShake());
 
     }
 
@@ -411,5 +417,20 @@ public class BattleFlow : MonoBehaviour
         skillButton3.gameObject.SetActive(true);
         skillButton4.gameObject.SetActive(true);
         skillButton5.gameObject.SetActive(true);
+    }
+    IEnumerator CamShake(){
+        Vector3 originalPos = cam.transform.localPosition;
+        float elapsed = 0.0f;
+
+        while(elapsed < shakeDuration){
+            // float x = Random.Range(-1f,1f) * shakeMagnitude;
+            float y = Random.Range(-1f,1f) * shakeMagnitude;
+
+            cam.transform.localPosition = new Vector3(originalPos.x,y,originalPos.z);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        cam.transform.localPosition = originalPos;
+
     }
 }
