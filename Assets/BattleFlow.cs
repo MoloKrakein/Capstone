@@ -429,10 +429,10 @@ public class BattleFlow : MonoBehaviour
         float elapsed = 0.0f;
 
         while(elapsed < shakeDuration){
-            // float x = Random.Range(-1f,1f) * shakeMagnitude;
+            float x = Random.Range(-1f,1f) * shakeMagnitude;
             float y = Random.Range(-1f,1f) * shakeMagnitude;
 
-            cam.transform.localPosition = new Vector3(originalPos.x,y,originalPos.z);
+            cam.transform.localPosition = new Vector3(x,y,originalPos.z);
             elapsed += Time.deltaTime;
             yield return null;
         }
