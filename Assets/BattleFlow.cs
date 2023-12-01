@@ -16,9 +16,11 @@ public class BattleFlow : MonoBehaviour
     public Transform enemyLocation;
     // public Transform enemyPopupsLocation;
 
-    public TextMeshProUGUI encounterText;
+    // public TextMeshProUGUI encounterText;
 
     public GameObject dmgPopup;
+    public GameObject extraTurnPopup;
+    public GameObject encounterPopup;
     public Canvas canvas;
 
     public HUD playerHUD;
@@ -69,11 +71,6 @@ public class BattleFlow : MonoBehaviour
         PlayerUnit.SetupSkills();
         EnemyUnit.SetupSkills();
 
-        string[] encounterTexts = new string[3];
-        encounterTexts[0] = "A wild " + EnemyUnit.unitName + " appeared!";
-        encounterTexts[1] = "You encountered an " + EnemyUnit.unitName + "!";
-        encounterTexts[2] = "You are being attacked";
-        encounterText.text = encounterTexts[Random.Range(0, 3)];
 
         playerHUD.setupHUD(PlayerUnit);
         enemyHUD.setupHUD(EnemyUnit);
@@ -96,7 +93,8 @@ public class BattleFlow : MonoBehaviour
         bool isWeakness = EnemyUnit.isWeakness(selectedSkill.AttackType);
         PlayerUnit.ReadySkills.Remove(selectedSkill);
         PlayerUnit.AlreadyUsedSkills.Add(selectedSkill);
-        encounterText.text = PlayerUnit.unitName + " attacks With " + selectedSkill.Name + "!";
+        // encounterText.text = PlayerUnit.unitName + " attacks With " + selectedSkill.Name + "!";
+        
         enemyHUD.updateHP(EnemyUnit.currentHP);
         PlayerUnit.HandleUsedSkill(selectedSkill);
         bool extra = ExtraTurn(isWeakness);
@@ -108,8 +106,10 @@ public class BattleFlow : MonoBehaviour
         }
         else if (extra)
         {
-            encounterText.text = PlayerUnit.unitName + " has an Extra Turn!";
+            // encounterText.text = PlayerUnit.unitName + " has an Extra Turn!";
             yield return new WaitForSeconds(1f);
+            // show extra turn popup
+            StartCoroutine(ExtraTurnPopup());
             PlayerUnit.status = UnitStatus.Status.Buff;
             state = BattleState.PLAYERTURN;
             PlayerTurn();
@@ -125,6 +125,7 @@ public class BattleFlow : MonoBehaviour
 
     IEnumerator EnemyTurn()
     {
+        encounterPopup.SetActive(false);
         isPlayerExtraMove = false;
         EnemyUnit.status = UnitStatus.Status.Idle;
         HideSkillButtons();
@@ -138,7 +139,7 @@ public class BattleFlow : MonoBehaviour
         bool isWeakness = PlayerUnit.isWeakness(selectedSkill.AttackType);
         bool extra = ExtraTurn(isWeakness);
         //print attack text
-        encounterText.text = EnemyUnit.unitName + " attacks With " + selectedSkill.Name + "!";
+        // encounterText.text = EnemyUnit.unitName + " attacks With " + selectedSkill.Name + "!";
         playerHUD.updateHP(PlayerUnit.currentHP);
         yield return new WaitForSeconds(2f);
 
@@ -149,8 +150,10 @@ public class BattleFlow : MonoBehaviour
         }
         else if (extra)
         {
-            encounterText.text = EnemyUnit.unitName + " has an Extra Turn!";
+            // encounterText.text = EnemyUnit.unitName + " has an Extra Turn!";
             yield return new WaitForSeconds(1f);
+            // show extra turn popup
+            StartCoroutine(ExtraTurnPopup());
             EnemyUnit.status = UnitStatus.Status.Buff;
             state = BattleState.ENEMYTURN;
             StartCoroutine(EnemyTurn());
@@ -219,6 +222,9 @@ public class BattleFlow : MonoBehaviour
         float criticalChance = 0.1f;
         float randomValue = Random.value;
         bool isDown = false;
+        // Enable EncounterPopUps
+        encounterPopup.SetActive(true);
+        encounterPopup.GetComponent<EncounterPopUps>().SetText(dmgType.ToString() + " Damage");
         if (unitType.status == UnitStatus.Status.Down)
         {
             criticalChance = 0.6f;
@@ -226,7 +232,7 @@ public class BattleFlow : MonoBehaviour
         if (randomValue < criticalChance)
         {
             actualDamage *= 3;
-            encounterText.text = "Critical Hit!";
+            // encounterText.text = "Critical Hit!";
             unitType.status = UnitStatus.Status.Down;
             if (BattleState.PLAYERTURN == state)
             {
@@ -269,7 +275,7 @@ public class BattleFlow : MonoBehaviour
         {
             bool enemyAmbush = 0.3f<Random.value;
             if(enemyAmbush){
-                encounterText.text = "New Enemy Has Arrived";
+                // encounterText.text = "New Enemy Has Arrived";
                 SpawnNewEnemy();
             }else{
             state = BattleState.WON;
@@ -282,11 +288,11 @@ public class BattleFlow : MonoBehaviour
     {
         if (state == BattleState.WON)
         {
-            encounterText.text = "You won the battle!";
+            // encounterText.text = "You won the battle!";
         }
         else if (state == BattleState.LOST)
         {
-            encounterText.text = "You were defeated.";
+            // encounterText.text = "You were defeated.";
         }
     }
 
@@ -308,7 +314,7 @@ public class BattleFlow : MonoBehaviour
         PlayerUnit.status = UnitStatus.Status.Idle;
 
         PlayerUnit.RefreshReadySkills();
-        encounterText.text = "Choose your Move!";
+        // encounterText.text = "Choose your Move!";
     }
 
     IEnumerator PlayerHeal()
@@ -317,11 +323,11 @@ public class BattleFlow : MonoBehaviour
         int healAmount = Random.Range(1, 100);
         PlayerUnit.currentHP += healAmount;
         playerHUD.updateHP(PlayerUnit.currentHP);
-        encounterText.text = "You Healed for " + healAmount + " HP!";
+        // encounterText.text = "You Healed for " + healAmount + " HP!";
         yield return new WaitForSeconds(2f);
         PlayerUnit.currentMP = 100;
         playerHUD.updateMP(PlayerUnit.currentMP);
-        encounterText.text = "You Restored your Mana!";
+        // encounterText.text = "You Restored your Mana!";
         yield return new WaitForSeconds(2f);
         state = BattleState.ENEMYTURN;
         StartCoroutine(EnemyTurn());
@@ -346,7 +352,7 @@ public class BattleFlow : MonoBehaviour
         {
             if (PlayerUnit.currentHP < skillCost)
             {
-                encounterText.text = "Not Enough HP!";
+                // encounterText.text = "Not Enough HP!";
                 return false;
             }
             PlayerUnit.currentHP -= skillCost;
@@ -357,7 +363,7 @@ public class BattleFlow : MonoBehaviour
         {
             if (PlayerUnit.currentMP < skillCost)
             {
-                encounterText.text = "Not Enough Mana!";
+                // encounterText.text = "Not Enough Mana!";
                 return false;
             }
             PlayerUnit.currentMP -= skillCost;
@@ -433,4 +439,12 @@ public class BattleFlow : MonoBehaviour
         cam.transform.localPosition = originalPos;
 
     }
+
+    IEnumerator ExtraTurnPopup()
+    {
+        GameObject extraTurnPopUp = Instantiate(extraTurnPopup, canvas.transform);
+        yield return new WaitForSeconds(2f);
+        Destroy(extraTurnPopUp);
+    }
+    
 }

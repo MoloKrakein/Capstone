@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4843241262718408970}
   - component: {fileID: 4843241262718408971}
+  - component: {fileID: 3238361738794700661}
   m_Layer: 5
   m_Name: DmgPopUps 1
   m_TagString: Untagged
@@ -57,7 +58,7 @@ RectTransform:
   m_GameObject: {fileID: 4843241262718408965}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.57574, y: 0.57574, z: 0.57574}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4843241262997972704}
@@ -70,7 +71,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 18.349, y: 57.784}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4843241262718408971
@@ -92,6 +93,27 @@ MonoBehaviour:
   EnemyPopUpLocation: {fileID: 3078678176724695417}
   PlayerPopUpLocation: {fileID: 3711500588990441281}
   DownImage: {fileID: 4843241262997972707}
+--- !u!95 &3238361738794700661
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4843241262718408965}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 01408e7d86546274bb0871b515ca92f6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4843241262997972707
 GameObject:
   m_ObjectHideFlags: 0
@@ -122,6 +144,7 @@ RectTransform:
   m_Children:
   - {fileID: 4843241263475736907}
   - {fileID: 4843241264484939099}
+  - {fileID: 4843241264319696303}
   m_Father: {fileID: 4843241262718408970}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -549,7 +572,7 @@ GameObject:
   - component: {fileID: 4843241263475736905}
   - component: {fileID: 4843241263475736904}
   m_Layer: 5
-  m_Name: Image
+  m_Name: ImageLayer3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -912,7 +935,7 @@ GameObject:
   - component: {fileID: 4843241264319696301}
   - component: {fileID: 4843241264319696300}
   m_Layer: 5
-  m_Name: Image
+  m_Name: ImageWhiteLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -925,17 +948,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4843241264319696302}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4843241264484939099}
-  m_RootOrder: 0
+  m_Father: {fileID: 4843241262997972704}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1, y: 2}
+  m_AnchoredPosition: {x: -16.00002, y: 7.00004}
   m_SizeDelta: {x: 695, y: 326}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4843241264319696301
@@ -1026,7 +1049,7 @@ GameObject:
   - component: {fileID: 4843241264484939097}
   - component: {fileID: 4843241264484939096}
   m_Layer: 5
-  m_Name: Image
+  m_Name: ImageLayer2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1043,8 +1066,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 4843241264319696303}
+  m_Children: []
   m_Father: {fileID: 4843241262997972704}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
