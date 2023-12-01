@@ -165,7 +165,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &8282175199123292272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,6 +190,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8282175199123292275}
     m_Modifications:
+    - target: {fileID: 8806121474406287989, guid: dfd87c8aa22ac3942843e240cfa24be4, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 84c438576a54e3a4e92d4be917d19c5e, type: 3}
     - target: {fileID: 8806121474406287990, guid: dfd87c8aa22ac3942843e240cfa24be4, type: 3}
       propertyPath: m_Name
       value: btn_back
@@ -228,11 +232,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8806121474406287991, guid: dfd87c8aa22ac3942843e240cfa24be4, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 422
       objectReference: {fileID: 0}
     - target: {fileID: 8806121474406287991, guid: dfd87c8aa22ac3942843e240cfa24be4, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 20
+      value: 93
       objectReference: {fileID: 0}
     - target: {fileID: 8806121474406287991, guid: dfd87c8aa22ac3942843e240cfa24be4, type: 3}
       propertyPath: m_LocalPosition.x
