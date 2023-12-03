@@ -66,8 +66,8 @@ public class BattleFlow : MonoBehaviour
         enemyParty.Add(EnemyUnit);
         // Vector3 cameraPosition = mainCamera.transform.position;
 
-        PlayerUnit.setInitialSkills();
-        EnemyUnit.setInitialSkills();
+        // PlayerUnit.setInitialSkills();
+        // EnemyUnit.setInitialSkills();
         PlayerUnit.SetupSkills();
         EnemyUnit.SetupSkills();
 
@@ -300,7 +300,7 @@ public class BattleFlow : MonoBehaviour
     GameObject EnemyGO = Instantiate(enemyPrefab, enemyLocation);
     EnemyUnit = EnemyGO.GetComponent<Unit>();
     enemyParty.Add(EnemyUnit);
-    EnemyUnit.setInitialSkills();
+    // EnemyUnit.setInitialSkills();
     EnemyUnit.SetupSkills();
     enemyHUD.setupHUD(EnemyUnit);
     
@@ -313,7 +313,7 @@ public class BattleFlow : MonoBehaviour
         UpdateSkillButtons();
         PlayerUnit.status = UnitStatus.Status.Idle;
 
-        PlayerUnit.RefreshReadySkills();
+        // PlayerUnit.RefreshReadySkills();
         // encounterText.text = "Choose your Move!";
     }
 

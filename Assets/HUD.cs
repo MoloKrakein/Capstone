@@ -7,12 +7,12 @@ using TMPro;
 
 public class HUD : MonoBehaviour
 {
-    public TextMeshProUGUI nameText;
-    public TextMeshProUGUI lvlText;
-    public TextMeshProUGUI dmgText;
+    // public TextMeshProUGUI nameText;
+    // public TextMeshProUGUI lvlText;
+    // public TextMeshProUGUI dmgText;
 
-    public GameObject hpBar;
-    public GameObject mpBar;
+    // public GameObject hpBar;
+    // public GameObject mpBar;
 
     public Slider hpSlider;
     public Slider mpSlider;
@@ -20,9 +20,9 @@ public class HUD : MonoBehaviour
 
     public void setupHUD(Unit unit)
     {
-        nameText.text = unit.unitName;
-        lvlText.text = "Lvl " + unit.unitLevel;
-        dmgText.text = "Damage: " + unit.damage;
+        // nameText.text = unit.unitName;
+        // lvlText.text = "Lvl " + unit.unitLevel;
+        // dmgText.text = "Damage: " + unit.damage;
         hpSlider.maxValue = unit.maxHP;
         hpSlider.value = unit.currentHP;
         mpSlider.maxValue = unit.maxMP;
@@ -31,9 +31,9 @@ public class HUD : MonoBehaviour
     // update damage text
     public void setupEnemyHPHUD(Unit unit)
     {
-        nameText.text = unit.unitName;
-        lvlText.text = "Lvl " + unit.unitLevel;
-        dmgText.text = "Damage: " + unit.damage;
+        // nameText.text = unit.unitName;
+        // lvlText.text = "Lvl " + unit.unitLevel;
+        // dmgText.text = "Damage: " + unit.damage;
         hpSlider.maxValue = unit.maxHP;
         hpSlider.value = unit.currentHP;
         mpSlider.maxValue = unit.maxMP;
