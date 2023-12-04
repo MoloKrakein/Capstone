@@ -9,7 +9,7 @@ public class DamagePopUps : MonoBehaviour
     public Slider EnemyHealthBar;
     public TextMeshProUGUI dmgValue1;
     public TextMeshProUGUI dmgValue2;
-    public int LifeTime;
+    public float LifeTime;
 
     public Transform EnemyPopUpLocation;
     public Transform PlayerPopUpLocation;

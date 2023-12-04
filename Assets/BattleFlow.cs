@@ -91,12 +91,10 @@ public class BattleFlow : MonoBehaviour
         CheckCombatStatus();
         bool isDead = EnemyUnit.isDead();
         bool isWeakness = EnemyUnit.isWeakness(selectedSkill.AttackType);
-        PlayerUnit.ReadySkills.Remove(selectedSkill);
-        PlayerUnit.AlreadyUsedSkills.Add(selectedSkill);
-        // encounterText.text = PlayerUnit.unitName + " attacks With " + selectedSkill.Name + "!";
+        PlayerUnit.HandleUsedSkill(selectedSkill);
+
         
         enemyHUD.updateHP(EnemyUnit.currentHP);
-        PlayerUnit.HandleUsedSkill(selectedSkill);
         bool extra = ExtraTurn(isWeakness);
         yield return new WaitForSeconds(2f);
         if (isDead)
@@ -117,7 +115,6 @@ public class BattleFlow : MonoBehaviour
         }
         else
         {
-            UpdateSkillButtons();
             state = BattleState.ENEMYTURN;
             StartCoroutine(EnemyTurn());
         }

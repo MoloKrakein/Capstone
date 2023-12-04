@@ -105,36 +105,25 @@ public void SetupSkills()
     }
 public void HandleUsedSkill(Skill usedSkill)
     {
-        // Hapus skill dari ReadySkills
-        ReadySkills.Remove(usedSkill);
-
-        if (skills.Count > 0)
+        AlreadyUsedSkills.Add(usedSkill);
+        int index = skills.IndexOf(usedSkill);
+        // print log skill index
+        Debug.Log("skill index : " + index);
+        Skill newSkill;
+        // isi newSkill yang tidak ada di AlreadyUsedSkills dan juga di ReadySkills dari skills
+        do
         {
-            Skill newSkill;
-            do // Pastikan skill baru tidak ada di ReadySkills
-            {
-                int randIndex = Random.Range(0, skills.Count);
-                newSkill = skills[randIndex];
-            } while (ReadySkills.Contains(newSkill));
+            newSkill = skills[Random.Range(0, skills.Count)];
+        } while (AlreadyUsedSkills.Contains(newSkill));
+     
+        SwapSkill(usedSkill, newSkill);
 
-            ReadySkills.Add(newSkill);
-        }
-        // CheckSkills(ReadySkill, UsedSkill);
-        // Jika AlreadyUsedSkills sudah mencapai batas, hapus yang paling awal
         if (AlreadyUsedSkills.Count >= skills.Count/2)
         {
             AlreadyUsedSkills.RemoveAt(0);
         }
     }
-public void RefreshReadySkills()
-{
-    // Pastikan ReadySkills hanya memiliki 5 skill
-    while (ReadySkills.Count > 6)
-    {
-        ReadySkills.RemoveAt(4);
-    }
-    // ReadySkills.AddRange(InitialSkills); // Tambahkan skill dari InitialSkills ke ReadySkills
-}
+
 
 // clear already used skill
 public void ClearAlreadyUsedSkills()
@@ -142,21 +131,13 @@ public void ClearAlreadyUsedSkills()
     AlreadyUsedSkills.Clear();
 }
 
-// private void CheckSkills(Skill ReadySkill,Skill UsedSkill){
-//     if(ReadySkill == UsedSkill){
-//         // get readyskill index
-//         int index = ReadySkills.IndexOf(ReadySkill);
-//         ReadySkills.RemoveAt(index);
-//         // add random skill
-//         Skill newSkill;
-//         do // Pastikan skill baru tidak ada di ReadySkills
-//         {
-//             int randIndex = Random.Range(0, skills.Count);
-//             newSkill = skills[randIndex];
-//         } while (ReadySkills.Contains(newSkill));
+private void SwapSkill(Skill skill1, Skill skill2)
+{
+    int index1 = ReadySkills.IndexOf(skill1);
+    int index2 = ReadySkills.IndexOf(skill2);
 
-//     }
-// }
+    ReadySkills[index1] = skill2;
+    ReadySkills[index2] = skill1;
 
 }
-
+}
