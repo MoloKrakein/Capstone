@@ -434,6 +434,13 @@ public class BattleFlow : MonoBehaviour
             yield return null;
         }
         cam.transform.localPosition = originalPos;
+        float originalZoom = cam.orthographicSize;
+        // zoom in
+        cam.orthographicSize = 0.2f;
+        yield return new WaitForSeconds(0.5f);
+        // zoom out
+        cam.orthographicSize = originalZoom;
+
 
     }
 
