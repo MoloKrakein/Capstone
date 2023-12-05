@@ -103,8 +103,8 @@ MonoBehaviour:
   unitName: Noesa
   unitLevel: 9
   damage: 12
-  maxHP: 800
-  currentHP: 800
+  maxHP: 150
+  currentHP: 100
   maxMP: 100
   currentMP: 100
   skills:

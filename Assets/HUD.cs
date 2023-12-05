@@ -20,20 +20,21 @@ public class HUD : MonoBehaviour
 
     public void setupHUD(Unit unit)
     {
-        // nameText.text = unit.unitName;
-        // lvlText.text = "Lvl " + unit.unitLevel;
-        // dmgText.text = "Damage: " + unit.damage;
+
         hpSlider.maxValue = unit.maxHP;
         hpSlider.value = unit.currentHP;
         mpSlider.maxValue = unit.maxMP;
         mpSlider.value = unit.currentMP;
+
+        if(hpSlider.value > hpSlider.maxValue)
+        {
+            hpSlider.maxValue = hpSlider.value;
+        }
     }
     // update damage text
     public void setupEnemyHPHUD(Unit unit)
     {
-        // nameText.text = unit.unitName;
-        // lvlText.text = "Lvl " + unit.unitLevel;
-        // dmgText.text = "Damage: " + unit.damage;
+
         hpSlider.maxValue = unit.maxHP;
         hpSlider.value = unit.currentHP;
         mpSlider.maxValue = unit.maxMP;

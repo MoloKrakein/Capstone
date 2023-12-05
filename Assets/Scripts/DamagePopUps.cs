@@ -6,7 +6,7 @@ using TMPro;
 
 public class DamagePopUps : MonoBehaviour
 {
-    public Slider EnemyHealthBar;
+    public Slider HealthBar;
     public TextMeshProUGUI dmgValue1;
     public TextMeshProUGUI dmgValue2;
     public float LifeTime;
@@ -16,10 +16,18 @@ public class DamagePopUps : MonoBehaviour
 
     public GameObject DownImage;
 
+    public void SetupDmgPopup(int maxHealth){
+        HealthBar.maxValue = maxHealth;
+
+    }
+
     public void UpdateHealthBar(int health)
     {
-        int healthValue = health / 10;
-        EnemyHealthBar.value = healthValue;
+        HealthBar.value = health;
+        // HealthBar.maxValue = maxHealth;
+        // HealthBar.maxValue = 100;
+        // HealthBar.minValue = 0;
+
     }
 
     void dmgValue1Text(int damage)
@@ -45,6 +53,7 @@ public class DamagePopUps : MonoBehaviour
         else{
             transform.position = EnemyPopUpLocation.position;
         }
+        // Health = Health - damage;
         dmgValue1Text(damage);
         dmgValue2Text(damage);
         UpdateHealthBar(Health);

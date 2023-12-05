@@ -41,6 +41,7 @@ public class BattleFlow : MonoBehaviour
     public Camera cam;
     public float shakeDuration = 1f;
     public float shakeMagnitude = 1f;
+    public float zoomSize = 5f;
 
     // public GameObject SkillButtons;
 
@@ -245,16 +246,20 @@ public class BattleFlow : MonoBehaviour
         {
             isDown = true;
         }
+        // apply damage
+        unitType.currentHP -= actualDamage;
 
         // dmg popups
         GameObject dmgPopUp = Instantiate(dmgPopup, canvas.transform);
         if (unitType == PlayerUnit)
         {
-            dmgPopUp.GetComponent<DamagePopUps>().spawnPopups(actualDamage, false, isDown, unitType.currentHP);
+            dmgPopUp.GetComponent<DamagePopUps>().SetupDmgPopup(PlayerUnit.maxHP);
+            dmgPopUp.GetComponent<DamagePopUps>().spawnPopups(actualDamage, false, isDown, PlayerUnit.currentHP);
         }
         else
         {
-            dmgPopUp.GetComponent<DamagePopUps>().spawnPopups(actualDamage, true, isDown, unitType.currentHP);
+            dmgPopUp.GetComponent<DamagePopUps>().SetupDmgPopup(EnemyUnit.maxHP);
+            dmgPopUp.GetComponent<DamagePopUps>().spawnPopups(actualDamage, true, isDown, EnemyUnit.currentHP);
         }
         // cam shake
         StartCoroutine(CamShake());
@@ -434,12 +439,28 @@ public class BattleFlow : MonoBehaviour
             yield return null;
         }
         cam.transform.localPosition = originalPos;
-        float originalZoom = cam.orthographicSize;
-        // zoom in
-        cam.orthographicSize = 0.2f;
-        yield return new WaitForSeconds(0.5f);
+        // float originalZoom = cam.orthographicSize;
+        // // Vector3 originalPos = cam.transform.localPosition;
+        // float targetPos = 0f;
+        // float enemyPos = enemyLocation.position.x;
+        // float playerPos = playerLocation.position.x;
+
+        // if(state == BattleState.PLAYERTURN){
+        //     targetPos = enemyPos;
+           
+        // }else{
+        //     targetPos = playerPos;
+        // }
+        // // zoom in
+        // cam.orthographicSize = zoomSize;
+        // // move to target pos
+        // cam.transform.localPosition = new Vector3(targetPos,originalPos.y,originalPos.z);
+
+        yield return new WaitForSeconds(1f);
         // zoom out
-        cam.orthographicSize = originalZoom;
+        // cam.orthographicSize = originalZoom;
+        // move to original pos
+        // cam.transform.localPosition = originalPos;
 
 
     }
