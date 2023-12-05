@@ -255,6 +255,7 @@ public class BattleFlow : MonoBehaviour
         {
             dmgPopUp.GetComponent<DamagePopUps>().SetupDmgPopup(PlayerUnit.maxHP);
             dmgPopUp.GetComponent<DamagePopUps>().spawnPopups(actualDamage, false, isDown, PlayerUnit.currentHP);
+            
         }
         else
         {
