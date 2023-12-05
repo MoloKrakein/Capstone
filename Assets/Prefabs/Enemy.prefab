@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 99
-  m_Sprite: {fileID: 21300000, guid: d418a23ca28febd428de0385120290d1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 59c0b130705a03c439be99b0a106dd94, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -104,11 +104,9 @@ MonoBehaviour:
   currentHP: 100
   maxMP: 100
   currentMP: 100
-  speed: 0
   skills:
   - {fileID: 11400000, guid: d66fb2a3aedc2134f9d07879859a1554, type: 2}
   ReadySkills: []
-  InitialSkills: []
   AlreadyUsedSkills: []
   unitSide: 1
   weakness: 1

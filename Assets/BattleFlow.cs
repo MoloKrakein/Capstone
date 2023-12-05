@@ -41,6 +41,7 @@ public class BattleFlow : MonoBehaviour
     public Camera cam;
     public float shakeDuration = 1f;
     public float shakeMagnitude = 1f;
+    public float zoomSize = 5f;
 
     // public GameObject SkillButtons;
 
@@ -66,8 +67,8 @@ public class BattleFlow : MonoBehaviour
         enemyParty.Add(EnemyUnit);
         // Vector3 cameraPosition = mainCamera.transform.position;
 
-        PlayerUnit.setInitialSkills();
-        EnemyUnit.setInitialSkills();
+        // PlayerUnit.setInitialSkills();
+        // EnemyUnit.setInitialSkills();
         PlayerUnit.SetupSkills();
         EnemyUnit.SetupSkills();
 
@@ -91,12 +92,10 @@ public class BattleFlow : MonoBehaviour
         CheckCombatStatus();
         bool isDead = EnemyUnit.isDead();
         bool isWeakness = EnemyUnit.isWeakness(selectedSkill.AttackType);
-        PlayerUnit.ReadySkills.Remove(selectedSkill);
-        PlayerUnit.AlreadyUsedSkills.Add(selectedSkill);
-        // encounterText.text = PlayerUnit.unitName + " attacks With " + selectedSkill.Name + "!";
+        PlayerUnit.HandleUsedSkill(selectedSkill);
+
         
         enemyHUD.updateHP(EnemyUnit.currentHP);
-        PlayerUnit.HandleUsedSkill(selectedSkill);
         bool extra = ExtraTurn(isWeakness);
         yield return new WaitForSeconds(2f);
         if (isDead)
@@ -117,7 +116,6 @@ public class BattleFlow : MonoBehaviour
         }
         else
         {
-            UpdateSkillButtons();
             state = BattleState.ENEMYTURN;
             StartCoroutine(EnemyTurn());
         }
@@ -248,16 +246,20 @@ public class BattleFlow : MonoBehaviour
         {
             isDown = true;
         }
+        // apply damage
+        unitType.currentHP -= actualDamage;
 
         // dmg popups
         GameObject dmgPopUp = Instantiate(dmgPopup, canvas.transform);
         if (unitType == PlayerUnit)
         {
-            dmgPopUp.GetComponent<DamagePopUps>().spawnPopups(actualDamage, false, isDown, unitType.currentHP);
+            dmgPopUp.GetComponent<DamagePopUps>().SetupDmgPopup(PlayerUnit.maxHP);
+            dmgPopUp.GetComponent<DamagePopUps>().spawnPopups(actualDamage, false, isDown, PlayerUnit.currentHP);
         }
         else
         {
-            dmgPopUp.GetComponent<DamagePopUps>().spawnPopups(actualDamage, true, isDown, unitType.currentHP);
+            dmgPopUp.GetComponent<DamagePopUps>().SetupDmgPopup(EnemyUnit.maxHP);
+            dmgPopUp.GetComponent<DamagePopUps>().spawnPopups(actualDamage, true, isDown, EnemyUnit.currentHP);
         }
         // cam shake
         StartCoroutine(CamShake());
@@ -300,7 +302,7 @@ public class BattleFlow : MonoBehaviour
     GameObject EnemyGO = Instantiate(enemyPrefab, enemyLocation);
     EnemyUnit = EnemyGO.GetComponent<Unit>();
     enemyParty.Add(EnemyUnit);
-    EnemyUnit.setInitialSkills();
+    // EnemyUnit.setInitialSkills();
     EnemyUnit.SetupSkills();
     enemyHUD.setupHUD(EnemyUnit);
     
@@ -313,7 +315,7 @@ public class BattleFlow : MonoBehaviour
         UpdateSkillButtons();
         PlayerUnit.status = UnitStatus.Status.Idle;
 
-        PlayerUnit.RefreshReadySkills();
+        // PlayerUnit.RefreshReadySkills();
         // encounterText.text = "Choose your Move!";
     }
 
@@ -437,6 +439,29 @@ public class BattleFlow : MonoBehaviour
             yield return null;
         }
         cam.transform.localPosition = originalPos;
+        // float originalZoom = cam.orthographicSize;
+        // // Vector3 originalPos = cam.transform.localPosition;
+        // float targetPos = 0f;
+        // float enemyPos = enemyLocation.position.x;
+        // float playerPos = playerLocation.position.x;
+
+        // if(state == BattleState.PLAYERTURN){
+        //     targetPos = enemyPos;
+           
+        // }else{
+        //     targetPos = playerPos;
+        // }
+        // // zoom in
+        // cam.orthographicSize = zoomSize;
+        // // move to target pos
+        // cam.transform.localPosition = new Vector3(targetPos,originalPos.y,originalPos.z);
+
+        yield return new WaitForSeconds(1f);
+        // zoom out
+        // cam.orthographicSize = originalZoom;
+        // move to original pos
+        // cam.transform.localPosition = originalPos;
+
 
     }
 

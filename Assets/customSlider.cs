@@ -12,15 +12,15 @@ public class customSlider : MonoBehaviour
     public Slider HPBar;
     public Slider MPBar;
 
-    public void setupMax(int maxHP, int maxMP)
+    public void setupMax(float maxHP, float maxMP)
     {
         HPBar.maxValue = maxHP;
         MPBar.maxValue = maxMP;
     }
     void Start()
     {
-        HPText.text = "HP: " + HPBar.value + "/" + HPBar.maxValue;
-        MPText.text = "MP: " + MPBar.value + "/" + MPBar.maxValue;
+        setupMax(HPBar.value, MPBar.value);
+
     }
 
     public void updateHP(int hp)

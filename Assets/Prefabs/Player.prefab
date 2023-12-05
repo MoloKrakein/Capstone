@@ -103,11 +103,10 @@ MonoBehaviour:
   unitName: Noesa
   unitLevel: 9
   damage: 12
-  maxHP: 100
+  maxHP: 150
   currentHP: 100
   maxMP: 100
   currentMP: 100
-  speed: 0
   skills:
   - {fileID: 11400000, guid: 7d170ca516bb277469b6d8039320e5fc, type: 2}
   - {fileID: 11400000, guid: 8e6d80c6c46bd804c87c265b8707788c, type: 2}
@@ -115,8 +114,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 554d7329203cffc47ab51670dc792ea8, type: 2}
   - {fileID: 11400000, guid: 3fe79d4532b46894aaa7426e2990b7ba, type: 2}
   - {fileID: 11400000, guid: 48540034127d3744ba068354c89f0f6d, type: 2}
+  - {fileID: 11400000, guid: 48540034127d3744ba068354c89f0f6d, type: 2}
+  - {fileID: 11400000, guid: 48540034127d3744ba068354c89f0f6d, type: 2}
+  - {fileID: 11400000, guid: 48540034127d3744ba068354c89f0f6d, type: 2}
+  - {fileID: 11400000, guid: 48540034127d3744ba068354c89f0f6d, type: 2}
+  - {fileID: 11400000, guid: 48540034127d3744ba068354c89f0f6d, type: 2}
   ReadySkills: []
-  InitialSkills: []
   AlreadyUsedSkills: []
   unitSide: 0
   weakness: 0

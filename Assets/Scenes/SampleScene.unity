@@ -1491,11 +1491,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 090ca8884aa141949ae50b0f060475ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameText: {fileID: 827463785}
-  lvlText: {fileID: 1788775227}
-  dmgText: {fileID: 827463785}
-  hpBar: {fileID: 0}
-  mpBar: {fileID: 0}
   hpSlider: {fileID: 549416866}
   mpSlider: {fileID: 1349876055}
 --- !u!1001 &365237333
@@ -1515,7 +1510,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8808684425118404218, guid: d419e5729415fde409aa0112e4af1ce9, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8808684425118404218, guid: d419e5729415fde409aa0112e4af1ce9, type: 3}
       propertyPath: m_AnchorMax.x
@@ -3188,14 +3183,14 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 219924739}
-  - {fileID: 714238550}
   - {fileID: 1948120551}
+  - {fileID: 714238550}
   - {fileID: 317908576}
   - {fileID: 1663906643}
   - {fileID: 1240120450}
   - {fileID: 2040703980}
-  - {fileID: 1332061005}
   - {fileID: 1846887120}
+  - {fileID: 1332061005}
   - {fileID: 365237334}
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -3314,6 +3309,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 392ddd7760ea8a74d950a21472f1e972, type: 3}
+--- !u!1 &827065919 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8446677142557967242, guid: c59a002f51fc57a40a3ec25408389f77, type: 3}
+  m_PrefabInstance: {fileID: 1332061004}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &827463783
 GameObject:
   m_ObjectHideFlags: 0
@@ -3654,6 +3654,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &976018033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827065919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 090ca8884aa141949ae50b0f060475ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hpSlider: {fileID: 96888911}
+  mpSlider: {fileID: 1458842395}
 --- !u!1 &1066146245
 GameObject:
   m_ObjectHideFlags: 0
@@ -6589,9 +6603,9 @@ MonoBehaviour:
   enemyLocation: {fileID: 2123809645}
   dmgPopup: {fileID: 4843241262718408965, guid: 0bd7c4fc2ebadc14e901808c7c242418, type: 3}
   extraTurnPopup: {fileID: 28152454050698700, guid: 1e3c92765279eb2449a05cc2d0323519, type: 3}
-  encounterPopup: {fileID: 0}
+  encounterPopup: {fileID: 885781372116734775, guid: ed3a9e0db6c541441a3e7129404a1a2a, type: 3}
   canvas: {fileID: 793798048}
-  playerHUD: {fileID: 1948120552}
+  playerHUD: {fileID: 976018033}
   enemyHUD: {fileID: 317908577}
   skillButton1: {fileID: 1199657560}
   skillButton2: {fileID: 2111428284}
@@ -6602,6 +6616,7 @@ MonoBehaviour:
   cam: {fileID: 519420031}
   shakeDuration: 0.5
   shakeMagnitude: 0.1
+  zoomSize: 0
   playerParty: []
   enemyParty: []
 --- !u!4 &1731749183
@@ -7104,7 +7119,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 793798049}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -7805,7 +7820,7 @@ RectTransform:
   - {fileID: 2116087508}
   - {fileID: 1941202800}
   m_Father: {fileID: 793798049}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -7824,11 +7839,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 090ca8884aa141949ae50b0f060475ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameText: {fileID: 1731819836}
-  lvlText: {fileID: 2116087509}
-  dmgText: {fileID: 1097540216}
-  hpBar: {fileID: 0}
-  mpBar: {fileID: 0}
   hpSlider: {fileID: 96888911}
   mpSlider: {fileID: 1458842395}
 --- !u!1 &1986529925
