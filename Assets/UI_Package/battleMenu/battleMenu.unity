@@ -496,8 +496,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 24.750034, y: 0.22498798}
-  m_SizeDelta: {x: 469.1, y: 234.55}
+  m_AnchoredPosition: {x: 0.0000061989, y: -0.000005722}
+  m_SizeDelta: {x: 496, y: 279}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &984252846
 MonoBehaviour:
@@ -696,6 +696,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 219443626}
     m_Modifications:
+    - target: {fileID: 8808684424742859434, guid: d419e5729415fde409aa0112e4af1ce9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8808684424742859434, guid: d419e5729415fde409aa0112e4af1ce9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6710441168970241538, guid: dadc135b40e3efb44bdaf613ab51596a, type: 3}
+    - target: {fileID: 8808684424742859434, guid: d419e5729415fde409aa0112e4af1ce9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 8808684424742859434, guid: d419e5729415fde409aa0112e4af1ce9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8808684424742859434, guid: d419e5729415fde409aa0112e4af1ce9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8808684424742859434, guid: d419e5729415fde409aa0112e4af1ce9, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8808684425118404218, guid: d419e5729415fde409aa0112e4af1ce9, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
