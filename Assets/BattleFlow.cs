@@ -31,6 +31,7 @@ public class BattleFlow : MonoBehaviour
     public Button skillButton3;
     public Button skillButton4;
     public Button skillButton5;
+    public MagicSkillList buttons;
     // camera
     // public Camera mainCamera;
     Unit PlayerUnit;
@@ -72,21 +73,23 @@ public class BattleFlow : MonoBehaviour
         PlayerUnit.SetupSkills();
         EnemyUnit.SetupSkills();
 
+        // updateButtons();
+        setupButtons();
 
         playerHUD.setupHUD(PlayerUnit);
         enemyHUD.setupHUD(EnemyUnit);
 
-        UpdateSkillButtons();
+        // UpdateSkillButtons();
 
         yield return new WaitForSeconds(2f);
-        HideSkillButtons();
+        // HideSkillButtons();
         state = BattleState.PLAYERTURN;
         PlayerTurn();
     }
 
     IEnumerator PlayerAttack(Skill selectedSkill)
     {
-        HideSkillButtons();
+        // HideSkillButtons();
         PlayerUnit.status = UnitStatus.Status.Idle;
         giveDamage(selectedSkill.AttackPower, EnemyUnit, selectedSkill.AttackType);
         CheckCombatStatus();
@@ -126,7 +129,7 @@ public class BattleFlow : MonoBehaviour
         encounterPopup.SetActive(false);
         isPlayerExtraMove = false;
         EnemyUnit.status = UnitStatus.Status.Idle;
-        HideSkillButtons();
+        // HideSkillButtons();
         // EnemyUnit.status = UnitStatus.Status.Idle;
 
         int randIndex = Random.Range(0, EnemyUnit.skills.Count);
@@ -312,8 +315,10 @@ public class BattleFlow : MonoBehaviour
     }
     void PlayerTurn()
     {
-        ShowSkillButtons();
-        UpdateSkillButtons();
+        // ShowSkillButtons();
+        // UpdateSkillButtons();
+        buttons.ShowButton();
+        // buttons.SetButton(0, PlayerUnit.ReadySkills[0].Name, PlayerUnit.ReadySkills[0].Icon);
         PlayerUnit.status = UnitStatus.Status.Idle;
 
         // PlayerUnit.RefreshReadySkills();
@@ -401,31 +406,44 @@ public class BattleFlow : MonoBehaviour
         StartCoroutine(PlayerAttack(selectedSkill));
     }
 
-    public void UpdateSkillButtons()
-    {
-        skillButton1.GetComponentInChildren<TextMeshProUGUI>().text = PlayerUnit.ReadySkills[0].Name;
-        skillButton2.GetComponentInChildren<TextMeshProUGUI>().text = PlayerUnit.ReadySkills[1].Name;
-        skillButton3.GetComponentInChildren<TextMeshProUGUI>().text = PlayerUnit.ReadySkills[2].Name;
-        skillButton4.GetComponentInChildren<TextMeshProUGUI>().text = PlayerUnit.ReadySkills[3].Name;
-        skillButton5.GetComponentInChildren<TextMeshProUGUI>().text = PlayerUnit.ReadySkills[4].Name;
-    }
+    // public void UpdateSkillButtons()
+    // {
+    //     skillButton1.GetComponentInChildren<TextMeshProUGUI>().text = PlayerUnit.ReadySkills[0].Name;
+    //     skillButton2.GetComponentInChildren<TextMeshProUGUI>().text = PlayerUnit.ReadySkills[1].Name;
+    //     skillButton3.GetComponentInChildren<TextMeshProUGUI>().text = PlayerUnit.ReadySkills[2].Name;
+    //     skillButton4.GetComponentInChildren<TextMeshProUGUI>().text = PlayerUnit.ReadySkills[3].Name;
+    //     skillButton5.GetComponentInChildren<TextMeshProUGUI>().text = PlayerUnit.ReadySkills[4].Name;
+    // }
 
-    private void HideSkillButtons()
-    {
-        skillButton1.gameObject.SetActive(false);
-        skillButton2.gameObject.SetActive(false);
-        skillButton3.gameObject.SetActive(false);
-        skillButton4.gameObject.SetActive(false);
-        skillButton5.gameObject.SetActive(false);
-    }
+    // private void HideSkillButtons()
+    // {
+    //     skillButton1.gameObject.SetActive(false);
+    //     skillButton2.gameObject.SetActive(false);
+    //     skillButton3.gameObject.SetActive(false);
+    //     skillButton4.gameObject.SetActive(false);
+    //     skillButton5.gameObject.SetActive(false);
+    // }
 
-    private void ShowSkillButtons()
+    // private void ShowSkillButtons()
+    // {
+    //     skillButton1.gameObject.SetActive(true);
+    //     skillButton2.gameObject.SetActive(true);
+    //     skillButton3.gameObject.SetActive(true);
+    //     skillButton4.gameObject.SetActive(true);
+    //     skillButton5.gameObject.SetActive(true);
+    // }
+    private void setupButtons(){
+        for(int i=0;i<PlayerUnit.skills.Count;i++){
+            buttons.SetButton(i, PlayerUnit.ReadySkills[i].Name, PlayerUnit.ReadySkills[i].SkillSprite);
+        }
+    }
+    private void updateButtons()
     {
-        skillButton1.gameObject.SetActive(true);
-        skillButton2.gameObject.SetActive(true);
-        skillButton3.gameObject.SetActive(true);
-        skillButton4.gameObject.SetActive(true);
-        skillButton5.gameObject.SetActive(true);
+        buttons.SetButton(0, PlayerUnit.ReadySkills[0].Name, PlayerUnit.ReadySkills[0].SkillSprite);
+        buttons.SetButton(1, PlayerUnit.ReadySkills[1].Name, PlayerUnit.ReadySkills[1].SkillSprite);
+        buttons.SetButton(2, PlayerUnit.ReadySkills[2].Name, PlayerUnit.ReadySkills[2].SkillSprite);
+        buttons.SetButton(3, PlayerUnit.ReadySkills[3].Name, PlayerUnit.ReadySkills[3].SkillSprite);
+        buttons.SetButton(4, PlayerUnit.ReadySkills[4].Name, PlayerUnit.ReadySkills[4].SkillSprite);
     }
     IEnumerator CamShake(){
         Vector3 originalPos = cam.transform.localPosition;

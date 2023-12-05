@@ -4500,6 +4500,31 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1304199667}
   m_CullTransparentMesh: 1
+--- !u!1 &1325572867 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6159853738615389174, guid: ef5e059dc9d171c4ca2b6bd431ca5ebf, type: 3}
+  m_PrefabInstance: {fileID: 307622862}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1325572870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1325572867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd85baaa44bff1e46ad98c8f034c32cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  magicSkillList:
+  - {fileID: 1199485767}
+  - {fileID: 1209038413}
+  - {fileID: 1244764827}
+  - {fileID: 800188496}
+  - {fileID: 1338508584}
+  backButton: {fileID: 1736469977}
+  magicSkillPanel: {fileID: 1325572867}
 --- !u!1001 &1332061004
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6163,6 +6188,7 @@ MonoBehaviour:
   skillButton3: {fileID: 1244764827}
   skillButton4: {fileID: 800188496}
   skillButton5: {fileID: 1338508584}
+  buttons: {fileID: 1325572870}
   state: 0
   cam: {fileID: 519420031}
   shakeDuration: 0.5
@@ -6321,6 +6347,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1731819834}
   m_CullTransparentMesh: 1
+--- !u!114 &1736469977 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3407415690262483513, guid: ef5e059dc9d171c4ca2b6bd431ca5ebf, type: 3}
+  m_PrefabInstance: {fileID: 307622862}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1753694902
 PrefabInstance:
   m_ObjectHideFlags: 0
