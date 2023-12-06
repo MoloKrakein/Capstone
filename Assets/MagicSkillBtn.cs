@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class MagicSkillBtn : MonoBehaviour
 {
-   public 
+   
 }

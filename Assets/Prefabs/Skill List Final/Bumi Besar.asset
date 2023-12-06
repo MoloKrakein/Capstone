@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd7785dd5890b2b408b1761086d5a8de, type: 3}
-  m_Name: Api Kecil
+  m_Name: Bumi Besar
   m_EditorClassIdentifier: 
-  Name: Api
-  AttackPower: 5
-  AttackType: 1
+  Name: 
+  AttackPower: 0
+  AttackType: 0
   targetsAllEnemies: 0
-  ManaCost: 5
+  ManaCost: 0
   UsesHP: 0
   info: 
-  SkillSprite: {fileID: 21300000, guid: fc52ca06edcdf6049a2fb69b486c13e6, type: 3}
+  SkillSprite: {fileID: 0}

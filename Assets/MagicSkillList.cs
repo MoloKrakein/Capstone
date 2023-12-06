@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class MagicSkillList : MonoBehaviour
 {
@@ -25,9 +26,15 @@ public class MagicSkillList : MonoBehaviour
         magicSkillPanel.SetActive(true);
     }
 
-    public void SetButton(int index, string name, Sprite icon){
-        magicSkillList[index].GetComponentInChildren<Text>().text = name;
-        magicSkillList[index].GetComponentInChildren<Image>().sprite = icon;
+    public void SetButton(int index, string name, int mana, bool useHP, Sprite icon){
+        magicSkillList[index].transform.Find("Image").GetComponent<Image>().sprite = icon;
+        magicSkillList[index].transform.Find("skillName").GetComponent<TextMeshProUGUI>().text = name;
+        magicSkillList[index].transform.Find("mp_bar").GetComponent<TextMeshProUGUI>().text = mana.ToString();
+        // magicSkillList[index].transform.Find("Image").GetComponent<Image>().sprite = icon;
+        // change Image source image using sprite icon
+
+
+        
     }
 
     public void SwapBtn(){

@@ -90,6 +90,7 @@ public class BattleFlow : MonoBehaviour
     IEnumerator PlayerAttack(Skill selectedSkill)
     {
         // HideSkillButtons();
+        buttons.HideButton();
         PlayerUnit.status = UnitStatus.Status.Idle;
         giveDamage(selectedSkill.AttackPower, EnemyUnit, selectedSkill.AttackType);
         CheckCombatStatus();
@@ -114,6 +115,7 @@ public class BattleFlow : MonoBehaviour
             StartCoroutine(ExtraTurnPopup());
             PlayerUnit.status = UnitStatus.Status.Buff;
             state = BattleState.PLAYERTURN;
+            updateButtons();
             PlayerTurn();
             EnemyUnit.status = UnitStatus.Status.Idle; // Ganti status EnemyUnit menjadi Idle setelah extra turn digunakan
         }
@@ -317,6 +319,7 @@ public class BattleFlow : MonoBehaviour
     {
         // ShowSkillButtons();
         // UpdateSkillButtons();
+        updateButtons();
         buttons.ShowButton();
         // buttons.SetButton(0, PlayerUnit.ReadySkills[0].Name, PlayerUnit.ReadySkills[0].Icon);
         PlayerUnit.status = UnitStatus.Status.Idle;
@@ -433,17 +436,22 @@ public class BattleFlow : MonoBehaviour
     //     skillButton5.gameObject.SetActive(true);
     // }
     private void setupButtons(){
-        for(int i=0;i<PlayerUnit.skills.Count;i++){
-            buttons.SetButton(i, PlayerUnit.ReadySkills[i].Name, PlayerUnit.ReadySkills[i].SkillSprite);
-        }
+            // public void SetButton(int index, string name, int mana, bool useHP,Sprite icon)
+        buttons.SetButton(0, PlayerUnit.ReadySkills[0].Name, PlayerUnit.ReadySkills[0].ManaCost, PlayerUnit.ReadySkills[0].UsesHP, PlayerUnit.ReadySkills[0].SkillSprite);
+        buttons.SetButton(1, PlayerUnit.ReadySkills[1].Name, PlayerUnit.ReadySkills[1].ManaCost, PlayerUnit.ReadySkills[1].UsesHP, PlayerUnit.ReadySkills[1].SkillSprite);
+        buttons.SetButton(2, PlayerUnit.ReadySkills[2].Name, PlayerUnit.ReadySkills[2].ManaCost, PlayerUnit.ReadySkills[2].UsesHP, PlayerUnit.ReadySkills[2].SkillSprite);
+        buttons.SetButton(3, PlayerUnit.ReadySkills[3].Name, PlayerUnit.ReadySkills[3].ManaCost, PlayerUnit.ReadySkills[3].UsesHP, PlayerUnit.ReadySkills[3].SkillSprite);
+        buttons.SetButton(4, PlayerUnit.ReadySkills[4].Name, PlayerUnit.ReadySkills[4].ManaCost, PlayerUnit.ReadySkills[4].UsesHP, PlayerUnit.ReadySkills[4].SkillSprite);
+
     }
     private void updateButtons()
     {
-        buttons.SetButton(0, PlayerUnit.ReadySkills[0].Name, PlayerUnit.ReadySkills[0].SkillSprite);
-        buttons.SetButton(1, PlayerUnit.ReadySkills[1].Name, PlayerUnit.ReadySkills[1].SkillSprite);
-        buttons.SetButton(2, PlayerUnit.ReadySkills[2].Name, PlayerUnit.ReadySkills[2].SkillSprite);
-        buttons.SetButton(3, PlayerUnit.ReadySkills[3].Name, PlayerUnit.ReadySkills[3].SkillSprite);
-        buttons.SetButton(4, PlayerUnit.ReadySkills[4].Name, PlayerUnit.ReadySkills[4].SkillSprite);
+        buttons.SetButton(0, PlayerUnit.ReadySkills[0].Name, PlayerUnit.ReadySkills[0].ManaCost, PlayerUnit.ReadySkills[0].UsesHP, PlayerUnit.ReadySkills[0].SkillSprite);
+        buttons.SetButton(1, PlayerUnit.ReadySkills[1].Name, PlayerUnit.ReadySkills[1].ManaCost, PlayerUnit.ReadySkills[1].UsesHP, PlayerUnit.ReadySkills[1].SkillSprite);
+        buttons.SetButton(2, PlayerUnit.ReadySkills[2].Name, PlayerUnit.ReadySkills[2].ManaCost, PlayerUnit.ReadySkills[2].UsesHP, PlayerUnit.ReadySkills[2].SkillSprite);
+        buttons.SetButton(3, PlayerUnit.ReadySkills[3].Name, PlayerUnit.ReadySkills[3].ManaCost, PlayerUnit.ReadySkills[3].UsesHP, PlayerUnit.ReadySkills[3].SkillSprite);
+        buttons.SetButton(4, PlayerUnit.ReadySkills[4].Name, PlayerUnit.ReadySkills[4].ManaCost, PlayerUnit.ReadySkills[4].UsesHP, PlayerUnit.ReadySkills[4].SkillSprite);
+
     }
     IEnumerator CamShake(){
         Vector3 originalPos = cam.transform.localPosition;

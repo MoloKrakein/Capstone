@@ -4523,6 +4523,7 @@ MonoBehaviour:
   - {fileID: 1244764827}
   - {fileID: 800188496}
   - {fileID: 1338508584}
+  btnPrefab: {fileID: 6710441168970241538, guid: dadc135b40e3efb44bdaf613ab51596a, type: 3}
   backButton: {fileID: 1736469977}
   magicSkillPanel: {fileID: 1325572867}
 --- !u!1001 &1332061004
