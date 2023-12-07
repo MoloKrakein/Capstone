@@ -32,7 +32,7 @@ public class Unit : MonoBehaviour
     public UnitStatus.Status status;
 
 
-    public void TakeDamage(int damage, DmgType attackType)
+    public void TakeDamage(int damage)
     {
         if(UnitStatus.Status.Down == status)
         {
@@ -105,22 +105,25 @@ public void SetupSkills()
     }
 public void HandleUsedSkill(Skill usedSkill)
     {
-        AlreadyUsedSkills.Add(usedSkill);
-        int index = skills.IndexOf(usedSkill);
-        // print log skill index
-        Debug.Log("skill index : " + index);
-        Skill newSkill;
-        // isi newSkill yang tidak ada di AlreadyUsedSkills dan juga di ReadySkills dari skills
-        do
+        // Jika skill yang digunakan adalah skill yang sudah ada di ReadySkills, hapus dari ReadySkills
+        if (ReadySkills.Contains(usedSkill))
         {
-            newSkill = skills[Random.Range(0, skills.Count)];
-        } while (AlreadyUsedSkills.Contains(newSkill));
-     
-        SwapSkill(usedSkill, newSkill);
+            ReadySkills.Remove(usedSkill);
+        }
 
-        if (AlreadyUsedSkills.Count >= skills.Count/2)
+        // Tambahkan skill yang digunakan ke AlreadyUsedSkills
+        AlreadyUsedSkills.Add(usedSkill);
+
+        // Jika sudah ada 5 skill di AlreadyUsedSkills, hapus skill yang paling awal digunakan
+        if (AlreadyUsedSkills.Count > 5)
         {
             AlreadyUsedSkills.RemoveAt(0);
+        }
+
+        // Jika sudah ada 5 skill di ReadySkills, hapus skill yang paling awal digunakan
+        if (ReadySkills.Count > 5)
+        {
+            ReadySkills.RemoveAt(0);
         }
     }
 

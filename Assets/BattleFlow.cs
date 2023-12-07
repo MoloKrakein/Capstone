@@ -21,6 +21,7 @@ public class BattleFlow : MonoBehaviour
     public GameObject dmgPopup;
     public GameObject extraTurnPopup;
     public GameObject encounterPopup;
+    // public GameObject ChooseActionMenu;
     public Canvas canvas;
 
     public HUD playerHUD;
@@ -252,7 +253,7 @@ public class BattleFlow : MonoBehaviour
             isDown = true;
         }
         // apply damage
-        unitType.currentHP -= actualDamage;
+        unitType.TakeDamage(actualDamage);
 
         // dmg popups
         GameObject dmgPopUp = Instantiate(dmgPopup, canvas.transform);
