@@ -105,34 +105,25 @@ public void SetupSkills()
     }
 public void HandleUsedSkill(Skill usedSkill)
     {
+        AlreadyUsedSkills.Add(usedSkill);
         Skill newSkill;
-        int randIndex;
+        int randIndex = Random.Range(0, skills.Count);
+        newSkill = skills[randIndex];
 
-        do
-        {
-            randIndex = Random.Range(0, skills.Count);
-            newSkill = skills[randIndex];
-        } while (ReadySkills.Contains(newSkill) || AlreadyUsedSkills.Contains(newSkill));
+        // Tambahkan skill baru ke ReadySkills
+        ReadySkills.Add(newSkill);
 
-
-
-        // Jika skill yang digunakan adalah skill yang sudah ada di ReadySkills, hapus dari ReadySkills
-        if (ReadySkills.Contains(usedSkill))
-        {
-            SwapSkill(usedSkill, newSkill);
-        }
 
         // Tambahkan skill yang digunakan ke AlreadyUsedSkills
-        AlreadyUsedSkills.Add(usedSkill);
 
         // Jika sudah ada 5 skill di AlreadyUsedSkills, hapus skill yang paling awal digunakan
-        if (AlreadyUsedSkills.Count > 5)
+        if (AlreadyUsedSkills.Count >= 5)
         {
             AlreadyUsedSkills.RemoveAt(0);
         }
 
         // Jika sudah ada 5 skill di ReadySkills, hapus skill yang paling awal digunakan
-        if (ReadySkills.Count > 5)
+        if (ReadySkills.Count >= 5)
         {
             ReadySkills.RemoveAt(0);
         }
