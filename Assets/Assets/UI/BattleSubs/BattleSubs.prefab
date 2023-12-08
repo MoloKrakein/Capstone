@@ -295,7 +295,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Earth Damage
+  m_text: Physical Damage
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 131393338bda8b341b560e54cfa4788a, type: 2}
   m_sharedMaterial: {fileID: 8631144228942787103, guid: 131393338bda8b341b560e54cfa4788a, type: 2}

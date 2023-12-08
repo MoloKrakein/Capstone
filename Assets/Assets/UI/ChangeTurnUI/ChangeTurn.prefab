@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.84313726, g: 0.039215688, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -86,6 +86,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2027543146035642928}
   - component: {fileID: 2374325827275589796}
+  - component: {fileID: 3203730319634087304}
   m_Layer: 5
   m_Name: ChangeTurn
   m_TagString: Untagged
@@ -137,6 +138,23 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3203730319634087304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2027543146035642895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87e4b4be571f9f940be854668a57436c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  liveTime: 1.8
+  image: {fileID: 2027543145436699131}
+  text: {fileID: 2027543146221124579}
+  PlayerColor: '#00a1d7'
+  EnemyColor: '#d70a00'
 --- !u!1 &2027543146221124577
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,7 +221,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: CHANGE turn
+  m_text: Enemy Turn
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 57a56f6d85fd5d44b806ddff36c26bb6, type: 2}
   m_sharedMaterial: {fileID: 5731049123910344515, guid: 57a56f6d85fd5d44b806ddff36c26bb6, type: 2}

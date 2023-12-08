@@ -29,6 +29,7 @@ public class BattleFlow : MonoBehaviour
     public HUD enemyHUD;
 
     public MagicSkillList buttons;
+    public GameObject ActionButtons;
     // camera
     // public Camera mainCamera;
     Unit PlayerUnit;
@@ -75,7 +76,7 @@ public class BattleFlow : MonoBehaviour
 
         playerHUD.setupHUD(PlayerUnit);
         enemyHUD.setupHUD(EnemyUnit);
-
+        hideActionButtons();
         // UpdateSkillButtons();
 
         yield return new WaitForSeconds(2f);
@@ -87,6 +88,7 @@ public class BattleFlow : MonoBehaviour
     IEnumerator PlayerAttack(Skill selectedSkill)
     {
         // HideSkillButtons();
+        // StartCoroutine(ChangeTurn());
         buttons.HideButton();
         PlayerUnit.status = UnitStatus.Status.Idle;
         giveDamage(selectedSkill.AttackPower, EnemyUnit, selectedSkill.AttackType);
@@ -95,7 +97,7 @@ public class BattleFlow : MonoBehaviour
         bool isWeakness = EnemyUnit.isWeakness(selectedSkill.AttackType);
         PlayerUnit.HandleUsedSkill(selectedSkill);
 
-        
+
         enemyHUD.updateHP(EnemyUnit.currentHP);
         bool extra = ExtraTurn(isWeakness);
         yield return new WaitForSeconds(2f);
@@ -125,6 +127,8 @@ public class BattleFlow : MonoBehaviour
 
     IEnumerator EnemyTurn()
     {
+        // StartCoroutine(ChangeTurn());
+        CheckCombatStatus();
         encounterPopup.SetActive(false);
         isPlayerExtraMove = false;
         EnemyUnit.status = UnitStatus.Status.Idle;
@@ -257,7 +261,7 @@ public class BattleFlow : MonoBehaviour
         {
             dmgPopUp.GetComponent<DamagePopUps>().SetupDmgPopup(PlayerUnit.maxHP);
             dmgPopUp.GetComponent<DamagePopUps>().spawnPopups(actualDamage, false, isDown, PlayerUnit.currentHP);
-            
+
         }
         else
         {
@@ -278,13 +282,16 @@ public class BattleFlow : MonoBehaviour
         }
         else if (EnemyUnit.status == UnitStatus.Status.Dead)
         {
-            bool enemyAmbush = 0.3f<Random.value;
-            if(enemyAmbush){
+            bool enemyAmbush = 0.3f < Random.value;
+            if (enemyAmbush)
+            {
                 // encounterText.text = "New Enemy Has Arrived";
                 SpawnNewEnemy();
-            }else{
-            state = BattleState.WON;
-            EndBattle();
+            }
+            else
+            {
+                state = BattleState.WON;
+                EndBattle();
             }
         }
     }
@@ -301,28 +308,30 @@ public class BattleFlow : MonoBehaviour
         }
     }
 
-    void SpawnNewEnemy(){
-    GameObject EnemyGO = Instantiate(enemyPrefab, enemyLocation);
-    EnemyUnit = EnemyGO.GetComponent<Unit>();
-    enemyParty.Add(EnemyUnit);
-    // EnemyUnit.setInitialSkills();
-    EnemyUnit.SetupSkills();
-    enemyHUD.setupHUD(EnemyUnit);
-    
-    state = BattleState.ENEMYTURN;
-    StartCoroutine(EnemyTurn());
+    void SpawnNewEnemy()
+    {
+
+        GameObject EnemyGO = Instantiate(enemyPrefab, enemyLocation);
+        EnemyUnit = EnemyGO.GetComponent<Unit>();
+        enemyParty.Add(EnemyUnit);
+        // EnemyUnit.setInitialSkills();
+        EnemyUnit.SetupSkills();
+        enemyHUD.setupHUD(EnemyUnit);
+
+        state = BattleState.ENEMYTURN;
+        StartCoroutine(EnemyTurn());
     }
     void PlayerTurn()
     {
-        // ShowSkillButtons();
-        // UpdateSkillButtons();
+        // ChooseActionMenu.SetActive(true);
+        if(!isPlayerExtraMove){
+            ChangeTurn();
+        }
         updateButtons();
-        buttons.ShowButton();
-        // buttons.SetButton(0, PlayerUnit.ReadySkills[0].Name, PlayerUnit.ReadySkills[0].Icon);
-        PlayerUnit.status = UnitStatus.Status.Idle;
+        // buttons.ShowButton();
+        showActionButtons();
 
-        // PlayerUnit.RefreshReadySkills();
-        // encounterText.text = "Choose your Move!";
+        PlayerUnit.status = UnitStatus.Status.Idle;
     }
 
     IEnumerator PlayerHeal()
@@ -406,8 +415,9 @@ public class BattleFlow : MonoBehaviour
         StartCoroutine(PlayerAttack(selectedSkill));
     }
 
-    private void setupButtons(){
-            // public void SetButton(int index, string name, int mana, bool useHP,Sprite icon)
+    private void setupButtons()
+    {
+        // public void SetButton(int index, string name, int mana, bool useHP,Sprite icon)
         buttons.SetButton(0, PlayerUnit.ReadySkills[0].Name, PlayerUnit.ReadySkills[0].ManaCost, PlayerUnit.ReadySkills[0].UsesHP, PlayerUnit.ReadySkills[0].SkillSprite);
         buttons.SetButton(1, PlayerUnit.ReadySkills[1].Name, PlayerUnit.ReadySkills[1].ManaCost, PlayerUnit.ReadySkills[1].UsesHP, PlayerUnit.ReadySkills[1].SkillSprite);
         buttons.SetButton(2, PlayerUnit.ReadySkills[2].Name, PlayerUnit.ReadySkills[2].ManaCost, PlayerUnit.ReadySkills[2].UsesHP, PlayerUnit.ReadySkills[2].SkillSprite);
@@ -424,15 +434,25 @@ public class BattleFlow : MonoBehaviour
         buttons.SetButton(4, PlayerUnit.ReadySkills[4].Name, PlayerUnit.ReadySkills[4].ManaCost, PlayerUnit.ReadySkills[4].UsesHP, PlayerUnit.ReadySkills[4].SkillSprite);
 
     }
-    IEnumerator CamShake(){
+    private void hideActionButtons()
+    {
+        ActionButtons.SetActive(false);
+    }
+    private void showActionButtons()
+    {
+        ActionButtons.SetActive(true);
+    }
+    IEnumerator CamShake()
+    {
         Vector3 originalPos = cam.transform.localPosition;
         float elapsed = 0.0f;
 
-        while(elapsed < shakeDuration){
-            float x = Random.Range(-1f,1f) * shakeMagnitude;
-            float y = Random.Range(-1f,1f) * shakeMagnitude;
+        while (elapsed < shakeDuration)
+        {
+            float x = Random.Range(-1f, 1f) * shakeMagnitude;
+            float y = Random.Range(-1f, 1f) * shakeMagnitude;
 
-            cam.transform.localPosition = new Vector3(x,y,originalPos.z);
+            cam.transform.localPosition = new Vector3(x, y, originalPos.z);
             elapsed += Time.deltaTime;
             yield return null;
         }
@@ -445,7 +465,7 @@ public class BattleFlow : MonoBehaviour
 
         // if(state == BattleState.PLAYERTURN){
         //     targetPos = enemyPos;
-           
+
         // }else{
         //     targetPos = playerPos;
         // }
@@ -470,13 +490,12 @@ public class BattleFlow : MonoBehaviour
         Destroy(extraTurnPopUp);
     }
 
-    IEnumerator ChangeTurn()
+    private void ChangeTurn()
     {
-        string PlayerColor = "#00a1d7";
-        string EnemyColor = "#d70a00";
         GameObject changeTurnPopUp = Instantiate(ChangeTurnPopup, canvas.transform);
-        yield return new WaitForSeconds(2f);
-        Destroy(changeTurnPopUp);
+        changeTurnPopUp.GetComponent<ChangeTurnPopUps>().spawnPopups(state == BattleState.PLAYERTURN);
+
+
     }
-    
+
 }
