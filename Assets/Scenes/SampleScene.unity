@@ -1509,6 +1509,46 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 4822913814051315806, guid: ef5e059dc9d171c4ca2b6bd431ca5ebf, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4822913814051315806, guid: ef5e059dc9d171c4ca2b6bd431ca5ebf, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4822913814051315806, guid: ef5e059dc9d171c4ca2b6bd431ca5ebf, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4822913814051315806, guid: ef5e059dc9d171c4ca2b6bd431ca5ebf, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4822913814051315806, guid: ef5e059dc9d171c4ca2b6bd431ca5ebf, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4822913814051315806, guid: ef5e059dc9d171c4ca2b6bd431ca5ebf, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4822913814051315806, guid: ef5e059dc9d171c4ca2b6bd431ca5ebf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4822913814051315806, guid: ef5e059dc9d171c4ca2b6bd431ca5ebf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4822913814051315806, guid: ef5e059dc9d171c4ca2b6bd431ca5ebf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6150280203919249591, guid: ef5e059dc9d171c4ca2b6bd431ca5ebf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6159853738615389174, guid: ef5e059dc9d171c4ca2b6bd431ca5ebf, type: 3}
       propertyPath: m_Name
       value: skill_list
@@ -1559,11 +1599,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6159853738615389177, guid: ef5e059dc9d171c4ca2b6bd431ca5ebf, type: 3}
       propertyPath: m_LocalScale.y
-      value: 3.1389146
+      value: 3.138915
       objectReference: {fileID: 0}
     - target: {fileID: 6159853738615389177, guid: ef5e059dc9d171c4ca2b6bd431ca5ebf, type: 3}
       propertyPath: m_LocalScale.z
-      value: 3.1389146
+      value: 3.138915
       objectReference: {fileID: 0}
     - target: {fileID: 6159853738615389177, guid: ef5e059dc9d171c4ca2b6bd431ca5ebf, type: 3}
       propertyPath: m_LocalPosition.x
