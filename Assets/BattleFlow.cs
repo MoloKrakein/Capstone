@@ -22,16 +22,12 @@ public class BattleFlow : MonoBehaviour
     public GameObject extraTurnPopup;
     public GameObject encounterPopup;
     // public GameObject ChooseActionMenu;
+    public GameObject ChangeTurnPopup;
     public Canvas canvas;
 
     public HUD playerHUD;
     public HUD enemyHUD;
 
-    public Button skillButton1;
-    public Button skillButton2;
-    public Button skillButton3;
-    public Button skillButton4;
-    public Button skillButton5;
     public MagicSkillList buttons;
     // camera
     // public Camera mainCamera;
@@ -410,32 +406,6 @@ public class BattleFlow : MonoBehaviour
         StartCoroutine(PlayerAttack(selectedSkill));
     }
 
-    // public void UpdateSkillButtons()
-    // {
-    //     skillButton1.GetComponentInChildren<TextMeshProUGUI>().text = PlayerUnit.ReadySkills[0].Name;
-    //     skillButton2.GetComponentInChildren<TextMeshProUGUI>().text = PlayerUnit.ReadySkills[1].Name;
-    //     skillButton3.GetComponentInChildren<TextMeshProUGUI>().text = PlayerUnit.ReadySkills[2].Name;
-    //     skillButton4.GetComponentInChildren<TextMeshProUGUI>().text = PlayerUnit.ReadySkills[3].Name;
-    //     skillButton5.GetComponentInChildren<TextMeshProUGUI>().text = PlayerUnit.ReadySkills[4].Name;
-    // }
-
-    // private void HideSkillButtons()
-    // {
-    //     skillButton1.gameObject.SetActive(false);
-    //     skillButton2.gameObject.SetActive(false);
-    //     skillButton3.gameObject.SetActive(false);
-    //     skillButton4.gameObject.SetActive(false);
-    //     skillButton5.gameObject.SetActive(false);
-    // }
-
-    // private void ShowSkillButtons()
-    // {
-    //     skillButton1.gameObject.SetActive(true);
-    //     skillButton2.gameObject.SetActive(true);
-    //     skillButton3.gameObject.SetActive(true);
-    //     skillButton4.gameObject.SetActive(true);
-    //     skillButton5.gameObject.SetActive(true);
-    // }
     private void setupButtons(){
             // public void SetButton(int index, string name, int mana, bool useHP,Sprite icon)
         buttons.SetButton(0, PlayerUnit.ReadySkills[0].Name, PlayerUnit.ReadySkills[0].ManaCost, PlayerUnit.ReadySkills[0].UsesHP, PlayerUnit.ReadySkills[0].SkillSprite);
@@ -498,6 +468,15 @@ public class BattleFlow : MonoBehaviour
         GameObject extraTurnPopUp = Instantiate(extraTurnPopup, canvas.transform);
         yield return new WaitForSeconds(2f);
         Destroy(extraTurnPopUp);
+    }
+
+    IEnumerator ChangeTurn()
+    {
+        string PlayerColor = "#00a1d7";
+        string EnemyColor = "#d70a00";
+        GameObject changeTurnPopUp = Instantiate(ChangeTurnPopup, canvas.transform);
+        yield return new WaitForSeconds(2f);
+        Destroy(changeTurnPopUp);
     }
     
 }
