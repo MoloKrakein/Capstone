@@ -31,6 +31,13 @@ public class Unit : MonoBehaviour
 
     public UnitStatus.Status status;
 
+    private DmgType originalWeakness;
+
+    public void attack(){
+        // get animator controller
+        Animator animator = GetComponent<Animator>();
+        animator.SetTrigger("attack");
+    }
 
     public void TakeDamage(int damage)
     {
@@ -39,6 +46,11 @@ public class Unit : MonoBehaviour
         if(UnitStatus.Status.Down == status)
         {
             damage *= 2;
+        }
+        if(UnitStatus.Status.Defend == status)
+        {
+            damage /= 10;
+            revertStatus();
         }
 
         currentHP -= damage;
@@ -79,6 +91,17 @@ public class Unit : MonoBehaviour
         {
             return false;
         }
+    }
+
+    public void OnDefend(){
+        status = UnitStatus.Status.Defend;
+        originalWeakness = weakness;
+        weakness = DmgType.None;
+    }
+
+    public void revertStatus(){
+        status = UnitStatus.Status.Idle;
+        weakness = originalWeakness;
     }
 
 public void SetupSkills()

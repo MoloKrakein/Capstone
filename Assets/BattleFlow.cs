@@ -92,6 +92,7 @@ public class BattleFlow : MonoBehaviour
         buttons.HideButton();
         PlayerUnit.status = UnitStatus.Status.Idle;
         giveDamage(selectedSkill.AttackPower, EnemyUnit, selectedSkill.AttackType);
+        PlayerUnit.attack();
         CheckCombatStatus();
         bool isDead = EnemyUnit.isDead();
         bool isWeakness = EnemyUnit.isWeakness(selectedSkill.AttackType);
@@ -139,6 +140,7 @@ public class BattleFlow : MonoBehaviour
         Skill selectedSkill = EnemyUnit.skills[randIndex];
 
         giveDamage(selectedSkill.AttackPower, PlayerUnit, selectedSkill.AttackType);
+        EnemyUnit.attack();
         bool isDead = PlayerUnit.isDead();
         bool isWeakness = PlayerUnit.isWeakness(selectedSkill.AttackType);
         bool extra = ExtraTurn(isWeakness);
@@ -330,8 +332,9 @@ public class BattleFlow : MonoBehaviour
         updateButtons();
         // buttons.ShowButton();
         showActionButtons();
-
+        
         PlayerUnit.status = UnitStatus.Status.Idle;
+
     }
 
     IEnumerator PlayerHeal()
@@ -388,7 +391,13 @@ public class BattleFlow : MonoBehaviour
             return true;
         }
     }
-
+    public void onDefendButton()
+    {
+        // PlayerUnit.status = UnitStatus.Status.Defend;
+        PlayerUnit.OnDefend();
+        hideActionButtons();
+        StartCoroutine(EnemyTurn());
+    }
     public void OnAttackButton()
     {
         if (state != BattleState.PLAYERTURN)

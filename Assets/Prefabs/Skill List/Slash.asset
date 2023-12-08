@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Slash
   m_EditorClassIdentifier: 
   Name: Slash
-  AttackPower: 5
+  AttackPower: 100
   AttackType: 0
   targetsAllEnemies: 0
   ManaCost: 12
   UsesHP: 1
   info: Light Slash Attack to Single Enemy
-  turnsSinceUsed: 0
+  SkillSprite: {fileID: 0}
