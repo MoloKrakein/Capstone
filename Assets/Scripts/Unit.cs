@@ -34,13 +34,17 @@ public class Unit : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        // get animator controller
+        // Animator animator = GetComponent<Animator>();
         if(UnitStatus.Status.Down == status)
         {
             damage *= 2;
         }
 
         currentHP -= damage;
+        // animator.SetTrigger("gethit");
         Debug.Log(unitName + " took " + damage + " ");
+
     }
 
     public bool isDead()
