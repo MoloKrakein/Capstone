@@ -14,6 +14,8 @@ public class BattleFlow : MonoBehaviour
     public Transform playerLocation;
     // public Transform playerPopupsLocation;
     public Transform enemyLocation;
+
+    public GameObject SoundManager;
     // public Transform enemyPopupsLocation;
 
     // public TextMeshProUGUI encounterText;
@@ -506,5 +508,13 @@ public class BattleFlow : MonoBehaviour
 
 
     }
+
+
+    // Sound Manager
+    public void PlaySound(string soundName)
+    {
+        SoundManager.GetComponent<SoundManager>().Play(soundName);
+    }
+
 
 }
