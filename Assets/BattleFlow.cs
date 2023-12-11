@@ -468,16 +468,25 @@ public class BattleFlow : MonoBehaviour
         Vector3 OriginalPosPlayer = playerLocation.transform.localPosition;
         Vector3 OriginalPosEnemy = enemyLocation.transform.localPosition;
         Vector3 midPos = new Vector3(originalPos.x, originalPos.y-1.5f, 0);
+        // GameObject PlayerLocationCopy = Instantiate(playerLocation.gameObject, OriginalPosPlayer);
+        // GameObject EnemyLocationCopy = Instantiate(enemyLocation.gameObject, OriginalPosEnemy);
+        // GameObject PlayerCopy = Instantiate(PlayerUnit.gameObject, PlayerLocationCopy);
+        // GameObject EnemyCopy = Instantiate(EnemyUnit.gameObject, EnemyLocationCopy);
         
 
         if(state == BattleState.PLAYERTURN){
             PlayerUnit.transform.localScale = originalScalePlayer * 1.5f;
             // EnemyUnit.transform.localScale = originalScaleEnemy * 0.5f;
             playerLocation.transform.localPosition = midPos;
+            // PlayerCopy.transform.localScale = originalScalePlayer * 0.5f;
+            // PlayerCopy.transform.localPosition = PlayerLocationCopy;
+
         }else{
             EnemyUnit.transform.localScale = originalScaleEnemy * 1.5f;
             // PlayerUnit.transform.localScale = originalScalePlayer * 0.5f;
             enemyLocation.transform.localPosition = midPos;
+            // EnemyCopy.transform.localScale = originalScaleEnemy * 0.5f;
+            // EnemyCopy.transform.localPosition = EnemyLocationCopy;
         }
 
         DarkScreen.SetActive(true);
@@ -516,6 +525,8 @@ public class BattleFlow : MonoBehaviour
         EnemyUnit.transform.localScale = originalScaleEnemy;
         playerLocation.transform.localPosition = OriginalPosPlayer;
         enemyLocation.transform.localPosition = OriginalPosEnemy;
+
+
         // zoom out
         // cam.orthographicSize = originalZoom;
         // move to original pos
