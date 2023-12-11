@@ -35,6 +35,7 @@ public class BattleFlow : MonoBehaviour
     public HUD enemyHUD;
 
     public MagicSkillList buttons;
+    public DamageManager DamageManager;
     public GameObject ActionButtons;
     // camera
     // public Camera mainCamera;
@@ -237,6 +238,12 @@ public class BattleFlow : MonoBehaviour
         // Enable EncounterPopUps
         encounterPopup.SetActive(true);
         encounterPopup.GetComponent<EncounterPopUps>().SetText(dmgType.ToString() + " Damage");
+        // Play Attack Sound
+        DamageManager.PlayAttackSound(dmgType);
+
+
+        
+
         if (unitType.status == UnitStatus.Status.Down)
         {
             criticalChance = 0.6f;
@@ -308,11 +315,11 @@ public class BattleFlow : MonoBehaviour
     {
         if (state == BattleState.WON)
         {
-            // encounterText.text = "You won the battle!";
+            ChangeTurnPopup.GetComponent<ChangeTurnPopUps>().WinLosePopups(true);
         }
         else if (state == BattleState.LOST)
         {
-            // encounterText.text = "You were defeated.";
+            ChangeTurnPopup.GetComponent<ChangeTurnPopUps>().WinLosePopups(false);
         }
     }
 

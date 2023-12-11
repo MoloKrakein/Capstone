@@ -43,4 +43,24 @@ public class ChangeTurnPopUps : MonoBehaviour
         ColorUtility.TryParseHtmlString(hex, out color);
         return color;
     }
+
+    public void WinLosePopups(bool isWin){
+    {
+        if (isWin)
+        {
+            // Ganti warna dan teks untuk player
+            image.color = HexToColor(PlayerColor);
+            text.text = "You Win";
+        }
+        else
+        {
+            // Ganti warna dan teks untuk enemy
+            image.color = HexToColor(EnemyColor);
+            text.text = "You Lose";
+        }
+
+        StartCoroutine(DestroyPopups());
+    }
+
+    }
 }

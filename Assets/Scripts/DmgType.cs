@@ -12,3 +12,4 @@ public enum DmgType
     None
     
 }
+
