@@ -462,6 +462,24 @@ public class BattleFlow : MonoBehaviour
         Vector3 originalPos = cam.transform.localPosition;
         float elapsed = 0.0f;
 
+        // Scale up playerunit
+        Vector3 originalScalePlayer = PlayerUnit.transform.localScale;
+        Vector3 originalScaleEnemy = EnemyUnit.transform.localScale;
+        Vector3 OriginalPosPlayer = playerLocation.transform.localPosition;
+        Vector3 OriginalPosEnemy = enemyLocation.transform.localPosition;
+        Vector3 midPos = new Vector3(originalPos.x, originalPos.y-1.5f, 0);
+        
+
+        if(state == BattleState.PLAYERTURN){
+            PlayerUnit.transform.localScale = originalScalePlayer * 1.5f;
+            // EnemyUnit.transform.localScale = originalScaleEnemy * 0.5f;
+            playerLocation.transform.localPosition = midPos;
+        }else{
+            EnemyUnit.transform.localScale = originalScaleEnemy * 1.5f;
+            // PlayerUnit.transform.localScale = originalScalePlayer * 0.5f;
+            enemyLocation.transform.localPosition = midPos;
+        }
+
         DarkScreen.SetActive(true);
 
         while (elapsed < shakeDuration)
@@ -493,6 +511,11 @@ public class BattleFlow : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         DarkScreen.SetActive(false);
+        // Scale down playerunit
+        PlayerUnit.transform.localScale = originalScalePlayer;
+        EnemyUnit.transform.localScale = originalScaleEnemy;
+        playerLocation.transform.localPosition = OriginalPosPlayer;
+        enemyLocation.transform.localPosition = OriginalPosEnemy;
         // zoom out
         // cam.orthographicSize = originalZoom;
         // move to original pos
