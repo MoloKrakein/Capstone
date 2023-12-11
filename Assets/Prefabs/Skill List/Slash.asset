@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Slash
   m_EditorClassIdentifier: 
   Name: Slash
-  AttackPower: 100
+  AttackPower: 10
   AttackType: 0
   targetsAllEnemies: 0
   ManaCost: 12

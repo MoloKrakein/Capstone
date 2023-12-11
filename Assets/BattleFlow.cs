@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+
+
 public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST }
 
 public class BattleFlow : MonoBehaviour
@@ -15,7 +17,7 @@ public class BattleFlow : MonoBehaviour
     // public Transform playerPopupsLocation;
     public Transform enemyLocation;
 
-    public GameObject SoundManager;
+    // public GameObject SoundManager;
     // public Transform enemyPopupsLocation;
 
     // public TextMeshProUGUI encounterText;
@@ -25,6 +27,8 @@ public class BattleFlow : MonoBehaviour
     public GameObject encounterPopup;
     // public GameObject ChooseActionMenu;
     public GameObject ChangeTurnPopup;
+
+    public GameObject DarkScreen;
     public Canvas canvas;
 
     public HUD playerHUD;
@@ -458,6 +462,8 @@ public class BattleFlow : MonoBehaviour
         Vector3 originalPos = cam.transform.localPosition;
         float elapsed = 0.0f;
 
+        DarkScreen.SetActive(true);
+
         while (elapsed < shakeDuration)
         {
             float x = Random.Range(-1f, 1f) * shakeMagnitude;
@@ -475,7 +481,7 @@ public class BattleFlow : MonoBehaviour
         // float playerPos = playerLocation.position.x;
 
         // if(state == BattleState.PLAYERTURN){
-        //     targetPos = enemyPos;
+        //     targetPos = enemyPos;    
 
         // }else{
         //     targetPos = playerPos;
@@ -486,6 +492,7 @@ public class BattleFlow : MonoBehaviour
         // cam.transform.localPosition = new Vector3(targetPos,originalPos.y,originalPos.z);
 
         yield return new WaitForSeconds(1f);
+        DarkScreen.SetActive(false);
         // zoom out
         // cam.orthographicSize = originalZoom;
         // move to original pos
@@ -509,12 +516,18 @@ public class BattleFlow : MonoBehaviour
 
     }
 
+    // IEnumerator DarkenScreen(){
+    //     DarkScreen.SetActive(true);   
+        
+    //     yield return new WaitForSeconds(1f);
+    //     DarkScreen.SetActive(false);
+    // }
 
     // Sound Manager
-    public void PlaySound(string soundName)
-    {
-        SoundManager.GetComponent<SoundManager>().Play(soundName);
-    }
+    // public void PlaySound(string soundName)
+    // {
+    //     SoundManager.GetComponent<SoundManager>().Play(soundName);
+    // }
 
 
 }
