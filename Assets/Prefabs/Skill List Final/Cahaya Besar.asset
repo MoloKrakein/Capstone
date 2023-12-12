@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd7785dd5890b2b408b1761086d5a8de, type: 3}
   m_Name: Cahaya Besar
   m_EditorClassIdentifier: 
-  Name: Bercahaya
+  Name: Lighting
   AttackPower: 25
   AttackType: 4
   targetsAllEnemies: 0

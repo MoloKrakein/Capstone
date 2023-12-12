@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd7785dd5890b2b408b1761086d5a8de, type: 3}
   m_Name: Bumi Besar
   m_EditorClassIdentifier: 
-  Name: Gempa Bumi
+  Name: Earth Quake
   AttackPower: 25
   AttackType: 2
   targetsAllEnemies: 0

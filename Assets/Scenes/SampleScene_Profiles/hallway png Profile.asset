@@ -9,14 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd7785dd5890b2b408b1761086d5a8de, type: 3}
-  m_Name: Cahaya kecil
+  m_Script: {fileID: 11500000, guid: 8e6292b2c06870d4495f009f912b9600, type: 3}
+  m_Name: hallway png Profile
   m_EditorClassIdentifier: 
-  Name: Shine
-  AttackPower: 5
-  AttackType: 4
-  targetsAllEnemies: 0
-  ManaCost: 10
-  UsesHP: 0
-  info: 
-  SkillSprite: {fileID: 21300000, guid: cbcb18e60c061b043894d81574022243, type: 3}
+  settings: []
