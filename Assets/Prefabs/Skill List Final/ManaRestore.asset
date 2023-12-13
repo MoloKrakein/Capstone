@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemName: Mana
   ItemPower: 20
-  itemType: 0
-  Cost: 0
-  ItemDescription: 
-  ItemSprite: {fileID: 0}
-  isUsingHP: 0
+  itemType: 1
+  Cost: 10
+  ItemDescription: Restore Mana
+  ItemSprite: {fileID: 21300000, guid: b7ff0944202b8cd4683b75d233aef293, type: 3}
+  isUsingHP: 1

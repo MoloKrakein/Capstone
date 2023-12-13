@@ -8,5 +8,5 @@ public enum ItemType{
     DmgBoost,
     Defend,
     ChangeWeakness,
-    ChangeStatus,
+    ChangeSkill,
 }

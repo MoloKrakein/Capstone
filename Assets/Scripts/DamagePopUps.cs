@@ -52,8 +52,8 @@ public class DamagePopUps : MonoBehaviour
         }
         // Health = Health - damage;
         SetupDmgPopup(maxHealth);
-        dmgValue1Text(damage);
-        dmgValue2Text(damage);
+        dmgValue1Text(damage*2);
+        dmgValue2Text(damage*2);
         UpdateHealthBar(Health);
         StartCoroutine(DestroyPopups());
     }

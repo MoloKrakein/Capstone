@@ -36,6 +36,7 @@ public class MagicSkillList : MonoBehaviour
         }
         else{
             magicSkillList[index].transform.Find("SkillAttribute").GetComponent<TextMeshProUGUI>().text = "MP";
+            magicSkillList[index].transform.Find("SkillBg").GetComponent<Image>().color = new Color32(255, 255, 255, 255);
         }
 
 

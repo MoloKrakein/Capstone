@@ -115,14 +115,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 36d9b72407cf4424f9cd5e511d365b3a, type: 2}
   - {fileID: 11400000, guid: 220bd212fa55aad41a41c9bb2d95237e, type: 2}
   - {fileID: 11400000, guid: a92ad5573901c854cbfe6d7021a952f1, type: 2}
-  - {fileID: 11400000, guid: a92ad5573901c854cbfe6d7021a952f1, type: 2}
   ReadySkills: []
   AlreadyUsedSkills: []
   PassiveSkill:
   - {fileID: 11400000, guid: 29b6c560390bc124faf9db0391e8c92a, type: 2}
   - {fileID: 11400000, guid: 92c9e41952e79264497eed4b4f347d0c, type: 2}
   - {fileID: 11400000, guid: b003628fa43cd3740ae23227dc1a7611, type: 2}
-  NormalAttack: {fileID: 0}
+  - {fileID: 11400000, guid: f50283bd7d149a14d9ad3a47987ff43b, type: 2}
+  - {fileID: 11400000, guid: 890246bcaf305be4bbe634b86cc3dc57, type: 2}
+  NormalAttack: {fileID: 11400000, guid: d66fb2a3aedc2134f9d07879859a1554, type: 2}
   unitSide: 0
   weakness: 0
   status: 0

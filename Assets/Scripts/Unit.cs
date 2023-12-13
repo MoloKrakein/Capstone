@@ -12,6 +12,7 @@ public class Unit : MonoBehaviour
     public int currentHP;
     public int maxMP;
     public int currentMP;
+    private ItemList itemList;
 
     // public int speed;
     // public bool isDown = false;
@@ -25,6 +26,7 @@ public class Unit : MonoBehaviour
 
     public List<Item> PassiveSkill = new List<Item>();
 
+
     public Skill NormalAttack;
 
     // unit side player or enemy
@@ -35,6 +37,9 @@ public class Unit : MonoBehaviour
     public UnitStatus.Status status;
 
     private DmgType originalWeakness;
+    private bool isBoosted = false;
+    
+
 
     public void attack(){
         // get animator controller
@@ -53,6 +58,11 @@ public class Unit : MonoBehaviour
         if(UnitStatus.Status.Defend == status)
         {
             damage /= 10;
+            revertStatus();
+        }
+        if(isBoosted)
+        {
+            damage *= 5;
             revertStatus();
         }
 
@@ -105,10 +115,67 @@ public class Unit : MonoBehaviour
     public void revertStatus(){
         status = UnitStatus.Status.Idle;
         weakness = originalWeakness;
+        isBoosted = false;
     }
+
+public void UsePassive(Item item)
+{
+    switch (item.itemType)
+    {
+        case ItemType.Heal:
+        if(isBoosted){
+            currentHP += item.ItemPower * 5;
+            revertStatus();
+        }
+        else{
+            currentHP += item.ItemPower;
+        }
+            // currentHP += item.ItemPower;
+            if (currentHP > maxHP)
+            {
+                currentHP = maxHP;
+            }
+            
+            break;
+        case ItemType.RechargeMana:
+        if(isBoosted){
+            currentMP += item.ItemPower * 5;
+            revertStatus();
+        }
+        else{
+            currentMP += item.ItemPower;
+        }
+
+            if (currentMP > maxMP)
+            {
+                currentMP = maxMP;
+            }
+            break;
+        case ItemType.DmgBoost:
+            status = UnitStatus.Status.Buff;
+            isBoosted = true;
+            break;
+        case ItemType.Defend:
+            OnDefend();
+            break;
+        case ItemType.ChangeWeakness:
+            // Randomize seed
+
+            // Randomize weakness
+            int randIndex = Random.Range(0, 5);
+
+            weakness = (DmgType)randIndex;
+            break;
+        case ItemType.ChangeSkill:
+            RandomizeReadySkills();
+            break;
+    }
+}
+
 
 public void SetupSkills()
     {
+        Random.InitState((int)System.DateTime.Now.Ticks);
         HashSet<Skill> uniqueSkills = new HashSet<Skill>(skills);
 
         // Jika ada kurang dari 5 skill unik, masukkan semuanya ke ReadySkills
@@ -132,11 +199,77 @@ public void SetupSkills()
                 }
             }
         }
+
+
     }
+    // setup passive skill
+public void RandomizeReadySkills()
+{
+    // Delete index 0-4
+    ReadySkills.RemoveRange(0, 5);
+
+    // Buat salinan dari daftar keterampilan
+    List<Skill> uniqueSkills = new List<Skill>(skills);
+
+    // Randomize ReadySkills
+    Random.InitState((int)System.DateTime.Now.Ticks);
+
+    // Jika ada kurang dari 6 skill unik, masukkan semuanya ke ReadySkills
+    if (uniqueSkills.Count <= 6)
+    {
+        ReadySkills.AddRange(uniqueSkills);
+    }
+    else
+    {
+        // Jika ada lebih dari 6 skill unik, pilih 6 secara acak
+        while (ReadySkills.Count < 6)
+        {
+            int randIndex = Random.Range(0, uniqueSkills.Count);
+            Skill skill = uniqueSkills[randIndex];
+
+            if (!ReadySkills.Contains(skill)) // Memastikan skill unik
+            {
+                ReadySkills.Add(skill);
+            }
+        }
+    }
+}
+
+
+
+
+    // setup passive skill
+    public void SetupPassiveSkill()
+    {
+        HashSet<Item> uniqueSkills = new HashSet<Item>(PassiveSkill);
+
+        // Jika ada kurang dari 5 skill unik, masukkan semuanya ke ReadySkills
+        if (uniqueSkills.Count <= 6)
+        {
+            PassiveSkill.Clear();
+            PassiveSkill.AddRange(uniqueSkills);
+        }
+        else
+        {
+            // Jika ada lebih dari 5 skill unik, pilih 5 secara acak
+            PassiveSkill.Clear();
+            while (PassiveSkill.Count < 6)
+            {
+                int randIndex = Random.Range(0, PassiveSkill.Count);
+                Item skill = PassiveSkill[randIndex];
+
+                if (!PassiveSkill.Contains(skill)) // Memastikan skill unik
+                {
+                    PassiveSkill.Add(skill);
+                }
+            }
+        }
+}
 public void HandleUsedSkill(Skill usedSkill)
     {
         AlreadyUsedSkills.Add(usedSkill);
         Skill newSkill;
+        Random.InitState((int)System.DateTime.Now.Ticks);
         int randIndex = Random.Range(0, skills.Count);
         newSkill = skills[randIndex];
 
@@ -175,4 +308,23 @@ private void SwapSkill(Skill skill1, Skill skill2)
     ReadySkills[index2] = skill1;
 
 }
+
+    internal void RandomizeUnit()
+    {
+        // Randomize seed
+        Random.InitState((int)System.DateTime.Now.Ticks);
+
+        // Randomize weakness
+        int randIndex = Random.Range(0, 5);
+        weakness = (DmgType)randIndex;
+
+
+
+        //randomize unit level 1 - 29
+        unitLevel = Random.Range(1,29);
+
+
+        
+    }
+
 }

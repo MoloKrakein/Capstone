@@ -14,10 +14,12 @@ public class Item : ScriptableObject {
     {
         ItemName = name;
         ItemPower = power;
-        ItemSprite = sprite;
-        Cost = SkillCost;
         itemType = type;
-        isUsingHP = useHP;
+        Cost = SkillCost;
         ItemDescription = description;
+        ItemSprite = sprite;
+        isUsingHP = useHP;
     }
+
+    
 }

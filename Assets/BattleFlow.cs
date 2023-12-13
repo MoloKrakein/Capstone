@@ -35,6 +35,7 @@ public class BattleFlow : MonoBehaviour
     public HUD enemyHUD;
 
     public MagicSkillList buttons;
+    public ItemList itemList;
     public DamageManager DamageManager;
     public GameObject ActionButtons;
     // camera
@@ -74,6 +75,8 @@ public class BattleFlow : MonoBehaviour
         EnemyUnit = EnemyGO.GetComponent<Unit>();
         enemyParty.Add(EnemyUnit);
         EnemyUnit.gameObject.layer = 5;
+        // Randomize EnemyUnit weakness, power, level
+        EnemyUnit.RandomizeUnit();
 
         // Vector3 cameraPosition = mainCamera.transform.position;
 
@@ -81,6 +84,7 @@ public class BattleFlow : MonoBehaviour
         // EnemyUnit.setInitialSkills();
         PlayerUnit.SetupSkills();
         EnemyUnit.SetupSkills();
+        
 
         // updateButtons();
         setupButtons();
@@ -96,7 +100,7 @@ public class BattleFlow : MonoBehaviour
         PlayerTurn();
     }
 
-    IEnumerator PlayerAttack(Skill selectedSkill)
+    IEnumerator PlayerAttack(Skill selectedSkill, bool isNormalAttack)
     {
         // HideSkillButtons();
         // StartCoroutine(ChangeTurn());
@@ -107,7 +111,9 @@ public class BattleFlow : MonoBehaviour
         PlayerUnit.attack();
         bool isDead = EnemyUnit.isDead();
         bool isWeakness = EnemyUnit.isWeakness(selectedSkill.AttackType);
-        PlayerUnit.HandleUsedSkill(selectedSkill);
+        if(!isNormalAttack){
+            PlayerUnit.HandleUsedSkill(selectedSkill);
+        }
 
 
         bool extra = ExtraTurn(isWeakness);
@@ -245,10 +251,7 @@ public class BattleFlow : MonoBehaviour
         encounterPopup.GetComponent<EncounterPopUps>().SetText(dmgType.ToString() + " Damage");
         // Play Attack Sound
         DamageManager.PlayAttackSound(dmgType);
-
-
         
-
         if (unitType.status == UnitStatus.Status.Down)
         {
             criticalChance = 0.6f;
@@ -357,29 +360,12 @@ public class BattleFlow : MonoBehaviour
 
     }
 
-    IEnumerator PlayerHeal()
-    {
-        PlayerUnit.status = UnitStatus.Status.Idle;
-        int healAmount = Random.Range(1, 100);
-        PlayerUnit.currentHP += healAmount;
-        playerHUD.updateHP(PlayerUnit.currentHP);
-        // encounterText.text = "You Healed for " + healAmount + " HP!";
-        yield return new WaitForSeconds(2f);
-        PlayerUnit.currentMP = 100;
-        playerHUD.updateMP(PlayerUnit.currentMP);
-        // encounterText.text = "You Restored your Mana!";
-        yield return new WaitForSeconds(2f);
-        state = BattleState.ENEMYTURN;
-        StartCoroutine(EnemyTurn());
+    public void NormalAttack(){
+        ActionButtons.SetActive(false);
+        StartCoroutine(PlayerAttack(PlayerUnit.NormalAttack, true));
+        
     }
-    public void OnRestoreButton()
-    {
-        if (state != BattleState.PLAYERTURN)
-            return;
 
-        StartCoroutine(PlayerHeal());
-        Debug.Log("Heal");
-    }
 
     public bool Skillusage(int skillCost, bool usesHP)
     {
@@ -418,18 +404,7 @@ public class BattleFlow : MonoBehaviour
         hideActionButtons();
         StartCoroutine(EnemyTurn());
     }
-    public void OnAttackButton()
-    {
-        if (state != BattleState.PLAYERTURN)
-            return;
 
-        int randIndex = Random.Range(0, PlayerUnit.ReadySkills.Count);
-        Skill selectedSkill = PlayerUnit.ReadySkills[randIndex];
-
-        bool usesHP = selectedSkill.UsesHP;
-        int skillCost = selectedSkill.ManaCost;
-        StartCoroutine(PlayerAttack(selectedSkill));
-    }
 
     public void UseSkill(int skillIndex)
     {
@@ -441,7 +416,36 @@ public class BattleFlow : MonoBehaviour
         if (!Skillusage(skillCost, usesHP))
             return;
 
-        StartCoroutine(PlayerAttack(selectedSkill));
+        StartCoroutine(PlayerAttack(selectedSkill, false));
+    }
+
+    public void UseItem(int itemIndex)
+    {
+        Item selectedItem = PlayerUnit.PassiveSkill[itemIndex];
+        StartCoroutine(UseItem(selectedItem));
+        itemList.HidePanel();
+    }
+
+    IEnumerator UseItem(Item selectedItem)
+    {
+        PlayerUnit.status = UnitStatus.Status.Idle;
+        bool useHP = selectedItem.isUsingHP;
+        int skillCost = selectedItem.Cost;
+        // Check if player has enough HP/MP
+        if (!Skillusage(skillCost, useHP))
+            yield break;
+
+        PlayerUnit.UsePassive(selectedItem);
+        playerHUD.updateHP(PlayerUnit.currentHP);
+        playerHUD.updateMP(PlayerUnit.currentMP);
+
+        // encounterText.text = "You Used " + selectedItem.Name + "!";
+        yield return new WaitForSeconds(2f);
+
+        // encounterText.text = "You Restored your Mana!";
+        yield return new WaitForSeconds(2f);
+        state = BattleState.ENEMYTURN;
+        StartCoroutine(EnemyTurn());
     }
 
     private void setupButtons()
@@ -453,6 +457,15 @@ public class BattleFlow : MonoBehaviour
         buttons.SetButton(3, PlayerUnit.ReadySkills[3].Name, PlayerUnit.ReadySkills[3].ManaCost, PlayerUnit.ReadySkills[3].UsesHP, PlayerUnit.ReadySkills[3].SkillSprite);
         buttons.SetButton(4, PlayerUnit.ReadySkills[4].Name, PlayerUnit.ReadySkills[4].ManaCost, PlayerUnit.ReadySkills[4].UsesHP, PlayerUnit.ReadySkills[4].SkillSprite);
 
+        // passiveSkill
+        itemList.SetButton(0, PlayerUnit.PassiveSkill[0].ItemName, PlayerUnit.PassiveSkill[0].Cost, PlayerUnit.PassiveSkill[0].isUsingHP, PlayerUnit.PassiveSkill[0].ItemSprite);
+        itemList.SetButton(1, PlayerUnit.PassiveSkill[1].ItemName, PlayerUnit.PassiveSkill[1].Cost, PlayerUnit.PassiveSkill[1].isUsingHP, PlayerUnit.PassiveSkill[1].ItemSprite);
+        itemList.SetButton(2, PlayerUnit.PassiveSkill[2].ItemName, PlayerUnit.PassiveSkill[2].Cost, PlayerUnit.PassiveSkill[2].isUsingHP, PlayerUnit.PassiveSkill[2].ItemSprite);
+        itemList.SetButton(3, PlayerUnit.PassiveSkill[3].ItemName, PlayerUnit.PassiveSkill[3].Cost, PlayerUnit.PassiveSkill[3].isUsingHP, PlayerUnit.PassiveSkill[3].ItemSprite);
+        itemList.SetButton(4, PlayerUnit.PassiveSkill[4].ItemName, PlayerUnit.PassiveSkill[4].Cost, PlayerUnit.PassiveSkill[4].isUsingHP, PlayerUnit.PassiveSkill[4].ItemSprite);
+
+
+        
     }
     private void updateButtons()
     {
@@ -463,6 +476,7 @@ public class BattleFlow : MonoBehaviour
         buttons.SetButton(4, PlayerUnit.ReadySkills[4].Name, PlayerUnit.ReadySkills[4].ManaCost, PlayerUnit.ReadySkills[4].UsesHP, PlayerUnit.ReadySkills[4].SkillSprite);
 
     }
+
     private void hideActionButtons()
     {
         ActionButtons.SetActive(false);
