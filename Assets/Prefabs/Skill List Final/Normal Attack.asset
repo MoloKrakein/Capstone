@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd7785dd5890b2b408b1761086d5a8de, type: 3}
-  m_Name: Gelap
+  m_Name: Normal Attack
   m_EditorClassIdentifier: 
-  Name: Dark
-  AttackPower: 70
-  AttackType: 3
+  Name: Slash
+  AttackPower: 5
+  AttackType: 0
   targetsAllEnemies: 0
-  ManaCost: 30
-  UsesHP: 1
-  info: 
-  SkillSprite: {fileID: 21300000, guid: bf238c794cdcd204f822efb2efa5807a, type: 3}
+  ManaCost: 0
+  UsesHP: 0
+  info: Normal Attack
+  SkillSprite: {fileID: 21300000, guid: 4449e2403604597429db4991fa115170, type: 3}

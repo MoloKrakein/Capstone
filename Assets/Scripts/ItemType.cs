@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum ItemType{
     Heal,
+    RechargeMana,
     DmgBoost,
     Defend,
     ChangeWeakness,

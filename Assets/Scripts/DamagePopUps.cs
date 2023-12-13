@@ -24,9 +24,6 @@ public class DamagePopUps : MonoBehaviour
     public void UpdateHealthBar(int health)
     {
         HealthBar.value = health;
-        // HealthBar.maxValue = maxHealth;
-        // HealthBar.maxValue = 100;
-        // HealthBar.minValue = 0;
 
     }
 
@@ -40,7 +37,7 @@ public class DamagePopUps : MonoBehaviour
         dmgValue2.text = damage.ToString();
     }
 
-    public void spawnPopups(int damage, bool isPlayer, bool isDown, int Health){
+    public void spawnPopups(int damage, bool isPlayer, bool isDown, int Health, int maxHealth){
         if(isDown){
             DownImage.SetActive(true);
         }
@@ -54,6 +51,7 @@ public class DamagePopUps : MonoBehaviour
             transform.position = EnemyPopUpLocation.position;
         }
         // Health = Health - damage;
+        SetupDmgPopup(maxHealth);
         dmgValue1Text(damage);
         dmgValue2Text(damage);
         UpdateHealthBar(Health);

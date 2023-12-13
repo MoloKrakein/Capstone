@@ -16,7 +16,8 @@ public class HUD : MonoBehaviour
 
     public Slider hpSlider;
     public Slider mpSlider;
-    
+
+    public GameObject HUDObject;
 
     public void setupHUD(Unit unit)
     {
@@ -26,10 +27,10 @@ public class HUD : MonoBehaviour
         mpSlider.maxValue = unit.maxMP;
         mpSlider.value = unit.currentMP;
 
-        if(hpSlider.value > hpSlider.maxValue)
-        {
-            hpSlider.maxValue = hpSlider.value;
-        }
+        // if(hpSlider.value > hpSlider.maxValue)
+        // {
+        //     hpSlider.maxValue = hpSlider.value;
+        // }
     }
     // update damage text
     public void setupEnemyHPHUD(Unit unit)
@@ -48,5 +49,18 @@ public class HUD : MonoBehaviour
     public void updateMP(int mp)
     {
         mpSlider.value = mp;
+    }
+
+    public void hideUI()
+    {
+        // originalTransform = HUDObject.transform;
+        HUDObject.transform.position = new Vector3(HUDObject.transform.position.x + 1000, HUDObject.transform.position.y, HUDObject.transform.position.z);
+
+    }
+
+    public void showUI()
+    {
+        HUDObject.transform.position = new Vector3(HUDObject.transform.position.x - 1000, HUDObject.transform.position.y, HUDObject.transform.position.z);
+
     }
 }

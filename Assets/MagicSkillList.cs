@@ -30,8 +30,13 @@ public class MagicSkillList : MonoBehaviour
         magicSkillList[index].transform.Find("Image").GetComponent<Image>().sprite = icon;
         magicSkillList[index].transform.Find("skillName").GetComponent<TextMeshProUGUI>().text = name;
         magicSkillList[index].transform.Find("mp_bar").GetComponent<TextMeshProUGUI>().text = mana.ToString();
-        // magicSkillList[index].transform.Find("Image").GetComponent<Image>().sprite = icon;
-        // change Image source image using sprite icon
+        if(useHP){
+            magicSkillList[index].transform.Find("SkillAttribute").GetComponent<TextMeshProUGUI>().text = "HP";
+            magicSkillList[index].transform.Find("SkillBg").GetComponent<Image>().color = new Color32(255, 0, 0, 255);
+        }
+        else{
+            magicSkillList[index].transform.Find("SkillAttribute").GetComponent<TextMeshProUGUI>().text = "MP";
+        }
 
 
         

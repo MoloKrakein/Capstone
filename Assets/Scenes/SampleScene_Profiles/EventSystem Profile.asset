@@ -17,25 +17,25 @@ MonoBehaviour:
     overrideState: 1
     value: 1
   intensity:
-    overrideState: 0
-    value: 0
+    overrideState: 1
+    value: 2.7
   threshold:
-    overrideState: 0
-    value: 1
+    overrideState: 1
+    value: 2.35
   softKnee:
-    overrideState: 0
-    value: 0.5
+    overrideState: 1
+    value: 0.469
   clamp:
     overrideState: 0
     value: 65472
   diffusion:
-    overrideState: 0
-    value: 7
+    overrideState: 1
+    value: 6.37
   anamorphicRatio:
     overrideState: 0
-    value: 0
+    value: 0.02
   color:
-    overrideState: 0
+    overrideState: 1
     value: {r: 1, g: 1, b: 1, a: 1}
   fastMode:
     overrideState: 0
@@ -81,13 +81,13 @@ MonoBehaviour:
     value: 1
   focusDistance:
     overrideState: 1
-    value: 10
+    value: 11.14
   aperture:
     overrideState: 1
-    value: 29.3
+    value: 32
   focalLength:
     overrideState: 1
-    value: 200
+    value: 205
   kernelSize:
     overrideState: 0
     value: 1
@@ -115,8 +115,8 @@ MonoBehaviour:
     value: {fileID: 0}
     defaultState: 1
   tonemapper:
-    overrideState: 0
-    value: 0
+    overrideState: 1
+    value: 2
   toneCurveToeStrength:
     overrideState: 0
     value: 0
@@ -156,7 +156,7 @@ MonoBehaviour:
     value: 0
   saturation:
     overrideState: 1
-    value: 50
+    value: 16
   brightness:
     overrideState: 0
     value: 0

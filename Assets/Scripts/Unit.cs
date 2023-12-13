@@ -23,6 +23,8 @@ public class Unit : MonoBehaviour
     // public List<Skill> InitialSkills = new List<Skill>();
     public List<Skill> AlreadyUsedSkills = new List<Skill>();
 
+    public List<Item> PassiveSkill = new List<Item>();
+
     public Skill NormalAttack;
 
     // unit side player or enemy

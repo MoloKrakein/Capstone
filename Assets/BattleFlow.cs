@@ -67,10 +67,14 @@ public class BattleFlow : MonoBehaviour
         GameObject PlayerGO = Instantiate(playerPrefab, playerLocation);
         PlayerUnit = PlayerGO.GetComponent<Unit>();
         playerParty.Add(PlayerUnit);
+        // change player Layer to UI
+        PlayerUnit.gameObject.layer = 5;
 
         GameObject EnemyGO = Instantiate(enemyPrefab, enemyLocation);
         EnemyUnit = EnemyGO.GetComponent<Unit>();
         enemyParty.Add(EnemyUnit);
+        EnemyUnit.gameObject.layer = 5;
+
         // Vector3 cameraPosition = mainCamera.transform.position;
 
         // PlayerUnit.setInitialSkills();
@@ -96,17 +100,16 @@ public class BattleFlow : MonoBehaviour
     {
         // HideSkillButtons();
         // StartCoroutine(ChangeTurn());
+        CheckCombatStatus();
         buttons.HideButton();
         PlayerUnit.status = UnitStatus.Status.Idle;
         giveDamage(selectedSkill.AttackPower, EnemyUnit, selectedSkill.AttackType);
         PlayerUnit.attack();
-        CheckCombatStatus();
         bool isDead = EnemyUnit.isDead();
         bool isWeakness = EnemyUnit.isWeakness(selectedSkill.AttackType);
         PlayerUnit.HandleUsedSkill(selectedSkill);
 
 
-        enemyHUD.updateHP(EnemyUnit.currentHP);
         bool extra = ExtraTurn(isWeakness);
         yield return new WaitForSeconds(2f);
         if (isDead)
@@ -131,6 +134,7 @@ public class BattleFlow : MonoBehaviour
             state = BattleState.ENEMYTURN;
             StartCoroutine(EnemyTurn());
         }
+        enemyHUD.updateHP(EnemyUnit.currentHP);
     }
 
     IEnumerator EnemyTurn()
@@ -153,7 +157,6 @@ public class BattleFlow : MonoBehaviour
         bool extra = ExtraTurn(isWeakness);
         //print attack text
         // encounterText.text = EnemyUnit.unitName + " attacks With " + selectedSkill.Name + "!";
-        playerHUD.updateHP(PlayerUnit.currentHP);
         yield return new WaitForSeconds(2f);
 
         if (isDead)
@@ -177,6 +180,7 @@ public class BattleFlow : MonoBehaviour
             state = BattleState.PLAYERTURN;
             PlayerTurn();
         }
+        playerHUD.updateHP(PlayerUnit.currentHP);
 
     }
 
@@ -231,6 +235,7 @@ public class BattleFlow : MonoBehaviour
     }
     private void giveDamage(int damage, Unit unitType, DmgType dmgType)
     {
+
         int actualDamage = Random.Range(1, damage + 1);
         float criticalChance = 0.1f;
         float randomValue = Random.value;
@@ -274,14 +279,14 @@ public class BattleFlow : MonoBehaviour
         GameObject dmgPopUp = Instantiate(dmgPopup, canvas.transform);
         if (unitType == PlayerUnit)
         {
-            dmgPopUp.GetComponent<DamagePopUps>().SetupDmgPopup(PlayerUnit.maxHP);
-            dmgPopUp.GetComponent<DamagePopUps>().spawnPopups(actualDamage, false, isDown, PlayerUnit.currentHP);
+            // dmgPopUp.GetComponent<DamagePopUps>().SetupDmgPopup(EnemyUnit.maxHP);
+            dmgPopUp.GetComponent<DamagePopUps>().spawnPopups(actualDamage, false, isDown, PlayerUnit.currentHP, PlayerUnit.maxHP);
 
         }
         else
         {
-            dmgPopUp.GetComponent<DamagePopUps>().SetupDmgPopup(EnemyUnit.maxHP);
-            dmgPopUp.GetComponent<DamagePopUps>().spawnPopups(actualDamage, true, isDown, EnemyUnit.currentHP);
+            // dmgPopUp.GetComponent<DamagePopUps>().SetupDmgPopup(PlayerUnit.maxHP);
+            dmgPopUp.GetComponent<DamagePopUps>().spawnPopups(actualDamage, true, isDown, EnemyUnit.currentHP, EnemyUnit.maxHP);
         }
         // cam shake
         StartCoroutine(CamShake());
@@ -290,6 +295,8 @@ public class BattleFlow : MonoBehaviour
 
     public void CheckCombatStatus()
     {
+        playerHUD.updateHP(PlayerUnit.currentHP);
+        enemyHUD.updateHP(EnemyUnit.currentHP);
         if (PlayerUnit.status == UnitStatus.Status.Dead)
         {
             state = BattleState.LOST;
@@ -466,6 +473,8 @@ public class BattleFlow : MonoBehaviour
     }
     IEnumerator CamShake()
     {
+        enemyHUD.hideUI();
+        playerHUD.hideUI();
         Vector3 originalPos = cam.transform.localPosition;
         float elapsed = 0.0f;
 
@@ -532,6 +541,12 @@ public class BattleFlow : MonoBehaviour
         EnemyUnit.transform.localScale = originalScaleEnemy;
         playerLocation.transform.localPosition = OriginalPosPlayer;
         enemyLocation.transform.localPosition = OriginalPosEnemy;
+
+        playerHUD.showUI();
+        enemyHUD.showUI();
+
+        playerHUD.updateHP(PlayerUnit.currentHP);
+        enemyHUD.updateHP(EnemyUnit.currentHP);
 
 
         // zoom out
