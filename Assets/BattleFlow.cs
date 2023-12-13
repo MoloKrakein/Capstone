@@ -241,11 +241,14 @@ public class BattleFlow : MonoBehaviour
     }
     private void giveDamage(int damage, Unit unitType, DmgType dmgType)
     {
-
-        int actualDamage = Random.Range(1, damage + 1);
+        int minimumDamage = unitType.damage / 2;
+        // random seed
+        Random.InitState((int)System.DateTime.Now.Ticks);
+        int actualDamage = Random.Range(minimumDamage, damage + 1);
         float criticalChance = 0.1f;
         float randomValue = Random.value;
         bool isDown = false;
+        bool isCrit = false;
         // Enable EncounterPopUps
         encounterPopup.SetActive(true);
         encounterPopup.GetComponent<EncounterPopUps>().SetText(dmgType.ToString() + " Damage");
@@ -259,7 +262,7 @@ public class BattleFlow : MonoBehaviour
         if (randomValue < criticalChance)
         {
             actualDamage *= 3;
-            // encounterText.text = "Critical Hit!";
+            isCrit = true;
             unitType.status = UnitStatus.Status.Down;
             if (BattleState.PLAYERTURN == state)
             {
@@ -276,6 +279,7 @@ public class BattleFlow : MonoBehaviour
             isDown = true;
         }
         // apply damage
+        DamageManager.PlayHitSoundEffect();
         unitType.TakeDamage(actualDamage);
 
         // dmg popups
@@ -283,13 +287,13 @@ public class BattleFlow : MonoBehaviour
         if (unitType == PlayerUnit)
         {
             // dmgPopUp.GetComponent<DamagePopUps>().SetupDmgPopup(EnemyUnit.maxHP);
-            dmgPopUp.GetComponent<DamagePopUps>().spawnPopups(actualDamage, false, isDown, PlayerUnit.currentHP, PlayerUnit.maxHP);
+            dmgPopUp.GetComponent<DamagePopUps>().spawnPopups(actualDamage, false, isDown, isCrit ,PlayerUnit.currentHP, PlayerUnit.maxHP);
 
         }
         else
         {
             // dmgPopUp.GetComponent<DamagePopUps>().SetupDmgPopup(PlayerUnit.maxHP);
-            dmgPopUp.GetComponent<DamagePopUps>().spawnPopups(actualDamage, true, isDown, EnemyUnit.currentHP, EnemyUnit.maxHP);
+            dmgPopUp.GetComponent<DamagePopUps>().spawnPopups(actualDamage, true, isDown, isCrit ,EnemyUnit.currentHP, EnemyUnit.maxHP);
         }
         // cam shake
         StartCoroutine(CamShake());
@@ -300,6 +304,12 @@ public class BattleFlow : MonoBehaviour
     {
         playerHUD.updateHP(PlayerUnit.currentHP);
         enemyHUD.updateHP(EnemyUnit.currentHP);
+        playerHUD.updateMP(PlayerUnit.currentMP);
+        enemyHUD.updateMP(EnemyUnit.currentMP);
+        playerHUD.updateWeakness(PlayerUnit);
+        enemyHUD.updateWeakness(EnemyUnit);
+        PlayerUnit.damage = PlayerUnit.damage + 1;
+        EnemyUnit.damage = EnemyUnit.damage + 1;
         if (PlayerUnit.status == UnitStatus.Status.Dead)
         {
             state = BattleState.LOST;
@@ -307,17 +317,7 @@ public class BattleFlow : MonoBehaviour
         }
         else if (EnemyUnit.status == UnitStatus.Status.Dead)
         {
-            bool enemyAmbush = 0.3f < Random.value;
-            if (enemyAmbush)
-            {
-                // encounterText.text = "New Enemy Has Arrived";
-                SpawnNewEnemy();
-            }
-            else
-            {
-                state = BattleState.WON;
-                EndBattle();
-            }
+            SpawnNewEnemy();
         }
     }
 
@@ -342,12 +342,14 @@ public class BattleFlow : MonoBehaviour
         // EnemyUnit.setInitialSkills();
         EnemyUnit.SetupSkills();
         enemyHUD.setupHUD(EnemyUnit);
+        EnemyUnit.RandomizeUnit();
 
         state = BattleState.ENEMYTURN;
         StartCoroutine(EnemyTurn());
     }
     void PlayerTurn()
     {
+        CheckCombatStatus();
         // ChooseActionMenu.SetActive(true);
         if(!isPlayerExtraMove){
             ChangeTurn();

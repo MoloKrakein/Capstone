@@ -11,7 +11,7 @@ public AudioClip FireAttack;
 public AudioClip EarthAttack;
 public AudioClip DarknessAttack;
 public AudioClip LightAttack;
-public AudioClip Summoning;
+public AudioClip GenericHitSound;
 
 
 public ParticleSystem GenericHit;
@@ -72,10 +72,10 @@ public void PlayHitEffect(DmgType dmgType)
 
 }
 
-public void PlaySummoningEffect()
+public void PlayHitSoundEffect()
 {
-    SummoningEffect.Play();
-    SFXSource.PlayOneShot(Summoning);  
+    SFXSource.PlayOneShot(GenericHitSound);
+    // SFXSource.PlayOneShot(Summoning);  
 }
 
 }

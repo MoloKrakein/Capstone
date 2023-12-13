@@ -108,13 +108,14 @@ MonoBehaviour:
   maxMP: 100
   currentMP: 100
   skills:
-  - {fileID: 11400000, guid: 885c1c2469cf25b4597ee7a7c9e53590, type: 2}
+  - {fileID: 11400000, guid: 5863103113c7306458de254c2ecbd982, type: 2}
   - {fileID: 11400000, guid: 3b5e2662dd035fc4697c2c4cec508a57, type: 2}
   - {fileID: 11400000, guid: 0601388d859fdde4cab9565fd967f3c5, type: 2}
   - {fileID: 11400000, guid: fe551766f2fb0f549a4ae69c7d6ec228, type: 2}
   - {fileID: 11400000, guid: 36d9b72407cf4424f9cd5e511d365b3a, type: 2}
   - {fileID: 11400000, guid: 220bd212fa55aad41a41c9bb2d95237e, type: 2}
   - {fileID: 11400000, guid: a92ad5573901c854cbfe6d7021a952f1, type: 2}
+  - {fileID: 11400000, guid: 885c1c2469cf25b4597ee7a7c9e53590, type: 2}
   ReadySkills: []
   AlreadyUsedSkills: []
   PassiveSkill:

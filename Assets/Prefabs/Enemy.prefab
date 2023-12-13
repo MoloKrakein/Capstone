@@ -108,8 +108,12 @@ MonoBehaviour:
   currentMP: 100
   skills:
   - {fileID: 11400000, guid: d66fb2a3aedc2134f9d07879859a1554, type: 2}
+  - {fileID: 11400000, guid: 7d170ca516bb277469b6d8039320e5fc, type: 2}
+  - {fileID: 11400000, guid: 36d9b72407cf4424f9cd5e511d365b3a, type: 2}
   ReadySkills: []
   AlreadyUsedSkills: []
+  PassiveSkill: []
+  NormalAttack: {fileID: 0}
   unitSide: 1
   weakness: 1
   status: 0
@@ -243,6 +247,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d66fb2a3aedc2134f9d07879859a1554, type: 2}
   ReadySkills: []
   AlreadyUsedSkills: []
+  PassiveSkill: []
+  NormalAttack: {fileID: 0}
   unitSide: 1
   weakness: 1
   status: 0

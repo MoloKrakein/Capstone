@@ -15,6 +15,7 @@ public class DamagePopUps : MonoBehaviour
     public Transform PlayerPopUpLocation;
 
     public GameObject DownImage;
+    public GameObject CritImage;
 
     public void SetupDmgPopup(int maxHealth){
         HealthBar.maxValue = maxHealth;
@@ -37,12 +38,19 @@ public class DamagePopUps : MonoBehaviour
         dmgValue2.text = damage.ToString();
     }
 
-    public void spawnPopups(int damage, bool isPlayer, bool isDown, int Health, int maxHealth){
-        if(isDown){
+    public void spawnPopups(int damage, bool isPlayer, bool isDown, bool isCrit, int Health, int maxHealth){
+        // Check if crit or not, if crit first then show crit Image then ignore down image
+        if(isCrit){
+            CritImage.SetActive(true);
+            DownImage.SetActive(false);
+        }
+        else if(isDown){
             DownImage.SetActive(true);
+            CritImage.SetActive(false);
         }
         else{
             DownImage.SetActive(false);
+            CritImage.SetActive(false);
         }
         if(isPlayer){
             transform.position = PlayerPopUpLocation.position;

@@ -62,7 +62,7 @@ public class Unit : MonoBehaviour
         }
         if(isBoosted)
         {
-            damage *= 5;
+            damage *= 3;
             revertStatus();
         }
 
