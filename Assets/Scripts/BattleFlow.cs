@@ -13,7 +13,6 @@ public class BattleFlow : MonoBehaviour
     public GameObject playerPrefab;
     public GameObject enemyPrefab;
 
-
     public Transform playerLocation;
 
     public Transform enemyLocation;
@@ -22,16 +21,12 @@ public class BattleFlow : MonoBehaviour
     public HUD enemyHUD;
 
     public DamageManager DamageManager;
-    // dont show PlayerUnit and EnemyUnit in inspector
     [HideInInspector]public Unit PlayerUnit;
     [HideInInspector]public Unit EnemyUnit;
 
     public BattleState state;
     private CameraModule cameraModule;
     public HudModule hudModule;
-    // public GameObject SkillButtons;
-
-
 
     private bool isPlayerExtraMove;
     private bool isEnemyExtraMove;
@@ -45,20 +40,15 @@ public class BattleFlow : MonoBehaviour
     private void Awake() {
         GameObject PlayerGO = Instantiate(playerPrefab, playerLocation);
         PlayerUnit = PlayerGO.GetComponent<Unit>();
-        // playerParty.Add(PlayerUnit);
-        // change player Layer to UI
         PlayerUnit.gameObject.layer = 5;
 
         GameObject EnemyGO = Instantiate(enemyPrefab, enemyLocation);
         EnemyUnit = EnemyGO.GetComponent<Unit>();
-        // enemyParty.Add(EnemyUnit);
         EnemyUnit.gameObject.layer = 5;
-        // Randomize EnemyUnit weakness, power, level
         EnemyUnit.RandomizeUnit();
 
         PlayerUnit.SetupSkills();
         EnemyUnit.SetupSkills();
-        // hudModule.setupHUD();
 
         
         
@@ -75,8 +65,6 @@ public class BattleFlow : MonoBehaviour
 
     IEnumerator PlayerAttack(Skill selectedSkill, bool isNormalAttack)
     {
-        // HideSkillButtons();
-        // StartCoroutine(ChangeTurn());
         CheckCombatStatus();
         hudModule.hideActionButtons();
         PlayerUnit.status = UnitStatus.Status.Idle;
@@ -98,15 +86,13 @@ public class BattleFlow : MonoBehaviour
         }
         else if (extra)
         {
-            // encounterText.text = PlayerUnit.unitName + " has an Extra Turn!";
             yield return new WaitForSeconds(1f);
-            // show extra turn popup
             StartCoroutine(hudModule.ExtraTurnPopup());
             PlayerUnit.status = UnitStatus.Status.Buff;
             state = BattleState.PLAYERTURN;
             hudModule.UpdateHUD();
             PlayerTurn();
-            EnemyUnit.status = UnitStatus.Status.Idle; // Ganti status EnemyUnit menjadi Idle setelah extra turn digunakan
+            EnemyUnit.status = UnitStatus.Status.Idle;
         }
         else
         {
@@ -118,13 +104,10 @@ public class BattleFlow : MonoBehaviour
 
     IEnumerator EnemyTurn()
     {
-        // StartCoroutine(ChangeTurn());
         CheckCombatStatus();
 
         isPlayerExtraMove = false;
         EnemyUnit.status = UnitStatus.Status.Idle;
-        // HideSkillButtons();
-        // EnemyUnit.status = UnitStatus.Status.Idle;
 
         int randIndex = Random.Range(0, EnemyUnit.skills.Count);
         Skill selectedSkill = EnemyUnit.skills[randIndex];
@@ -134,8 +117,6 @@ public class BattleFlow : MonoBehaviour
         bool isDead = PlayerUnit.isDead();
         bool isWeakness = PlayerUnit.isWeakness(selectedSkill.AttackType);
         bool extra = ExtraTurn(isWeakness);
-        //print attack text
-        // encounterText.text = EnemyUnit.unitName + " attacks With " + selectedSkill.Name + "!";
         yield return new WaitForSeconds(2f);
 
         if (isDead)
@@ -145,14 +126,12 @@ public class BattleFlow : MonoBehaviour
         }
         else if (extra)
         {
-            // encounterText.text = EnemyUnit.unitName + " has an Extra Turn!";
             yield return new WaitForSeconds(1f);
-            // show extra turn popup
             StartCoroutine(hudModule.ExtraTurnPopup());
             EnemyUnit.status = UnitStatus.Status.Buff;
             state = BattleState.ENEMYTURN;
             StartCoroutine(EnemyTurn());
-            PlayerUnit.status = UnitStatus.Status.Idle; // Ganti status PlayerUnit menjadi Idle setelah extra turn digunakan
+            PlayerUnit.status = UnitStatus.Status.Idle;
         }
         else
         {
@@ -171,19 +150,16 @@ public class BattleFlow : MonoBehaviour
             {
                 if (isPlayerExtraMove)
                 {
-                    // Player already has an extra turn, don't give another one
                     return false;
                 }
                 else
                 {
-                    // Enemy is down and Player hits a weakness, give an extra turn
                     isPlayerExtraMove = true;
                     return true;
                 }
             }
             else
             {
-                // Reset extra turn flag
                 isPlayerExtraMove = false;
                 return false;
             }
@@ -194,19 +170,16 @@ public class BattleFlow : MonoBehaviour
             {
                 if (isEnemyExtraMove)
                 {
-                    // Enemy already has an extra turn, don't give another one
                     return false;
                 }
                 else
                 {
-                    // Player is down and Enemy hits a weakness, give an extra turn
                     isEnemyExtraMove = true;
                     return true;
                 }
             }
             else
             {
-                // Reset extra turn flag
                 isEnemyExtraMove = false;
                 return false;
             }
@@ -218,7 +191,6 @@ public class BattleFlow : MonoBehaviour
         hudModule.hideItemPanel();
         hudModule.hideSkillbtn();
         int minimumDamage = unitType.damage / 2;
-        // random seed
         Random.InitState((int)System.DateTime.Now.Ticks);
         int actualDamage = Random.Range(minimumDamage, damage + 1);
         float criticalChance = 0.1f;
@@ -227,7 +199,6 @@ public class BattleFlow : MonoBehaviour
         bool isCrit = false;
 
 
-        // Play Attack Sound
         DamageManager.PlayAttackSound(dmgType);
         
         if (unitType.status == UnitStatus.Status.Down)
@@ -248,24 +219,19 @@ public class BattleFlow : MonoBehaviour
                 isEnemyExtraMove = true;
             }
         }
-        // isDown = true only when attackType is weakness And unitStatus is Down
         if (unitType.isWeakness(dmgType))
         {
             isDown = true;
         }
-        // apply damage
         DamageManager.PlayHitSoundEffect();
         unitType.TakeDamage(actualDamage);
 
-        // dmg popup
-        // int damage, bool isPlayer, bool isDown, bool isCrit, int Health, int maxHealth
         if(unitType == PlayerUnit){
             hudModule.SpawnDamagePopup(actualDamage, true, isDown, isCrit, PlayerUnit.currentHP, PlayerUnit.maxHP);
         }else{
             hudModule.SpawnDamagePopup(actualDamage, false, isDown, isCrit, EnemyUnit.currentHP, EnemyUnit.maxHP);
         }
        
-        // cam shake
         StartCoroutine(cameraModule.ShakeCamera());
 
     }
@@ -306,12 +272,10 @@ public class BattleFlow : MonoBehaviour
     void PlayerTurn()
     {
         CheckCombatStatus();
-        // ChooseActionMenu.SetActive(true);
         if(!isPlayerExtraMove){
-            ChangeTurn();
+            hudModule.ChangeTurn();
         }
         hudModule.updateButtons();
-        // buttons.ShowButton();
         hudModule.showActionButtons();
         
         PlayerUnit.status = UnitStatus.Status.Idle;
@@ -323,8 +287,6 @@ public class BattleFlow : MonoBehaviour
         StartCoroutine(PlayerAttack(PlayerUnit.NormalAttack, true));
         
     }
-
-
     public bool Skillusage(int skillCost, bool usesHP)
     {
         if (isPlayerExtraMove)
@@ -336,7 +298,6 @@ public class BattleFlow : MonoBehaviour
         {
             if (PlayerUnit.currentHP < skillCost)
             {
-                // encounterText.text = "Not Enough HP!";
                 return false;
             }
             PlayerUnit.currentHP -= skillCost;
@@ -347,7 +308,6 @@ public class BattleFlow : MonoBehaviour
         {
             if (PlayerUnit.currentMP < skillCost)
             {
-                // encounterText.text = "Not Enough Mana!";
                 return false;
             }
             PlayerUnit.currentMP -= skillCost;
@@ -357,39 +317,32 @@ public class BattleFlow : MonoBehaviour
     }
     public void onDefendButton()
     {
-        // PlayerUnit.status = UnitStatus.Status.Defend;
         PlayerUnit.OnDefend();
         hudModule.hideActionButtons();
         StartCoroutine(EnemyTurn());
     }
-
-
     public void UseSkill(int skillIndex)
     {
         Skill selectedSkill = PlayerUnit.ReadySkills[skillIndex];
 
         bool usesHP = selectedSkill.UsesHP;
         int skillCost = selectedSkill.ManaCost;
-        // Check if player has enough HP/MP
         if (!Skillusage(skillCost, usesHP))
             return;
 
         StartCoroutine(PlayerAttack(selectedSkill, false));
     }
-
     public void UseItem(int itemIndex)
     {
         Item selectedItem = PlayerUnit.PassiveSkill[itemIndex];
         StartCoroutine(UseItem(selectedItem));
         hudModule.hideItemPanel();
     }
-
     IEnumerator UseItem(Item selectedItem)
     {
         PlayerUnit.status = UnitStatus.Status.Idle;
         bool useHP = selectedItem.isUsingHP;
         int skillCost = selectedItem.Cost;
-        // Check if player has enough HP/MP
         if (!Skillusage(skillCost, useHP))
             yield break;
 
@@ -397,23 +350,11 @@ public class BattleFlow : MonoBehaviour
         playerHUD.updateHP(PlayerUnit.currentHP);
         playerHUD.updateMP(PlayerUnit.currentMP);
 
-        // encounterText.text = "You Used " + selectedItem.Name + "!";
         yield return new WaitForSeconds(2f);
 
-        // encounterText.text = "You Restored your Mana!";
         yield return new WaitForSeconds(2f);
         state = BattleState.ENEMYTURN;
         StartCoroutine(EnemyTurn());
     }
-
-
-    private void ChangeTurn()
-    {
-        hudModule.ChangeTurn(BattleState.PLAYERTURN);
-
-    }
-
-
-
 
 }
