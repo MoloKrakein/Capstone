@@ -453,29 +453,21 @@ public class BattleFlow : MonoBehaviour
     private void setupButtons()
     {
         // public void SetButton(int index, string name, int mana, bool useHP,Sprite icon)
-        buttons.SetButton(0, PlayerUnit.ReadySkills[0].Name, PlayerUnit.ReadySkills[0].ManaCost, PlayerUnit.ReadySkills[0].UsesHP, PlayerUnit.ReadySkills[0].SkillSprite);
-        buttons.SetButton(1, PlayerUnit.ReadySkills[1].Name, PlayerUnit.ReadySkills[1].ManaCost, PlayerUnit.ReadySkills[1].UsesHP, PlayerUnit.ReadySkills[1].SkillSprite);
-        buttons.SetButton(2, PlayerUnit.ReadySkills[2].Name, PlayerUnit.ReadySkills[2].ManaCost, PlayerUnit.ReadySkills[2].UsesHP, PlayerUnit.ReadySkills[2].SkillSprite);
-        buttons.SetButton(3, PlayerUnit.ReadySkills[3].Name, PlayerUnit.ReadySkills[3].ManaCost, PlayerUnit.ReadySkills[3].UsesHP, PlayerUnit.ReadySkills[3].SkillSprite);
-        buttons.SetButton(4, PlayerUnit.ReadySkills[4].Name, PlayerUnit.ReadySkills[4].ManaCost, PlayerUnit.ReadySkills[4].UsesHP, PlayerUnit.ReadySkills[4].SkillSprite);
-
+        for(int i = 0; i < 5; i++){
+            buttons.SetButton(i, PlayerUnit.ReadySkills[i].Name, PlayerUnit.ReadySkills[i].ManaCost, PlayerUnit.ReadySkills[i].UsesHP, PlayerUnit.ReadySkills[i].SkillSprite);
+        }
         // passiveSkill
-        itemList.SetButton(0, PlayerUnit.PassiveSkill[0].ItemName, PlayerUnit.PassiveSkill[0].Cost, PlayerUnit.PassiveSkill[0].isUsingHP, PlayerUnit.PassiveSkill[0].ItemSprite);
-        itemList.SetButton(1, PlayerUnit.PassiveSkill[1].ItemName, PlayerUnit.PassiveSkill[1].Cost, PlayerUnit.PassiveSkill[1].isUsingHP, PlayerUnit.PassiveSkill[1].ItemSprite);
-        itemList.SetButton(2, PlayerUnit.PassiveSkill[2].ItemName, PlayerUnit.PassiveSkill[2].Cost, PlayerUnit.PassiveSkill[2].isUsingHP, PlayerUnit.PassiveSkill[2].ItemSprite);
-        itemList.SetButton(3, PlayerUnit.PassiveSkill[3].ItemName, PlayerUnit.PassiveSkill[3].Cost, PlayerUnit.PassiveSkill[3].isUsingHP, PlayerUnit.PassiveSkill[3].ItemSprite);
-        itemList.SetButton(4, PlayerUnit.PassiveSkill[4].ItemName, PlayerUnit.PassiveSkill[4].Cost, PlayerUnit.PassiveSkill[4].isUsingHP, PlayerUnit.PassiveSkill[4].ItemSprite);
-
+        for(int i = 0; i < 5; i++){
+            itemList.SetItem(i, PlayerUnit.PassiveSkill[i].ItemName, PlayerUnit.PassiveSkill[i].Cost, PlayerUnit.PassiveSkill[i].isUsingHP, PlayerUnit.PassiveSkill[i].ItemSprite);
+        }
 
         
     }
     private void updateButtons()
     {
-        buttons.SetButton(0, PlayerUnit.ReadySkills[0].Name, PlayerUnit.ReadySkills[0].ManaCost, PlayerUnit.ReadySkills[0].UsesHP, PlayerUnit.ReadySkills[0].SkillSprite);
-        buttons.SetButton(1, PlayerUnit.ReadySkills[1].Name, PlayerUnit.ReadySkills[1].ManaCost, PlayerUnit.ReadySkills[1].UsesHP, PlayerUnit.ReadySkills[1].SkillSprite);
-        buttons.SetButton(2, PlayerUnit.ReadySkills[2].Name, PlayerUnit.ReadySkills[2].ManaCost, PlayerUnit.ReadySkills[2].UsesHP, PlayerUnit.ReadySkills[2].SkillSprite);
-        buttons.SetButton(3, PlayerUnit.ReadySkills[3].Name, PlayerUnit.ReadySkills[3].ManaCost, PlayerUnit.ReadySkills[3].UsesHP, PlayerUnit.ReadySkills[3].SkillSprite);
-        buttons.SetButton(4, PlayerUnit.ReadySkills[4].Name, PlayerUnit.ReadySkills[4].ManaCost, PlayerUnit.ReadySkills[4].UsesHP, PlayerUnit.ReadySkills[4].SkillSprite);
+for(int i = 0; i < 5; i++){
+            buttons.SetButton(i, PlayerUnit.ReadySkills[i].Name, PlayerUnit.ReadySkills[i].ManaCost, PlayerUnit.ReadySkills[i].UsesHP, PlayerUnit.ReadySkills[i].SkillSprite);
+        }
 
     }
 

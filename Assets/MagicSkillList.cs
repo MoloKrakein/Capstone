@@ -43,9 +43,7 @@ public class MagicSkillList : MonoBehaviour
         
     }
 
-    public void SwapBtn(){
-        
-    }
+
 
 
 }

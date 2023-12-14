@@ -4050,7 +4050,7 @@ MonoBehaviour:
   EarthAttack: {fileID: 8300000, guid: 39519290d1156b0448e2f4e777ea5831, type: 3}
   DarknessAttack: {fileID: 8300000, guid: 19dea34a32721684486e0f5d37df7203, type: 3}
   LightAttack: {fileID: 8300000, guid: 8506a820d955d034296419fcf4fe05b1, type: 3}
-  Summoning: {fileID: 8300000, guid: 39e0053774326f046b5639d8834bea73, type: 3}
+  GenericHitSound: {fileID: 8300000, guid: a0511beebb0a31648b4ec96d7f7db0b8, type: 3}
   GenericHit: {fileID: 0}
   FireHit: {fileID: 0}
   EarthHit: {fileID: 0}
