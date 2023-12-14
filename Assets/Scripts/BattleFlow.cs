@@ -66,6 +66,7 @@ public class BattleFlow : MonoBehaviour
     IEnumerator PlayerAttack(Skill selectedSkill, bool isNormalAttack)
     {
         CheckCombatStatus();
+        isEnemyExtraMove = false;
         hudModule.hideActionButtons();
         PlayerUnit.status = UnitStatus.Status.Idle;
         giveDamage(selectedSkill.AttackPower, EnemyUnit, selectedSkill.AttackType);
@@ -174,8 +175,7 @@ void PlayerTurn()
                 isPlayerExtraMove = false;
                 return false;
             }
-        }
-        else
+        }else if(state == BattleState.ENEMYTURN)
         {
             if (PlayerUnit.isDown() && IsWeakness)
             {
@@ -194,6 +194,9 @@ void PlayerTurn()
                 isEnemyExtraMove = false;
                 return false;
             }
+        } else
+        {
+            return false;
         }
     }
     private void giveDamage(int damage, Unit unitType, DmgType dmgType)
@@ -214,11 +217,11 @@ void PlayerTurn()
         
         if (unitType.status == UnitStatus.Status.Down)
         {
-            criticalChance = 0.6f;
+            criticalChance = 0.3f;
         }
         if (randomValue < criticalChance)
         {
-            actualDamage *= 3;
+            actualDamage *= 2;
             isCrit = true;
             unitType.status = UnitStatus.Status.Down;
             if (BattleState.PLAYERTURN == state)
@@ -243,7 +246,14 @@ void PlayerTurn()
             hudModule.SpawnDamagePopup(actualDamage, false, isDown, isCrit, EnemyUnit.currentHP, EnemyUnit.maxHP);
         }
        
-        StartCoroutine(cameraModule.ShakeCamera());
+        if(state == BattleState.PLAYERTURN){
+            cameraModule.state = BattleState.PLAYERTURN;
+            StartCoroutine(cameraModule.ShakeCamera());
+        }
+        else{
+            cameraModule.state = BattleState.ENEMYTURN;
+            StartCoroutine(cameraModule.ShakeCamera());
+        }
 
     }
 

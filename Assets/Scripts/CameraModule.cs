@@ -21,7 +21,7 @@ public class CameraModule : MonoBehaviour {
     private Transform playerLocation;
     private Transform enemyLocation;
 
-    private BattleState state;
+    public BattleState state;
 
     private void Start() {
         PlayerUnit = battleFlow.PlayerUnit;
