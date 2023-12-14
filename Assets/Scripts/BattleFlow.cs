@@ -141,7 +141,18 @@ public class BattleFlow : MonoBehaviour
         playerHUD.updateHP(PlayerUnit.currentHP);
 
     }
+void PlayerTurn()
+    {
+        CheckCombatStatus();
+        if(!isPlayerExtraMove){
+            hudModule.ChangeTurn();
+        }
+        hudModule.updateButtons();
+        hudModule.showActionButtons();
+        
+        PlayerUnit.status = UnitStatus.Status.Idle;
 
+    }
     public bool ExtraTurn(bool IsWeakness)
     {
         if (state == BattleState.PLAYERTURN)
@@ -269,18 +280,7 @@ public class BattleFlow : MonoBehaviour
         state = BattleState.ENEMYTURN;
         StartCoroutine(EnemyTurn());
     }
-    void PlayerTurn()
-    {
-        CheckCombatStatus();
-        if(!isPlayerExtraMove){
-            hudModule.ChangeTurn();
-        }
-        hudModule.updateButtons();
-        hudModule.showActionButtons();
-        
-        PlayerUnit.status = UnitStatus.Status.Idle;
 
-    }
 
     public void NormalAttack(){
         hudModule.hideActionButtons();

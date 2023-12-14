@@ -84,7 +84,7 @@ for(int i = 0; i < 5; i++){
         Destroy(extraTurnPopUp);
     }
 
-    public void ChangeTurn(BattleState state)
+    public void ChangeTurn()
     {
         GameObject changeTurnPopUp = Instantiate(ChangeTurnPopup, canvas.transform);
         changeTurnPopUp.GetComponent<ChangeTurnPopUps>().spawnPopups(true);
