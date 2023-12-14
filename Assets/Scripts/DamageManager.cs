@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class DamageManager : MonoBehaviour{
 
-public AudioSource SFXSource;
 
+public BattleFlow battleFlow;
+
+public AudioSource SFXSource;
 public AudioClip PhysicalAttack;
 public AudioClip FireAttack;
 public AudioClip EarthAttack;
