@@ -14,11 +14,13 @@ public class HudModule : MonoBehaviour {
     public Canvas canvas;
     public GameObject extraTurnPopup;
     public GameObject ChangeTurnPopup;
+    public GameObject BattleLog;
     // public GameObject EncounterPopup;
     public GameObject DamagePopup;
     private Unit PlayerUnit;
     private Unit EnemyUnit;
     private BattleState state;
+
 
 
     
@@ -113,6 +115,15 @@ public void SpawnDamagePopup(int damage, bool isPlayer, bool isDown, bool isCrit
 {
     GameObject damagePopUp = Instantiate(DamagePopup, canvas.transform);
     damagePopUp.GetComponent<DamagePopUps>().spawnPopups(damage, isPlayer, isDown, isCrit, Health, maxHealth);
+}
+
+
+public void UpdateBattleLog(string name, DmgType action)
+{
+    string log = "";
+    log = name + " " + "used" + " " + action + "\n";
+
+    BattleLog.GetComponent<BattleLog>().UpdateLog(log);
 }
 
 

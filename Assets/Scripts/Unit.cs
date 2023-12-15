@@ -68,7 +68,7 @@ public class Unit : MonoBehaviour
 
         currentHP -= damage;
         animator.SetTrigger("hit");
-        Debug.Log(unitName + " took " + damage + " ");
+        // Debug.Log(unitName + " took " + damage + " ");
 
     }
 
@@ -118,12 +118,13 @@ public class Unit : MonoBehaviour
         isBoosted = false;
     }
 
-public void UsePassive(Item item)
+public void UsePassive(Item item, bool isBuffed)
 {
+    isBoosted = isBuffed;
     switch (item.itemType)
     {
         case ItemType.Heal:
-        if(isBoosted){
+        if(isBuffed){
             currentHP += item.ItemPower * 5;
             revertStatus();
         }
@@ -138,7 +139,7 @@ public void UsePassive(Item item)
             
             break;
         case ItemType.RechargeMana:
-        if(isBoosted){
+        if(isBuffed){
             currentMP += item.ItemPower * 5;
             revertStatus();
         }
@@ -322,8 +323,6 @@ private void SwapSkill(Skill skill1, Skill skill2)
 
         //randomize unit level 1 - 29
         unitLevel = Random.Range(1,29);
-
-
         
     }
 

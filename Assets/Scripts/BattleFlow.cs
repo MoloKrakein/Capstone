@@ -29,6 +29,7 @@ public class BattleFlow : MonoBehaviour
 
     private bool isPlayerExtraMove;
     private bool isEnemyExtraMove;
+    [HideInInspector]public bool isPlayerBuffed;
     void Start()
     {
         StartCoroutine(SetupBattle());
@@ -117,6 +118,7 @@ public class BattleFlow : MonoBehaviour
         bool isDead = PlayerUnit.isDead();
         bool isWeakness = PlayerUnit.isWeakness(selectedSkill.AttackType);
         bool extra = ExtraTurn(isWeakness);
+        hudModule.UpdateBattleLog(EnemyUnit.unitName, selectedSkill.AttackType);
         yield return new WaitForSeconds(2f);
 
         if (isDead)
@@ -257,6 +259,7 @@ void PlayerTurn()
             DamageManager.DmgEffect(dmgType, EnemyUnit.transform, PlayerUnit.transform, 0.1f);
         }
 
+
     }
 
     public void CheckCombatStatus()
@@ -332,6 +335,7 @@ void PlayerTurn()
     {
         PlayerUnit.OnDefend();
         hudModule.hideActionButtons();
+        state = BattleState.ENEMYTURN;
         StartCoroutine(EnemyTurn());
     }
     public void UseSkill(int skillIndex)
@@ -344,6 +348,7 @@ void PlayerTurn()
             return;
 
         StartCoroutine(PlayerAttack(selectedSkill, false));
+        isPlayerBuffed = false;
     }
     public void UseItem(int itemIndex)
     {
@@ -358,8 +363,11 @@ void PlayerTurn()
         int skillCost = selectedItem.Cost;
         if (!Skillusage(skillCost, useHP))
             yield break;
-
-        PlayerUnit.UsePassive(selectedItem);
+        if(selectedItem.itemType == ItemType.DmgBoost){
+            isPlayerBuffed = true;
+            Debug.Log("Buffed Enabled");
+        }
+        PlayerUnit.UsePassive(selectedItem, isPlayerBuffed);
         playerHUD.updateHP(PlayerUnit.currentHP);
         playerHUD.updateMP(PlayerUnit.currentMP);
         
@@ -367,7 +375,7 @@ void PlayerTurn()
         DamageManager.BuffEffect(selectedItem.itemType,playerLocation, 0.1f);
         yield return new WaitForSeconds(2f);
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         state = BattleState.ENEMYTURN;
         StartCoroutine(EnemyTurn());
     }
