@@ -51,10 +51,6 @@ public class Unit : MonoBehaviour
     {
         // get animator controller
         Animator animator = GetComponent<Animator>();
-        if(UnitStatus.Status.Down == status)
-        {
-            damage *= 2;
-        }
         if(UnitStatus.Status.Defend == status)
         {
             damage /= 10;
@@ -62,7 +58,7 @@ public class Unit : MonoBehaviour
         }
         if(isBoosted)
         {
-            damage *= 3;
+            damage *= 2;
             revertStatus();
         }
 
