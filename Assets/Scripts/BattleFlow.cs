@@ -380,4 +380,9 @@ void PlayerTurn()
         StartCoroutine(EnemyTurn());
     }
 
+    public void ResetGame()
+    {
+        Application.LoadLevel(Application.loadedLevel);
+    }
+
 }
