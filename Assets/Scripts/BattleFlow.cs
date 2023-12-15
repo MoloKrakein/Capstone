@@ -23,7 +23,6 @@ public class BattleFlow : MonoBehaviour
     public DamageManager DamageManager;
     [HideInInspector]public Unit PlayerUnit;
     [HideInInspector]public Unit EnemyUnit;
-
     public BattleState state;
     private CameraModule cameraModule;
     public HudModule hudModule;
@@ -249,10 +248,13 @@ void PlayerTurn()
         if(state == BattleState.PLAYERTURN){
             cameraModule.state = BattleState.PLAYERTURN;
             StartCoroutine(cameraModule.ShakeCamera());
+            DamageManager.DmgEffect(dmgType, PlayerUnit.transform, EnemyUnit.transform, 0.1f);
+
         }
         else{
             cameraModule.state = BattleState.ENEMYTURN;
             StartCoroutine(cameraModule.ShakeCamera());
+            DamageManager.DmgEffect(dmgType, EnemyUnit.transform, PlayerUnit.transform, 0.1f);
         }
 
     }
@@ -275,6 +277,7 @@ void PlayerTurn()
 
     void EndBattle()
     {
+      
 
     }
 
@@ -359,7 +362,9 @@ void PlayerTurn()
         PlayerUnit.UsePassive(selectedItem);
         playerHUD.updateHP(PlayerUnit.currentHP);
         playerHUD.updateMP(PlayerUnit.currentMP);
+        
 
+        DamageManager.BuffEffect(selectedItem.itemType,playerLocation, 0.1f);
         yield return new WaitForSeconds(2f);
 
         yield return new WaitForSeconds(2f);

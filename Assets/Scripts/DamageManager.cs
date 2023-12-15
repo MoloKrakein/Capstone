@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DamageManager : MonoBehaviour{
 
 
 public BattleFlow battleFlow;
+
+public Canvas canvas;
 
 public AudioSource SFXSource;
 public AudioClip PhysicalAttack;
@@ -15,17 +18,39 @@ public AudioClip DarknessAttack;
 public AudioClip LightAttack;
 public AudioClip GenericHitSound;
 
+// Buff sfx
+public AudioClip ChangeSkillSFX;
+public AudioClip HealSFX;
+public AudioClip RefillManaSFX;
+public AudioClip PowerBuffSFX;
+public AudioClip ChangeWeaknessSFX;
 
-public ParticleSystem GenericHit;
-public ParticleSystem FireHit;
-public ParticleSystem EarthHit;
-public ParticleSystem DarknessHit;
-public ParticleSystem LightHit;
 
-public ParticleSystem SummoningEffect;
+
+public GameObject GenericHit;
+public GameObject PhysicalHit;
+public GameObject FireHit;
+public GameObject EarthHit;
+public GameObject DarknessHit;
+public GameObject LightHit;
+
+
+// buff effect
+public GameObject ChangeSkill;
+
+public GameObject HealEffect;
+
+public GameObject RefillMana;
+public GameObject PowerBuff;
+
+public GameObject ChangeWeakness;
+
+
+public GameObject SummoningEffect;
 
 public void PlayAttackSound(DmgType dmgType)
 {
+    PlayHitSoundEffect();
     switch (dmgType)
     {
         case DmgType.Physical:
@@ -49,24 +74,25 @@ public void PlayAttackSound(DmgType dmgType)
 
 }
 
-public void PlayHitEffect(DmgType dmgType)
+public void PlayBuffSound(ItemType buffType)
 {
-    switch (dmgType)
+    PlayHitSoundEffect();
+    switch (buffType)
     {
-        case DmgType.Physical:
-            GenericHit.Play();
+        case ItemType.ChangeSkill:
+            SFXSource.PlayOneShot(ChangeSkillSFX);
             break;
-        case DmgType.Fire:
-            FireHit.Play();
+        case ItemType.Heal:
+            SFXSource.PlayOneShot(HealSFX);
             break;
-        case DmgType.Earth:
-            EarthHit.Play();
+        case ItemType.RechargeMana:
+            SFXSource.PlayOneShot(RefillManaSFX);
             break;
-        case DmgType.Darkness:
-            DarknessHit.Play();
+        case ItemType.DmgBoost:
+            SFXSource.PlayOneShot(PowerBuffSFX);
             break;
-        case DmgType.Light:
-            LightHit.Play();
+        case ItemType.ChangeWeakness:
+            SFXSource.PlayOneShot(ChangeWeaknessSFX);
             break;
         default:
             break;
@@ -74,11 +100,133 @@ public void PlayHitEffect(DmgType dmgType)
 
 }
 
+
+public IEnumerator PlayFX(DmgType dmgType, Transform Target, float delay)
+{
+    yield return new WaitForSeconds(delay);
+    GameObject HitFX;
+    switch (dmgType)
+    {
+        case DmgType.Physical:
+            HitFX = Instantiate(PhysicalHit, Target.position, Quaternion.identity);
+            HitFX.gameObject.layer = 5;
+            HitFX.GetComponent<ParticleSystem>().Play();
+            yield return new WaitForSeconds(1f);
+            Destroy(HitFX);
+            break;
+        case DmgType.Fire:
+            HitFX = Instantiate(FireHit, Target.position, Quaternion.identity);
+            HitFX.gameObject.layer = 5;
+            HitFX.GetComponent<ParticleSystem>().Play();
+            yield return new WaitForSeconds(1f);
+            Destroy(HitFX);
+            break;
+
+        case DmgType.Earth:
+            HitFX = Instantiate(EarthHit, Target.position, Quaternion.identity);
+            HitFX.gameObject.layer = 5;
+            HitFX.GetComponent<ParticleSystem>().Play();
+            yield return new WaitForSeconds(1f);
+            Destroy(HitFX);
+            break;
+
+        case DmgType.Darkness:
+            HitFX = Instantiate(DarknessHit, Target.position, Quaternion.identity);
+            HitFX.gameObject.layer = 5;
+            HitFX.GetComponent<ParticleSystem>().Play();
+            yield return new WaitForSeconds(1f);
+            Destroy(HitFX);
+            break;
+
+        case DmgType.Light:
+            HitFX = Instantiate(LightHit, Target.position, Quaternion.identity);
+            HitFX.gameObject.layer = 5;
+            HitFX.GetComponent<ParticleSystem>().Play();
+            yield return new WaitForSeconds(1f);
+            Destroy(HitFX);
+            break;
+
+        default:
+            HitFX = Instantiate(GenericHit, Target.position, Quaternion.identity);
+            HitFX.gameObject.layer = 5;
+            HitFX.GetComponent<ParticleSystem>().Play();
+            yield return new WaitForSeconds(1f);
+            Destroy(HitFX);
+            break;
+            
+
+
+    }
+}
+
+IEnumerator PlaySummoningEffect(Transform Attacker)
+{
+    GameObject SummoningFX = Instantiate(SummoningEffect, Attacker.position, Quaternion.identity);
+    SummoningFX.gameObject.layer = 5;
+    SummoningFX.GetComponent<ParticleSystem>().Play();
+    yield return new WaitForSeconds(1f);
+    Destroy(SummoningFX);
+}
+
+IEnumerator PlayBuffFX(ItemType buffType, Transform Target, float delay)
+{
+    yield return new WaitForSeconds(delay);
+    GameObject BuffFX;
+switch (buffType)
+{
+    case ItemType.Heal:
+        BuffFX = Instantiate(HealEffect, Target.position, Quaternion.identity);
+        // move BuffFX to Bottom of the Character
+        BuffFX.transform.position = new Vector3(BuffFX.transform.position.x, BuffFX.transform.position.y - 1.5f, BuffFX.transform.position.z);
+        break;
+
+    case ItemType.RechargeMana:
+        BuffFX = Instantiate(RefillMana, Target.position, Quaternion.identity);
+        break;
+
+    case ItemType.DmgBoost:
+        BuffFX = Instantiate(PowerBuff, Target.position, Quaternion.identity);
+        break;
+
+    case ItemType.ChangeWeakness:
+        BuffFX = Instantiate(ChangeWeakness, Target.position, Quaternion.identity);
+        break;
+
+    case ItemType.ChangeSkill:
+        BuffFX = Instantiate(ChangeSkill, Target.position, Quaternion.identity);
+        break;
+
+    default:
+        BuffFX = Instantiate(GenericHit, Target.position, Quaternion.identity);
+        break;
+}
+
+if (BuffFX != null)
+{
+    BuffFX.gameObject.layer = 5;
+    BuffFX.GetComponent<ParticleSystem>().Play();
+    yield return new WaitForSeconds(2f);
+    Destroy(BuffFX);
+}
+
+}
+
+public void DmgEffect(DmgType dmgType, Transform Attacker, Transform Target, float delay)
+{
+    StartCoroutine(PlayFX(dmgType, Target, delay));
+    // StartCoroutine(PlaySummoningEffect(Attacker));
+}
+
+public void BuffEffect(ItemType buffType, Transform Target, float delay)
+{
+    StartCoroutine(PlayBuffFX(buffType, Target, delay));
+}
 public void PlayHitSoundEffect()
 {
     SFXSource.PlayOneShot(GenericHitSound);
     // SFXSource.PlayOneShot(Summoning);  
 }
+
 
 }
 
