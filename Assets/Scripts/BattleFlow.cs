@@ -20,6 +20,8 @@ public class BattleFlow : MonoBehaviour
     public HUD playerHUD;
     public HUD enemyHUD;
 
+    public Canvas EndGameCanvas;
+
     public DamageManager DamageManager;
     [HideInInspector]public Unit PlayerUnit;
     [HideInInspector]public Unit EnemyUnit;
@@ -280,6 +282,17 @@ void PlayerTurn()
 
     void EndBattle()
     {
+        if (state == BattleState.WON)
+        {
+            EndGameCanvas.gameObject.SetActive(true);
+            // EndGameCanvas.GetComponentInChildren<TextMeshProUGUI>().text = "You Won!";
+        }
+        else if (state == BattleState.LOST)
+        {
+            EndGameCanvas.gameObject.SetActive(true);
+            // EndGameCanvas.GetComponentInChildren<TextMeshProUGUI>().text = "You Lost!";
+        }
+        
       
 
     }
