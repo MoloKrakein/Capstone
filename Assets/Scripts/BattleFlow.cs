@@ -118,8 +118,11 @@ public class BattleFlow : MonoBehaviour
         if(Random.Range(0,2)==0){
             giveDamage(selectedSkill.AttackPower, PlayerUnit, selectedSkill.AttackType);
             EnemyUnit.attack();
+        hudModule.UpdateBattleLog(EnemyUnit.unitName, selectedSkill.AttackType);
         }else{
-            EnemyUnit.RandomWeakness();
+            EnemyUnit.RandomWeakness(EnemyUnit.weakness);
+            DmgType weakness = EnemyUnit.weakness;
+            hudModule.UpdateBattleLogChangeWeakness(EnemyUnit.unitName,weakness);
         }
     
         // giveDamage(selectedSkill.AttackPower, PlayerUnit, selectedSkill.AttackType);
@@ -127,7 +130,6 @@ public class BattleFlow : MonoBehaviour
         bool isDead = PlayerUnit.isDead();
         bool isWeakness = PlayerUnit.isWeakness(selectedSkill.AttackType);
         bool extra = ExtraTurn(isWeakness);
-        hudModule.UpdateBattleLog(EnemyUnit.unitName, selectedSkill.AttackType);
         yield return new WaitForSeconds(2f);
 
         if (isDead)

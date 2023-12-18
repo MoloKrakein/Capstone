@@ -18,6 +18,9 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySound(int index)
     {
+        // change volume
+        audioSource.volume = 0.5f;
         audioSource.PlayOneShot(audioClips[index]);
+
     }
 }

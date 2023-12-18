@@ -126,8 +126,13 @@ public void UpdateBattleLog(string name, DmgType action)
     BattleLog.GetComponent<BattleLog>().UpdateLog(log);
 }
 
+public void UpdateBattleLogChangeWeakness(string name, DmgType weakness)
+{
+    string text = "";
+    text = name + " " + "changed weakness !";
 
-
+    BattleLog.GetComponent<BattleLog>().UpdateLog(text);
+}
 
 
 

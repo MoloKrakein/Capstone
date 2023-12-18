@@ -322,14 +322,17 @@ private void SwapSkill(Skill skill1, Skill skill2)
         
     }
 
-public void RandomWeakness()
+public void RandomWeakness(DmgType weakness)
 {
     // Randomize seed
     Random.InitState((int)System.DateTime.Now.Ticks);
 
     // Randomize weakness
-    int randIndex = Random.Range(0, 5);
-    weakness = (DmgType)randIndex;
+    while (this.weakness == weakness)
+    {
+        int randIndex = Random.Range(0, 5);
+        this.weakness = (DmgType)randIndex;
+    }
 
 }
 }
