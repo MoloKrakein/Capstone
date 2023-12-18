@@ -10,8 +10,26 @@ public class BattleLog : MonoBehaviour
 
     public void UpdateLog(string text)
     {
-        logText.text = text;
+        typingAnimation(text);
     }
+
+    private void typingAnimation(string text)
+    {
+        StartCoroutine(TypeSentence(text));
+    }
+
+    IEnumerator TypeSentence(string sentence)
+    {
+        logText.text = "";
+        foreach (char letter in sentence.ToCharArray())
+        {
+            logText.text += letter;
+            // Duration of each letter 0.05f
+            yield return new WaitForSeconds(0.05f);
+        }
+
+    }
+
 }
 
 
