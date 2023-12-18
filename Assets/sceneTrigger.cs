@@ -11,6 +11,7 @@ public class sceneTrigger : MonoBehaviour
     public Canvas canvasStart;
     public Canvas canvasStory;
     public TextMeshProUGUI textStory;
+    public AudioSource audioSource;
     // text area for story
     [TextArea(10,10)]
     public string story;
@@ -46,6 +47,8 @@ public class sceneTrigger : MonoBehaviour
     IEnumerator delay()
     {
         yield return new WaitForSeconds(delayDuration);
+        // play fadeout animation
+        canvasStory.GetComponent<Animator>().SetTrigger("fadeout");
         StartCoroutine(LoadScene());
     }
 
@@ -68,8 +71,11 @@ public class sceneTrigger : MonoBehaviour
 
     IEnumerator LoadScene()
     {
+        // fade out the music in Story Canvas
+        fadesoundeffect();
         yield return new WaitForSeconds(3f);
         
         SceneManager.LoadScene(targetSceneName);
     }
+
 }
