@@ -12,6 +12,7 @@ public class sceneTrigger : MonoBehaviour
     public Canvas canvasStory;
     public TextMeshProUGUI textStory;
     public AudioSource audioSource;
+    public Camera camera;
     // text area for story
     [TextArea(10,10)]
     public string story;
@@ -32,6 +33,10 @@ public class sceneTrigger : MonoBehaviour
         delayDuration = story.Length * 0.05f;
         // calculate how many enters in story
         int enterCount = 0;
+        // move camera to y = 1000
+        camera.GetComponent<Animator>().enabled = false;
+        camera.transform.position = new Vector3(0,1000,-10);
+        // stop camera animation
         foreach(char letter in story.ToCharArray())
         {
             if(letter == '\n')
@@ -72,7 +77,6 @@ public class sceneTrigger : MonoBehaviour
     IEnumerator LoadScene()
     {
         // fade out the music in Story Canvas
-        fadesoundeffect();
         yield return new WaitForSeconds(3f);
         
         SceneManager.LoadScene(targetSceneName);
