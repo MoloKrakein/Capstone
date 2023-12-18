@@ -61,7 +61,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Fading
+    m_ConditionEvent: start
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 3164736172836803698}
@@ -86,8 +86,8 @@ AnimatorController:
   m_Name: Canvas
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: Fading
-    m_Type: 4
+  - m_Name: start
+    m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
