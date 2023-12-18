@@ -22,10 +22,12 @@ public class sceneTrigger : MonoBehaviour
         canvasStart.GetComponent<Animator>().SetTrigger("start");
         // set canvasStory to active
         canvasStory.gameObject.SetActive(true);
+        PlayStory(story,textStory);
     }
 
     public void PlayStory(string story,TextMeshProUGUI textStory)
     {
+        StartCoroutine(PlayText(story,textStory));
         StartCoroutine(LoadScene());
     }
 
