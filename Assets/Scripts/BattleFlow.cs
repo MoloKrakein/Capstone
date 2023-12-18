@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 
 
@@ -293,13 +294,20 @@ void PlayerTurn()
     {
         if (state == BattleState.WON)
         {
-            EndGameCanvas.gameObject.SetActive(true);
+            // EndGameCanvas.gameObject.SetActive(true);
             // EndGameCanvas.GetComponentInChildren<TextMeshProUGUI>().text = "You Won!";
+            // Change Scene to EndScreen and pass the data if player win or lose
+            StaticValue.isWin = true;
+            SceneManager.LoadScene("EndScreen");
+
         }
         else if (state == BattleState.LOST)
         {
-            EndGameCanvas.gameObject.SetActive(true);
+            // EndGameCanvas.gameObject.SetActive(true);
             // EndGameCanvas.GetComponentInChildren<TextMeshProUGUI>().text = "You Lost!";
+            // Change Scene to EndScreen and pass the data if player win or lose
+            StaticValue.isWin = false;
+            SceneManager.LoadScene("EndScreen");
         }
         
       
