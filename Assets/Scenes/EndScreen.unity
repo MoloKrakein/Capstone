@@ -370,6 +370,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cb8750a52a71d344a36fb172009c30a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetSceneName: StartMenu
+  storyWin: 
+  storyLose: 
 --- !u!1 &1730761483
 GameObject:
   m_ObjectHideFlags: 0

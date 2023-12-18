@@ -76,7 +76,6 @@ public void PlayAttackSound(DmgType dmgType)
 
 public void PlayBuffSound(ItemType buffType)
 {
-    PlayHitSoundEffect();
     switch (buffType)
     {
         case ItemType.ChangeSkill:
@@ -178,6 +177,7 @@ switch (buffType)
         BuffFX = Instantiate(HealEffect, Target.position, Quaternion.identity);
         // move BuffFX to Bottom of the Character
         BuffFX.transform.position = new Vector3(BuffFX.transform.position.x -0.2f, BuffFX.transform.position.y - 2f, BuffFX.transform.position.z);
+
         break;
 
     case ItemType.RechargeMana:
@@ -227,6 +227,12 @@ public void PlayHitSoundEffect()
 {
     SFXSource.PlayOneShot(GenericHitSound);
     // SFXSource.PlayOneShot(Summoning);  
+}
+
+public void PlayUseItemSoundEffect()
+{
+    SFXSource.PlayOneShot(GenericHitSound);
+
 }
 
 

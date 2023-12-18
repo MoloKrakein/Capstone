@@ -403,6 +403,7 @@ void PlayerTurn()
         
 
         DamageManager.BuffEffect(selectedItem.itemType,playerLocation, 0.1f);
+        DamageManager.PlayBuffSound(selectedItem.itemType);
         yield return new WaitForSeconds(2f);
 
         yield return new WaitForSeconds(1f);
