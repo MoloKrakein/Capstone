@@ -26,8 +26,6 @@ public class sceneTrigger : MonoBehaviour
 
     public void PlayStory(string story,TextMeshProUGUI textStory)
     {
-        StartCoroutine(PlayText(story,textStory));
-        // load scene
         StartCoroutine(LoadScene());
     }
 
