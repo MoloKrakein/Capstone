@@ -114,9 +114,16 @@ public class BattleFlow : MonoBehaviour
 
         int randIndex = Random.Range(0, EnemyUnit.skills.Count);
         Skill selectedSkill = EnemyUnit.skills[randIndex];
-
-        giveDamage(selectedSkill.AttackPower, PlayerUnit, selectedSkill.AttackType);
-        EnemyUnit.attack();
+        // chance enemy to attacking or swap weakness
+        if(Random.Range(0,2)==0){
+            giveDamage(selectedSkill.AttackPower, PlayerUnit, selectedSkill.AttackType);
+            EnemyUnit.attack();
+        }else{
+            EnemyUnit.RandomWeakness();
+        }
+    
+        // giveDamage(selectedSkill.AttackPower, PlayerUnit, selectedSkill.AttackType);
+        // EnemyUnit.attack();
         bool isDead = PlayerUnit.isDead();
         bool isWeakness = PlayerUnit.isWeakness(selectedSkill.AttackType);
         bool extra = ExtraTurn(isWeakness);

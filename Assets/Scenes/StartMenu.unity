@@ -847,7 +847,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1226,15 +1226,37 @@ MonoBehaviour:
   canvasStart: {fileID: 1259823544}
   canvasStory: {fileID: 521479894}
   textStory: {fileID: 763140720}
-  story: 'Once Upon A Time There Are Smth
+  story: 'In a distand wizardry school
 
-    Smth Smth
+    
 
-    Smth Smth Smth Smth
+    Noesa, one of the school student
 
+    With
+    her stubornly curiousity....
 
-    And
-    Smth Smth Spawn'
+    
+
+    Accidentaly summoned some of the Indonesian
+    folklores....
+
+    
+
+    The fear of being expelled from the school and the
+    dangers lurking within the folklores
+
+    
+
+    Has driven Noesa to take responsibility
+    to protect the school and bringing back all of the summoned folklores
+
+    
+
+    Having
+    rushed to the hallway...
+
+    Noesa faced off with an extremely deadly snake
+    and her only chance to escape is to defeat it'
 --- !u!1001 &1141504906
 PrefabInstance:
   m_ObjectHideFlags: 0
