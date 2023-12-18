@@ -1610,7 +1610,7 @@ GameObject:
   - component: {fileID: 488175444}
   - component: {fileID: 488175443}
   m_Layer: 5
-  m_Name: Button
+  m_Name: restartButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1680,7 +1680,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 488175444}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11500000, guid: 38633ab0a32ad144a9db33e777a37342, type: 3}
+        m_TargetAssemblyTypeName: UnityEngine.Object, UnityEngine
+        m_MethodName: set_name
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &488175444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4263,10 +4275,10 @@ MonoBehaviour:
   DarknessAttack: {fileID: 8300000, guid: 19dea34a32721684486e0f5d37df7203, type: 3}
   LightAttack: {fileID: 8300000, guid: 8506a820d955d034296419fcf4fe05b1, type: 3}
   GenericHitSound: {fileID: 8300000, guid: a0511beebb0a31648b4ec96d7f7db0b8, type: 3}
-  ChangeSkillSFX: {fileID: 0}
-  HealSFX: {fileID: 0}
-  RefillManaSFX: {fileID: 0}
-  PowerBuffSFX: {fileID: 0}
+  ChangeSkillSFX: {fileID: 8300000, guid: 0bbf8b06308942d40875cc4c02901388, type: 3}
+  HealSFX: {fileID: 8300000, guid: 83a34a76061461e438d181592cb2ff38, type: 3}
+  RefillManaSFX: {fileID: 8300000, guid: 6d3dfdb652c0fe54aa46cdbcc861595c, type: 3}
+  PowerBuffSFX: {fileID: 8300000, guid: 129784c925d888e4e99bb746b5878648, type: 3}
   ChangeWeaknessSFX: {fileID: 0}
   GenericHit: {fileID: 4021103657954561961, guid: 5c755f9bc5253ea418e919994537dcc7, type: 3}
   PhysicalHit: {fileID: 8525990746615576120, guid: b85d21f3b8fed714bacf0c4fd50fa512, type: 3}

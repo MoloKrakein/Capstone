@@ -177,15 +177,17 @@ switch (buffType)
     case ItemType.Heal:
         BuffFX = Instantiate(HealEffect, Target.position, Quaternion.identity);
         // move BuffFX to Bottom of the Character
-        BuffFX.transform.position = new Vector3(BuffFX.transform.position.x, BuffFX.transform.position.y - 1.5f, BuffFX.transform.position.z);
+        BuffFX.transform.position = new Vector3(BuffFX.transform.position.x -0.2f, BuffFX.transform.position.y - 2f, BuffFX.transform.position.z);
         break;
 
     case ItemType.RechargeMana:
         BuffFX = Instantiate(RefillMana, Target.position, Quaternion.identity);
+        BuffFX.transform.position = new Vector3(BuffFX.transform.position.x -0.2f, BuffFX.transform.position.y - 2f, BuffFX.transform.position.z);
         break;
 
     case ItemType.DmgBoost:
         BuffFX = Instantiate(PowerBuff, Target.position, Quaternion.identity);
+        BuffFX.transform.position = new Vector3(BuffFX.transform.position.x - 0.2f, BuffFX.transform.position.y - 1f, BuffFX.transform.position.z);
         break;
 
     case ItemType.ChangeWeakness:
