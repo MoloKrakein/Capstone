@@ -371,8 +371,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetSceneName: StartMenu
-  storyWin: 
-  storyLose: 
+  storyWin: 'A mere deadly snake would never stood a chance against the will of a
+    human to thrive
+
+
+
+    Noesa...
+
+
+
+    With her steeled desire to protect her
+    friend and take responsibility'
+  storyLose: 'A single defeat would never determine the outcome...
+
+
+
+    Believe
+    in victory and thrive forward
+
+
+
+    For that is the true purpose of being a
+    human '
+  textStory: {fileID: 771800030}
 --- !u!1 &1730761483
 GameObject:
   m_ObjectHideFlags: 0

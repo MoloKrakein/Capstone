@@ -52,9 +52,7 @@ public class BattleFlow : MonoBehaviour
 
         PlayerUnit.SetupSkills();
         EnemyUnit.SetupSkills();
-
-        
-        
+    
     }
 
     IEnumerator SetupBattle()
@@ -298,7 +296,7 @@ void PlayerTurn()
             // EndGameCanvas.GetComponentInChildren<TextMeshProUGUI>().text = "You Won!";
             // Change Scene to EndScreen and pass the data if player win or lose
             StaticValue.isWin = true;
-            SceneManager.LoadScene("EndScreen");
+            StartCoroutine(EndScreen());
 
         }
         else if (state == BattleState.LOST)
@@ -307,11 +305,18 @@ void PlayerTurn()
             // EndGameCanvas.GetComponentInChildren<TextMeshProUGUI>().text = "You Lost!";
             // Change Scene to EndScreen and pass the data if player win or lose
             StaticValue.isWin = false;
-            SceneManager.LoadScene("EndScreen");
+            StartCoroutine(EndScreen());
+          
         }
         
       
 
+    }
+
+    IEnumerator EndScreen()
+    {
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene("EndScreen");
     }
 
     void SpawnNewEnemy()

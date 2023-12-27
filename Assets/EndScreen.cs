@@ -12,9 +12,21 @@ public class EndScreen : MonoBehaviour
     public string storyWin;
     [TextArea(10,10)]
     public string storyLose;
+    public TextMeshProUGUI textStory;
     private float delayDuration;
 
-    // change scene
+    private void Start() {
+        bool isWin = StaticValue.isWin;
+        if(isWin)
+        {
+            PlayStory(storyWin,GetComponentInChildren<TextMeshProUGUI>());
+        }
+        else
+        {
+            PlayStory(storyLose,GetComponentInChildren<TextMeshProUGUI>());
+        }
+        
+    }
 
 
     public void PlayStory(string story,TextMeshProUGUI textStory)
