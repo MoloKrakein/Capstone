@@ -17,13 +17,14 @@ public class EndScreen : MonoBehaviour
 
     private void Start() {
         bool isWin = StaticValue.isWin;
+        Debug.Log("Win Status: " + isWin);
         if(isWin)
         {
-            PlayStory(storyWin,GetComponentInChildren<TextMeshProUGUI>());
+            PlayStory(storyWin,textStory);
         }
         else
         {
-            PlayStory(storyLose,GetComponentInChildren<TextMeshProUGUI>());
+            PlayStory(storyLose,textStory);
         }
         
     }
@@ -51,6 +52,8 @@ public class EndScreen : MonoBehaviour
     IEnumerator delay()
     {
         yield return new WaitForSeconds(delayDuration);
+        // play fadeout animation
+
         StartCoroutine(LoadScene());
     }
 
@@ -70,7 +73,6 @@ public class EndScreen : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
     }
-
         IEnumerator LoadScene()
     {
         // fade out the music in Story Canvas
@@ -78,4 +80,5 @@ public class EndScreen : MonoBehaviour
         
         SceneManager.LoadScene(targetSceneName);
     }
+
 }
