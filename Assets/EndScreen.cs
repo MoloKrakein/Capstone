@@ -14,16 +14,20 @@ public class EndScreen : MonoBehaviour
     public string storyLose;
     public TextMeshProUGUI textStory;
     private float delayDuration;
+    public GameObject winSong;
+    public GameObject loseSong;
 
     private void Start() {
         bool isWin = StaticValue.isWin;
         Debug.Log("Win Status: " + isWin);
         if(isWin)
         {
+            winSong.SetActive(true);
             PlayStory(storyWin,textStory);
         }
         else
         {
+            loseSong.SetActive(true);
             PlayStory(storyLose,textStory);
         }
         
