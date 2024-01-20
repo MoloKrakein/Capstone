@@ -17,17 +17,23 @@ Lecturer - Muhamad Fajar
 Reference:
 UI Sounds :
 https://opengameart.org/content/jrpg-style-ui-sounds
+
 https://opengameart.org/content/handling-guns
+
 https://opengameart.org/content/20-sword-sound-effects-attacks-and-clashes
+
 https://opengameart.org/content/37-hitspunches
 
 Music :
 https://opengameart.org/content/battle-theme-a
+
 https://opengameart.org/content/old-city-theme
+
 https://opengameart.org/content/lost-in-the-meadows
 
+
 Visual Effect :
-https://assetstore.unity.com/packages/vfx/particles/cartoon-fx-remaster-free-109...
+[https://assetstore.unity.com/packages/vfx/particles/cartoon-fx-remaster-free-109...](https://assetstore.unity.com/packages/vfx/particles/cartoon-fx-remaster-free-109565)
 
 Disclaimer :
 Created as the Final Project by dev4 for Educational Purposes, this game is open to insightful feedback and constructive criticism from experts and enthusiasts in game design/game development
