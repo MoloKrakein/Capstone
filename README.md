@@ -9,10 +9,10 @@ Game Design Document: https://noesa.notion.site/Noesa-s-Story-c3c391d5deda4753ba
 Link itch.io: https://molokrakein.itch.io/noesa-story
 
 Credits 
-Game Artist - Yehuda Kristiawan - @krowisan
-Technical Artist - Imanuel Adif L K - @_. 
-Game Programmer - Athaillah Adhar J - @Krakein 
-Lecturer - Muhamad Fajar - @Fajar - BINUS Game App Tech
+Game Artist - Yehuda Kristiawan
+Technical Artist - Imanuel Adif L K 
+Game Programmer - Athaillah Adhar J
+Lecturer - Muhamad Fajar
  
 Reference:
 UI Sounds :
