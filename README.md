@@ -10,11 +10,15 @@ Link itch.io: https://molokrakein.itch.io/noesa-story
 
 Credits 
 Game Artist - Yehuda Kristiawan
+
 Technical Artist - Imanuel Adif L K 
+
 Game Programmer - Athaillah Adhar J
+
 Lecturer - Muhamad Fajar
  
 Reference:
+
 UI Sounds :
 https://opengameart.org/content/jrpg-style-ui-sounds
 
